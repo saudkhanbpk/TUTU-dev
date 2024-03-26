@@ -72,8 +72,8 @@ const SignIn = ({ navigation }: any) => {
         </LinearGradient>
       </TouchableOpacity>
 
-      <TouchableOpacity onPress={() => navigation.navigate('SignUpScreen')}>
-        <Text style={styles.linkText}>Don't have an account? Sign up</Text>
+      <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
+        <Text style={styles.linkText} >Don't have an account? Sign up</Text>
       </TouchableOpacity>
 
       <Text style={styles.txt}>By signing in, I accept the Terms of Service and Community Guidelines and have read Privacy Policy.</Text>

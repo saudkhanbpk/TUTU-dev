@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Text, TouchableOpacity, Alert, Image } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+import {LinearGradient} from 'react-native-linear-gradient';
 
 const Reservation = ({ navigation }: any) => {
   const [selectedOption, setSelectedOption] = useState('');
@@ -84,7 +84,8 @@ const Reservation = ({ navigation }: any) => {
           start={{ x: 0, y: 0 }} 
           end={{ x: 1, y: 0 }}   
         >
-          <Text style={styles.buttonText}>Confirm Reservation</Text>
+          <Text onPress={() => navigation.navigate('Signup')} 
+          style={styles.buttonText}>Confirm Reservation</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>

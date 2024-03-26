@@ -1,9 +1,17 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Text, TouchableOpacity, Alert, Image } from 'react-native';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Image,
+  ScrollView,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-
-const SignUp = ({ navigation }:any) => {
+const SignUp = ({navigation}: any) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -22,191 +30,223 @@ const SignUp = ({ navigation }:any) => {
     }
     // Proceed with the sign-up process
     Alert.alert('Success', 'Sign-up successful!');
-    
+
     // After successful signup, navigate to SignInScreen or another screen
     // navigation.navigate('SignInScreen');
   };
 
   return (
-    <View style={styles.container}>
-      <Image
-         source={require('../assets/IMG.png')}
-
-        style={styles.logo}
-      />
+    <ScrollView contentContainerStyle={styles.container}>
+      <Image source={require('../assets/IMG.png')} style={styles.logo} />
       <Text style={styles.title}>Let's Get Started</Text>
-      <Text style={styles.subtitle}>You are one step away from making 
-your first reservation.</Text>
+      <Text style={styles.subtitle}>
+        You are one step away from making your first reservation.
+      </Text>
 
-<View style={styles.inputContainer}>
-        <Image
-          source={require('../assets/Vector.png')}
-          style={styles.icon}
-        />
+      <View style={styles.inputContainer}>
+        <Image source={require('../assets/Vector.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Full Name"
-          placeholderTextColor="#fff" 
+          placeholderTextColor="#F6BED6"
           value={fullName}
           onChangeText={setFullName}
         />
       </View>
 
       <View style={styles.inputContainer}>
-      <Image
-          source={require('../assets/v2.png')} 
-          style={styles.icon}
+        <Image source={require('../assets/v2.png')} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#F6BED6"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
         />
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        placeholderTextColor="#fff" 
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-      />
       </View>
 
-
+      <View style={styles.inputContainer}>
+        <Image source={require('../assets/v3.png')} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Phone"
+          placeholderTextColor="#F6BED6"
+          value={phone}
+          onChangeText={setPhone}
+          keyboardType="phone-pad"
+        />
+      </View>
 
       <View style={styles.inputContainer}>
-      <Image
-          source={require('../assets/v3.png')} 
-          style={styles.icon}
+        <Image source={require('../assets/v4.png')} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#F6BED6"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
         />
-      <TextInput
-        style={styles.input}
-        placeholder="Phone"
-        placeholderTextColor="#fff" 
-        value={phone}
-        onChangeText={setPhone}
-        keyboardType="phone-pad"
-      />
-       </View>
+      </View>
 
+      <View style={styles.inputContainer}>
+        <Image source={require('../assets/v4.png')} style={styles.icon} />
 
-       <View style={styles.inputContainer}>
-      <Image
-          source={require('../assets/v4.png')} 
-          style={styles.icon}
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm Password"
+          placeholderTextColor="#F6BED6"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
         />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#fff" 
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-      />
-         </View>
-
-         <View style={styles.inputContainer}>
-      <Image
-          source={require('../assets/v4.png')} 
-          style={styles.icon}
-        />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Confirm Password"
-        placeholderTextColor="#fff" 
-        value={confirmPassword}
-        onChangeText={setConfirmPassword}
-        secureTextEntry
-      />
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
         <LinearGradient
           colors={['#E6548D', '#F1C365']}
           style={styles.gradient}
-          start={{ x: 0, y: 0 }} 
-          end={{ x: 1, y: 0 }}   
-        >
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </LinearGradient>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => navigation.navigate('SignInScreen')}>
+      {/* <TouchableOpacity onPress={() => navigation.navigate('reservation')}>
         <Text style={styles.linkText}>Already have an account? Sign In</Text>
-      </TouchableOpacity>
-      <Text style={styles.txt}>By signing up, I accept the Terms of Service and Community
-Guidelines and have read Privacy Policy.</Text>
+      </TouchableOpacity> */}
+      <View style={styles.ascontainer}>
+        <Text style={styles.legalTexted}>Already have an account? </Text>
+        <Text
+          style={styles.legalLinked}
+          onPress={() => navigation.navigate('Login')}>
+          Sign In
+        </Text>
+      </View>
+
+      <View style={styles.legalLinks}> 
+      <Text style={styles.legalText}>By signing in, I accept the </Text>
+      <Text onPress={() => console.log("Terms of Service pressed")} style={styles.legalLink}>Terms of Service</Text>
+      <Text style={styles.legalText}> and </Text>
+      <Text onPress={() => console.log("Community Guidelines pressed")} style={styles.legalLink}>Community Guidelines</Text>
+      <Text style={styles.legalText}> and have read the </Text>
+      <Text onPress={() => console.log("Privacy Policy pressed")} style={styles.legalLink}> Privacy Policy</Text>
     </View>
+
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
-    alignItems: 'center', 
+    alignItems: 'center',
     padding: 30,
     backgroundColor: '#470D25',
   },
   title: {
     fontSize: 30,
-    color: '#ff69b4', 
+    color: '#ff69b4',
     marginBottom: 5,
     fontWeight: 'bold',
-    fontFamily:"IbarraRealNova-Regular"
   },
   subtitle: {
-    fontSize: 18,
-    color: '#fff', 
-    marginBottom: 5,
-    textAlign:"center"
+    fontSize: 16,
+    width: 269,
+    color: 'rgba(255, 255, 255, 0.8)',
+    marginTop: 2,
+    marginBottom: 20,
+    textAlign: 'center',
+    fontWeight: 'normal',
+    fontFamily: 'IbarraRealNova-Regular',
   },
-  txt:{
+  txt: {
     fontSize: 14,
-    color: '#fff', 
-   marginTop:5,
-    textAlign:"center"
-
-
+    color: '#fff',
+    marginTop: 5,
+    textAlign: 'center',
   },
   input: {
     flex: 1,
     height: 40,
     backgroundColor: 'transparent',
-    color: '#fff', 
-    fontSize:16,
+    color: '#fff',
+    fontSize: 16,
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#ffffff', 
+    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
     marginBottom: 20,
   },
   icon: {
-    marginRight: 10, 
-    width: 26, 
-    height: 24, 
+    marginRight: 10,
+    width: 26,
+    height: 24,
   },
   button: {
-    width: '100%', 
-    marginTop:5
+    width: '100%',
+    marginTop: 5,
   },
   gradient: {
     padding: 15,
     alignItems: 'center',
-    width: '100%', 
+    width: '100%',
   },
   buttonText: {
     color: '#270614',
     fontSize: 16,
-    fontWeight:"600",
-  
+    fontWeight: '600',
   },
-  linkText: {
-    marginTop: 10,
-    color: '#fff',
-    textAlign: 'center',
-  },
+  // linkText: {
+  //   marginTop: 10,
+  //   color: '#fff',
+  //   textAlign: 'center',
+  // },
   logo: {
-    width: 120, 
-    height: 120, 
-    alignSelf: 'center', 
+    width: 150,
+    height: 150,
+    alignSelf: 'center',
+  },
+  ascontainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 20,
+  },
+
+  legalLinks: {
+    flexDirection: 'row',
+    width:355,
+    alignItems: 'start',
+    flexWrap: 'wrap', // Allow legal links to wrap if needed
+    marginTop: 50, // Add some margin for better separation
+    textAlign: 'start', // Centers the text within its container
+  },
+  legalText: {
+    color: '#F6BED6',
+    fontSize: 14, // Adjust font size as needed
+    flexWrap: 'wrap', // Allow text to wrap within the component
+  },
+  legalLink: {
+    fontSize: 14, // Adjust font size as needed
+    color: 'white',
+    
+    flexWrap: 'wrap', // Allow text to wrap within the component
+  },
+  wordBreak: {
+    flexWrap: 'wrap', // Allow text to wrap within the component
+  },
+  legalTexted: {
+    color: '#F6BED6',
+    fontSize: 16, // Adjust font size as needed
+    // Adjust color as needed
+  },
+  legalLinked: {
+    fontSize: 16, // Adjust font size as needed
+    color: '#F6BED6',
+    textDecorationLine: 'underline', // Add underline for clarity
   },
 });
 

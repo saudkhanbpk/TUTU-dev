@@ -13,13 +13,16 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
+    <>    
     <NavigationContainer>
       <Stack.Navigator initialRouteName="Signup">
-         {/* <Stack.Screen name="Login" component={Login} />  */}
-        {/* <Stack.Screen name="Signup" component={SignUp} /> */}
-        <Stack.Screen name="reservation" component={Reservation} />
+         <Stack.Screen name="Login" component={Login} /> 
+        <Stack.Screen name="Signup" component={SignUp} />
+    <Stack.Screen name="reservation" component={Reservation} />
       </Stack.Navigator>
     </NavigationContainer>
+    </>
+
   );
 };
 

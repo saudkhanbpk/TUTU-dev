@@ -1,0 +1,37 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/IbarraRealNova-Bold.ttf",
+      "sha1": "b16b4d0cfb2550875743be24902b7d644c02da8f"
+    },
+    {
+      "path": "assets/fonts/IbarraRealNova-BoldItalic.ttf",
+      "sha1": "39b8e3956227051176c91e37c5a7722766b76a8b"
+    },
+    {
+      "path": "assets/fonts/IbarraRealNova-Italic.ttf",
+      "sha1": "38310cc4e2ed54708f353c7ae3e17b4d85655637"
+    },
+    {
+      "path": "assets/fonts/IbarraRealNova-Medium.ttf",
+      "sha1": "e1d66c91f4a3b51e94b415eaafddf6a0f95acbc2"
+    },
+    {
+      "path": "assets/fonts/IbarraRealNova-MediumItalic.ttf",
+      "sha1": "2422c110bbca75f28649da845def712aea7d9872"
+    },
+    {
+      "path": "assets/fonts/IbarraRealNova-Regular.ttf",
+      "sha1": "fd438bae82dd746c215bdacc8e61b097c7e14903"
+    },
+    {
+      "path": "assets/fonts/IbarraRealNova-SemiBold.ttf",
+      "sha1": "e7fbb1015c573e4116d7b280b5e86db886bdefca"
+    },
+    {
+      "path": "assets/fonts/IbarraRealNova-SemiBoldItalic.ttf",
+      "sha1": "5f10051e4708f1a562b2327898193d089659921e"
+    }
+  ]
+}
