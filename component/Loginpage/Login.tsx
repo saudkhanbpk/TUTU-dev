@@ -39,8 +39,9 @@ const SignIn = ({ navigation }: any) => {
         navigation.navigate('reservation');
       } else {
         
-        const errorMessage = await response.text();
-        Alert.alert('Error', errorMessage || 'Something went wrong.');
+        const responseJson = await response.json();
+        const errorMessage = responseJson.message || 'Something went wrong.';
+        Alert.alert('Error', errorMessage);
       }
     } catch (error) {
       console.error('Error signing up:', error);
