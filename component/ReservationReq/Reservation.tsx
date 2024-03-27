@@ -13,21 +13,21 @@ const Reservation = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../assets/IMG.png')}
+        source={require('../../assets/IMG.png')}
         style={styles.logo}
       />
 
       {/* Dropdown for Select Restaurant */}
       <View style={styles.dropdownContainer}>
       <Image
-        source={require('../assets/v2.png')}
+        source={require('../../assets/v2.png')}
         
       />
         <TouchableOpacity style={styles.dropdownOption} onPress={() => handleDropdownSelect('Restaurant')}>
           <Text style={styles.dropdownText}>Select Restaurant</Text>
         </TouchableOpacity>
         <Image
-          source={require('../assets/dpicon.png')}
+          source={require('../../assets/dpicon.png')}
           style={styles.dropdownIcon}
         />
       </View>
@@ -39,7 +39,7 @@ const Reservation = ({ navigation }: any) => {
           <TouchableOpacity style={styles.dropdownContainer} onPress={() => handleDropdownSelect('Date')}>
             <Text style={styles.dropdownText}>Date</Text>
             <Image
-              source={require('../assets/dpicon.png')}
+              source={require('../../assets/dpicon.png')}
               style={styles.dropdownIcon}
             />
           </TouchableOpacity>
@@ -50,7 +50,7 @@ const Reservation = ({ navigation }: any) => {
           <TouchableOpacity style={styles.dropdownContainer} onPress={() => handleDropdownSelect('Guests')}>
             <Text style={styles.dropdownText}>Guests</Text>
             <Image
-              source={require('../assets/dpicon.png')}
+              source={require('../../assets/dpicon.png')}
               style={styles.dropdownIcon}
             />
           </TouchableOpacity>
@@ -63,7 +63,7 @@ const Reservation = ({ navigation }: any) => {
           <Text style={styles.dropdownText}>Preferred Time</Text>
         </TouchableOpacity>
         <Image
-          source={require('../assets/dpicon.png')}
+          source={require('../../assets/dpicon.png')}
           style={styles.dropdownIcon}
         />
       </View>
@@ -72,7 +72,7 @@ const Reservation = ({ navigation }: any) => {
           <Text style={styles.dropdownText}>Backup Time</Text>
         </TouchableOpacity>
         <Image
-          source={require('../assets/dpicon.png')}
+          source={require('../../assets/dpicon.png')}
           style={styles.dropdownIcon}
         />
       </View>

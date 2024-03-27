@@ -1,4 +1,7 @@
 import React, {useState} from 'react';
+
+
+
 import {
   StyleSheet,
   View,
@@ -17,9 +20,15 @@ const SignUp = ({navigation}: any) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State variable to track password visibility
 
-  const handleSignUp = () => {
-    // Validation and sign-up logic here
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword); // Toggle the state to show/hide password
+  };
+
+
+  const handleSignUp = async () => {
+    
     if (!fullName || !email || !phone || !password || !confirmPassword) {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
@@ -28,23 +37,53 @@ const SignUp = ({navigation}: any) => {
       Alert.alert('Error', 'Passwords do not match.');
       return;
     }
-    // Proceed with the sign-up process
-    Alert.alert('Success', 'Sign-up successful!');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      Alert.alert('Error', 'Please enter a valid email address.');
+      return;
+    }
+  
+    try {
 
-    // After successful signup, navigate to SignInScreen or another screen
-    // navigation.navigate('SignInScreen');
+      const response = await fetch('http://10.0.2.2:4000/api/v1/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          fullName,
+          email,
+          phone,
+          password,
+        }),
+      });
+  
+      if (response.ok) {
+        Alert.alert('Success', 'Sign-up successful!');
+       
+        navigation.navigate('reservation');
+      } else {
+       
+        const errorMessage = await response.text();
+        Alert.alert('Error', errorMessage || 'Something went wrong.');
+      }
+    } catch (error) {
+      console.error('Error signing up:', error);
+      Alert.alert('Error', 'Something went wrong. Please try again later.');
+    }
   };
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../assets/IMG.png')} style={styles.logo} />
+      <Image source={require('../../assets/IMG.png')} style={styles.logo} />
       <Text style={styles.title}>Let's Get Started</Text>
       <Text style={styles.subtitle}>
         You are one step away from making your first reservation.
       </Text>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../assets/Vector.png')} style={styles.icon} />
+        <Image source={require('../../assets/Vector.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Full Name"
@@ -55,7 +94,7 @@ const SignUp = ({navigation}: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../assets/v2.png')} style={styles.icon} />
+        <Image source={require('../../assets/v2.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -67,7 +106,7 @@ const SignUp = ({navigation}: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../assets/v3.png')} style={styles.icon} />
+        <Image source={require('../../assets/v3.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Phone"
@@ -79,19 +118,22 @@ const SignUp = ({navigation}: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../assets/v4.png')} style={styles.icon} />
+        <Image source={require('../../assets/v4.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Password"
           placeholderTextColor="#F6BED6"
           value={password}
           onChangeText={setPassword}
-          secureTextEntry
+          secureTextEntry={!showPassword}
         />
+         <TouchableOpacity onPress={togglePasswordVisibility}>
+        <Image  source={require('../../assets/hidden.png')} style={styles.icon} />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../assets/v4.png')} style={styles.icon} />
+        <Image source={require('../../assets/v4.png')} style={styles.icon} />
 
         <TextInput
           style={styles.input}
@@ -99,8 +141,12 @@ const SignUp = ({navigation}: any) => {
           placeholderTextColor="#F6BED6"
           value={confirmPassword}
           onChangeText={setConfirmPassword}
-          secureTextEntry
+          secureTextEntry={!showPassword}
         />
+        <TouchableOpacity onPress={togglePasswordVisibility}>
+        <Image  source={require('../../assets/hidden.png')} style={styles.icon} />
+        </TouchableOpacity>
+
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
@@ -130,7 +176,7 @@ const SignUp = ({navigation}: any) => {
       <Text style={styles.legalText}> and </Text>
       <Text onPress={() => console.log("Community Guidelines pressed")} style={styles.legalLink}>Community Guidelines</Text>
       <Text style={styles.legalText}> and have read the </Text>
-      <Text onPress={() => console.log("Privacy Policy pressed")} style={styles.legalLink}> Privacy Policy</Text>
+      <Text onPress= {() => navigation.navigate('privacy')} style={styles.legalLink}> Privacy Policy</Text>
     </View>
 
     </ScrollView>
@@ -147,9 +193,9 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    color: '#ff69b4',
+    color: '#E581AB',
     marginBottom: 5,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
   },
   subtitle: {
     fontSize: 16,
