@@ -1,7 +1,4 @@
 import React, {useState} from 'react';
-
-
-
 import {
   StyleSheet,
   View,
@@ -196,11 +193,12 @@ const styles = StyleSheet.create({
     color: '#E581AB',
     marginBottom: 5,
     fontWeight: 'normal',
+    fontFamily: 'IbarraRealNova-Regular',
   },
   subtitle: {
     fontSize: 16,
     width: 269,
-    color: 'rgba(255, 255, 255, 0.8)',
+    color: 'white',
     marginTop: 2,
     marginBottom: 20,
     textAlign: 'center',
@@ -219,6 +217,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     color: '#fff',
     fontSize: 16,
+    fontFamily: 'IbarraRealNova-Regular',
   },
   inputContainer: {
     flexDirection: 'row',
@@ -226,6 +225,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.3)',
     marginBottom: 20,
+ 
   },
   icon: {
     marginRight: 10,
@@ -235,6 +235,7 @@ const styles = StyleSheet.create({
   button: {
     width: '100%',
     marginTop: 5,
+    
   },
   gradient: {
     padding: 15,
@@ -242,6 +243,7 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   buttonText: {
+    fontFamily: 'IbarraRealNova-Regular',
     color: '#270614',
     fontSize: 16,
     fontWeight: '600',
@@ -263,20 +265,23 @@ const styles = StyleSheet.create({
   },
 
   legalLinks: {
+    
     flexDirection: 'row',
     width:355,
     alignItems: 'start',
     flexWrap: 'wrap', // Allow legal links to wrap if needed
     marginTop: 50, // Add some margin for better separation
-    textAlign: 'start', // Centers the text within its container
+
   },
   legalText: {
+    fontFamily: 'IbarraRealNova-Regular',
     color: '#F6BED6',
-    fontSize: 14, // Adjust font size as needed
+    fontSize: 16, // Adjust font size as needed
     flexWrap: 'wrap', // Allow text to wrap within the component
   },
   legalLink: {
-    fontSize: 14, // Adjust font size as needed
+    fontFamily: 'IbarraRealNova-Regular',
+    fontSize: 16, // Adjust font size as needed
     color: 'white',
     
     flexWrap: 'wrap', // Allow text to wrap within the component
@@ -285,11 +290,13 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap', // Allow text to wrap within the component
   },
   legalTexted: {
+    fontFamily: 'IbarraRealNova-Regular',
     color: '#F6BED6',
     fontSize: 16, // Adjust font size as needed
     // Adjust color as needed
   },
   legalLinked: {
+    fontFamily: 'IbarraRealNova-Regular',
     fontSize: 16, // Adjust font size as needed
     color: '#F6BED6',
     textDecorationLine: 'underline', // Add underline for clarity
