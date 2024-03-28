@@ -1,349 +1,22 @@
-// import React, { useState } from 'react';
-// import { StyleSheet, View, TextInput, Text, TouchableOpacity, Alert, Image } from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
-
-// const Reservation = ({ navigation }: any) => {
-//   const [selectedOption, setSelectedOption] = useState('');
-
-//   // Function to handle dropdown selection
-//   const handleDropdownSelect = (option: string) => {
-//     setSelectedOption(option);
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Image
-//         source={require('../assets/IMG.png')}
-//         style={styles.logo}
-//       />
-
-//       {/* Dropdown for Select Restaurant */}
-//       <View style={styles.dropdownContainer}>
-//       <Image
-//         source={require('../assets/ring.png')}
-        
-//       />
-//         <TouchableOpacity style={styles.dropdownOption} onPress={() => handleDropdownSelect('Restaurant')}>
-//           <Text style={styles.dropdownText}>Select Restaurant</Text>
-//         </TouchableOpacity>
-//         <Image
-//           source={require('../assets/dpicon.png')}
-//           style={styles.dropdownIcon}
-//         />
-//       </View>
-
-//       {/* Dropdowns for Date and Guests */}
-//       <View style={styles.row}>
-//       <Image
-//         source={require('../assets/date.png')}
-        
-//       />
-//         <View style={styles.halfWidth}>
-//           <TouchableOpacity style={styles.dropdownContainer} onPress={() => handleDropdownSelect('Date')}>
-//             <Text style={styles.dropdownText}>Date</Text>
-//             <Image
-//               source={require('../assets/dpicon.png')}
-//               style={styles.dropdownIcon}
-//             />
-//           </TouchableOpacity>
-//         </View>
-
-//         {/* Guests Dropdown */}
-//         <View style={styles.halfWidth}>
-//         <Image
-//         source={require('../assets/guests.png')}
-        
-//       />
-//           <TouchableOpacity style={styles.dropdownContainer} onPress={() => handleDropdownSelect('Guests')}>
-//             <Text style={styles.dropdownText}>Guests</Text>
-//             <Image
-//               source={require('../assets/dpicon.png')}
-//               style={styles.dropdownIcon}
-//             />
-//           </TouchableOpacity>
-//         </View>
-//       </View>
-
-//       {/* Dropdown for Preferred Time */}
-//       <View style={styles.dropdownContainer}>
-//       <Image
-//         source={require('../assets/ptime.png')}
-        
-//       />
-//         <TouchableOpacity style={styles.dropdownOption} onPress={() => handleDropdownSelect('Preferred Time')}>
-//           <Text style={styles.dropdownText}>Preferred Time</Text>
-//         </TouchableOpacity>
-//         <Image
-//           source={require('../assets/dpicon.png')}
-//           style={styles.dropdownIcon}
-//         />
-//       </View>
-//       <View style={styles.dropdownContainer}>
-//       <Image
-//         source={require('../assets/bak.png')}
-        
-//       />
-//         <TouchableOpacity style={styles.dropdownOption} onPress={() => handleDropdownSelect('Preferred Time')}>
-//           <Text style={styles.dropdownText}>Backup Time</Text>
-//         </TouchableOpacity>
-//         <Image
-//           source={require('../assets/dpicon.png')}
-//           style={styles.dropdownIcon}
-//         />
-//       </View>
-
-//       <TouchableOpacity style={styles.button} >
-//         <LinearGradient
-//           colors={['#E6548D', '#F1C365']}
-//           style={styles.gradient}
-//           start={{ x: 0, y: 0 }} 
-//           end={{ x: 1, y: 0 }}   
-//         >
-//           <Text style={styles.buttonText}>Confirm Reservation</Text>
-//         </LinearGradient>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 30,
-//     backgroundColor: '#470D25',
-//   },
-//   dropdownContainer: {
-//     flexDirection: 'row',
-//     alignItems: 'center',
-//     justifyContent: 'space-between',
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#ffffff', 
-//     marginBottom: 20,
-//     fontSize:16,
-//     height:30
-//   },
-//   row: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-
-//   },
-//   halfWidth: {
-//     width: '45%',
-
-//   },
-//   dropdownOption: {
-//     height:30,
-//     fontSize:16
-//   },
-//   dropdownText: {
-//     color: '#fff',
-//   },
-//   dropdownIcon: {
-//     width: 10,
-//     height: 10,
-//     tintColor: '#fff',
-//   },
-//   button: {
-//     width: '100%', 
-//     marginTop: 10
-//   },
-//   gradient: {
-//     padding: 15,
-//     alignItems: 'center',
-//     width: '100%', 
-//   },
-//   buttonText: {
-//     color: '#270614',
-//     fontSize: 16,
-//     fontWeight: "600",
-//   },
-//   logo: {
-//     width: 140, 
-//     height: 140, 
-//     alignSelf: 'center', 
-//     marginBottom:20
-//   },
-// });
-
-// export default Reservation;
-
-
-// import React, { useState } from 'react';
-// import { StyleSheet, View, Text, TouchableOpacity, Image, Modal } from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
-
-// const Reservation = ({ navigation }: any) => {
-//   const [selectedOption, setSelectedOption] = useState('');
-//   const [showModal, setShowModal] = useState(false);
-
-//   // Function to handle dropdown selection
-//   const handleDropdownSelect = (option: string) => {
-//     setSelectedOption(option);
-//   };
-
-//   // Function to toggle modal visibility
-//   const toggleModal = () => {
-//     setShowModal(!showModal);
-//   };
-
-//   return (
-//     <View style={styles.container}>
-//       <Image
-//         source={require('../assets/IMG.png')}
-//         style={styles.logo}
-//       />
-
-//       {/* Dropdown for Select Restaurant */}
-//       <TouchableOpacity style={styles.dropdownContainer} onPress={() => toggleModal()}>
-//         <Image source={require('../assets/ring.png')} style={styles.image} />
-//         <Text style={styles.dropdownText}>Select Restaurant</Text>
-//         <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
-//       </TouchableOpacity>
-
-//       {/* Dropdowns for Date and Guests */}
-//       <View style={styles.row}>
-//         <TouchableOpacity style={[styles.halfWidth, styles.dropdownContainer]} onPress={() => handleDropdownSelect('Date')}>
-//           <Image source={require('../assets/date.png')} style={styles.image} />
-//           <Text style={styles.dropdownText}>Date</Text>
-//           <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
-//         </TouchableOpacity>
-
-//         {/* Guests Dropdown */}
-//         <TouchableOpacity style={[styles.halfWidth, styles.dropdownContainer]} onPress={() => handleDropdownSelect('Guests')}>
-//           <Image source={require('../assets/guests.png')} style={styles.image} />
-//           <Text style={styles.dropdownText}>Guests</Text>
-//           <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
-//         </TouchableOpacity>
-//       </View>
-
-//       {/* Dropdown for Preferred Time */}
-//       <TouchableOpacity style={styles.dropdownContainer} onPress={() => handleDropdownSelect('Preferred Time')}>
-//         <Image source={require('../assets/ptime.png')} style={styles.image} />
-//         <Text style={styles.dropdownText}>Preferred Time</Text>
-//         <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
-//       </TouchableOpacity>
-
-//       {/* Dropdown for Backup Time */}
-//       <TouchableOpacity style={styles.dropdownContainer} onPress={() => handleDropdownSelect('Backup Time')}>
-//         <Image source={require('../assets/bak.png')} style={styles.image} />
-//         <Text style={styles.dropdownText}>Backup Time</Text>
-//         <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
-//       </TouchableOpacity>
-
-//       {/* Modal */}
-//       <Modal
-//         animationType="slide"
-//         transparent={true}
-//         visible={showModal}
-//         onRequestClose={() => {
-//           toggleModal();
-//         }}
-//       >
-//         <View style={styles.modalContainer}>
-//           <View style={styles.modalContent}>
-//             {/* Content of your modal goes here */}
-//             <Text>Modal Content</Text>
-//             <TouchableOpacity onPress={() => toggleModal()}>
-//               <Text>Close Modal</Text>
-//             </TouchableOpacity>
-//           </View>
-//         </View>
-//       </Modal>
-
-//       <TouchableOpacity style={styles.button}>
-//         <LinearGradient
-//           colors={['#E6548D', '#F1C365']}
-//           style={styles.gradient}
-//           start={{ x: 0, y: 0 }}
-//           end={{ x: 1, y: 0 }}
-//         >
-//           <Text style={styles.buttonText}>Confirm Reservation</Text>
-//         </LinearGradient>
-//       </TouchableOpacity>
-//     </View>
-//   );
-// };
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     padding: 30,
-//     backgroundColor: '#470D25',
-//   },
-//   dropdownContainer: {
-//     flexDirection: 'row',
-//     borderBottomWidth: 1,
-//     borderBottomColor: '#ffffff',
-//     marginBottom: 20,
-//   },
-//   row: {
-//     flexDirection: 'row',
-//     justifyContent: 'space-between',
-//   },
-//   halfWidth: {
-//     width: '45%',
-//   },
-//   dropdownText: {
-//     color: '#fff',
-//   },
-//   dropdownIcon: {
-//     width: 20,
-//     height: 20,
-//     tintColor: '#fff',
-//   },
-//   button: {
-//     width: '100%',
-//     marginTop: 10,
-//   },
-//   gradient: {
-//     padding: 15,
-//     alignItems: 'center',
-//     width: '100%',
-//   },
-//   buttonText: {
-//     color: '#270614',
-//     fontSize: 16,
-//     fontWeight: "600",
-//   },
-//   logo: {
-//     width: 140,
-//     height: 140,
-//     alignSelf: 'center',
-//     marginBottom: 20,
-//   },
-//   image: {
-//     width: 24,
-//     height: 24,
-//     marginRight: 10,
-//   },
-//   modalContainer: {
-//     flex: 1,
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-//   },
-//   modalContent: {
-//     backgroundColor: '#fff',
-//     padding: 20,
-//     borderRadius: 10,
-//   },
-// });
-
-// export default Reservation;
-
-
-
 import React, { useState } from 'react';
 import { StyleSheet, View, Text,TextInput, TouchableOpacity, Image, Modal } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import DatePicker from "react-native-modern-datepicker"
+import {getToday,getFormatedDate} from "react-native-modern-datepicker"
 
 const Reservation = ({ navigation }: any) => {
+
+  const today = new Date();
+  const startDate = getFormatedDate(today.setDate(today.getDate() + 1), 'YYYY/MM/DD')
+
   const [selectedOption, setSelectedOption] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [fullName, setFullName] = useState('');
   const [cardnumber, setCardNumber] = useState('');
   const [exp, setExp] = useState('');
   const [cvv, setCVV] = useState('');
+  const [open,setOpen] = useState(false)
+  const [date,setDate] = useState('2024/03/28')
 
   
   const handleDropdownSelect = (option: string) => {
@@ -355,6 +28,15 @@ const Reservation = ({ navigation }: any) => {
     setShowModal(!showModal);
   };
 
+  const handleOnPress=()=>{
+    setOpen(!open);
+  };
+
+  const handleChange=(propDate)=>{
+    setDate(propDate)
+
+
+  }
   return (
     
     <View style={styles.container}>
@@ -386,12 +68,45 @@ const Reservation = ({ navigation }: any) => {
 
       
       <View style={styles.row}>
-        <TouchableOpacity style={[styles.halfWidth, styles.dropdownContainer]} onPress={() => handleDropdownSelect('Date')}>
+        <TouchableOpacity style={[styles.halfWidth, styles.dropdownContainer]} onPress={handleOnPress}>
           <Image source={require('../assets/date.png')} style={styles.image} />
           <Text style={styles.dropdownText}>Date</Text>
            
           <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
         </TouchableOpacity>
+
+
+        <Modal
+        animationType='slide'
+        transparent={true}
+        visible={open}>
+
+          <View style={styles.centeredview}>
+            <View style={styles.modalview}>
+
+              <DatePicker
+              mode='calender'
+              selected={date}
+              minimumDate={startDate}
+              onDateChanged={handleChange}
+              />
+
+
+            <TouchableOpacity style={styles.button} onPress={handleOnPress}>
+        <LinearGradient
+          colors={['#E6548D', '#F1C365']}
+          style={styles.gradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
+          <Text style={styles.buttonText}>Done</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+
+            </View>
+
+          </View>
+        </Modal>
 
         
         <TouchableOpacity style={[styles.halfWidth, styles.dropdownContainer]} onPress={() => toggleModal()}>
@@ -488,10 +203,9 @@ const Reservation = ({ navigation }: any) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            {/* Content of your modal goes here */}
-            <Text>Modal Content</Text>
+            <Text style={{color:"white"}}>Modal Content</Text>
             <TouchableOpacity onPress={() => toggleModal()}>
-              <Text>Close Modal</Text>
+              <Text style={{color:"white"}} >Close Modal</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -518,6 +232,7 @@ const styles = StyleSheet.create({
     paddingLeft:30,
     backgroundColor: '#470D25',
     fontSize:16,
+    fontFamily:"IbarraRealNova-Regular"
   
   },
   dropdownContainer: {
@@ -542,15 +257,16 @@ const styles = StyleSheet.create({
     marginRight:"auto", 
   },
   dropdownIcon: {
-    width: 15,
-    height: 15,
+    width: 10,
+    height: 10,
     tintColor: '#fff',
   },
   maincontent:{
     fontSize:16,
     color:'#fff',
     textAlign:"center",
-    padding:10
+    padding:10,
+    fontFamily:"IbarraRealNova-Regular"
 
   },
   button: {
@@ -571,6 +287,7 @@ const styles = StyleSheet.create({
     width: 120,
     height: 120,
     alignSelf: 'center',
+    
 
   },
   image: {
@@ -582,12 +299,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  
   },
   modalContent: {
-    backgroundColor: '#fff',
+    backgroundColor: '#2D0717',
     padding: 20,
-    borderRadius: 10,
+    width:"80%",
+    color:"white"
+  
+    
   },
   input: {
     flex: 1,
@@ -613,6 +333,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center', 
    marginTop:5
+   
   },
   text: {
     color: '#FFF', 
@@ -623,7 +344,8 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#fff', 
     textAlign:"center",
-    marginBottom:10
+    marginBottom:10,
+    fontFamily:"IbarraRealNova-Regular"
   },
   title: {
     fontSize: 30,
@@ -645,6 +367,22 @@ const styles = StyleSheet.create({
     width:30,
     height: 24,
   },
+
+  centeredview:{
+    flex:1,
+    justifyContent:"center",
+    alignItems:"center",
+    marginTop:20,
+  },
+
+  modalview:{
+    margin:20,
+    backgroundColor:"#2D0717",
+    width:"85%",
+    padding:20,
+    alignItems:"center",
+
+  }
 });
 
 export default Reservation;
