@@ -7,7 +7,11 @@ import {getToday,getFormatedDate} from "react-native-modern-datepicker"
 const Reservation = ({ navigation }: any) => {
 
   const today = new Date();
-  const startDate = getFormatedDate(today.setDate(today.getDate() + 1), 'YYYY/MM/DD')
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  
+
+  const startDate = getFormatedDate(tomorrow, 'YYYY/MM/DD');
 
   const [selectedOption, setSelectedOption] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -42,15 +46,15 @@ const Reservation = ({ navigation }: any) => {
     <View style={styles.container}>
       <View style={styles.headerContainer}>
       <TouchableOpacity onPress={() => navigation.goBack()} style={styles.headerButton}>
-        <Image source={require('../assets/arrow.png')} style={styles.headerIcon} />
+        <Image source={require('../../assets/arrow.png')} style={styles.headerIcon} />
       </TouchableOpacity>
       <Image
-        source={require('../assets/IMG.png')}
+        source={require('../../assets/IMG.png')}
         style={styles.logo}
       />
 
       <TouchableOpacity onPress={() => { /* Handle profile action */ }} style={styles.headerButton}>
-        <Image source={require('../assets/Subtract.png')} style={styles.headerIcon} />
+        <Image source={require('../../assets/Subtract.png')} style={styles.headerprof} />
       </TouchableOpacity>
 
       
@@ -61,18 +65,18 @@ const Reservation = ({ navigation }: any) => {
       <Text style={styles.subtitle}>Reservation Details</Text>
 
       <TouchableOpacity style={styles.dropdownContainer} onPress={() => toggleModal()}>
-        <Image source={require('../assets/ring.png')} style={styles.image} />
+        <Image source={require('../../assets/ring.png')} style={styles.image} />
         <Text style={styles.dropdownText}>Select Restaurent</Text>
-        <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
+        <Image source={require('../../assets/dpicon.png')} style={styles.dropdownIcon} />
       </TouchableOpacity>
 
       
       <View style={styles.row}>
         <TouchableOpacity style={[styles.halfWidth, styles.dropdownContainer]} onPress={handleOnPress}>
-          <Image source={require('../assets/date.png')} style={styles.image} />
+          <Image source={require('../../assets/date.png')} style={styles.image} />
           <Text style={styles.dropdownText}>Date</Text>
            
-          <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
+          <Image source={require('../../assets/dpicon.png')} style={styles.dropdownIcon} />
         </TouchableOpacity>
 
 
@@ -85,10 +89,10 @@ const Reservation = ({ navigation }: any) => {
             <View style={styles.modalview}>
 
               <DatePicker
-              mode='calender'
+              mode='calendar'
               selected={date}
               minimumDate={startDate}
-              onDateChanged={handleChange}
+              onDateChange={handleChange}
               />
 
 
@@ -110,52 +114,52 @@ const Reservation = ({ navigation }: any) => {
 
         
         <TouchableOpacity style={[styles.halfWidth, styles.dropdownContainer]} onPress={() => toggleModal()}>
-          <Image source={require('../assets/guests.png')} style={styles.image} />
+          <Image source={require('../../assets/guests.png')} style={styles.image} />
           <Text style={styles.dropdownText}>Guests</Text>
           
-          <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
+          <Image source={require('../../assets/dpicon.png')} style={styles.dropdownIcon} />
         </TouchableOpacity>
       </View>
 
       {/* Dropdown for Preferred Time */}
       <TouchableOpacity style={styles.dropdownContainer} onPress={() => toggleModal()}>
-        <Image source={require('../assets/ptime.png')} style={styles.image} />
+        <Image source={require('../../assets/ptime.png')} style={styles.image} />
         <Text style={styles.dropdownText}>Preferred Time</Text>
         
-        <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
+        <Image source={require('../../assets/dpicon.png')} style={styles.dropdownIcon} />
       </TouchableOpacity>
 
       
       <TouchableOpacity style={styles.dropdownContainer} onPress={() => toggleModal()}>
-        <Image source={require('../assets/bak.png')} style={styles.image} />
+        <Image source={require('../../assets/bak.png')} style={styles.image} />
         <Text style={styles.dropdownText}>Backup Time</Text>
-        <Image source={require('../assets/dpicon.png')} style={styles.dropdownIcon} />
+        <Image source={require('../../assets/dpicon.png')} style={styles.dropdownIcon} />
       </TouchableOpacity>
 
       <Text style={styles.maincontent}>Payment Information</Text>
 
       <View style={styles.inputContainer}>
         <Image
-          source={require('../assets/Vector.png')}
+          source={require('../../assets/Vector.png')}
           style={styles.icon}
         />
         <TextInput
           style={styles.input}
           placeholder="Full Name"
-          placeholderTextColor="#fff" 
+          placeholderTextColor="#F6BED6" 
           value={fullName}
           onChangeText={setFullName}
         />
       </View>
       <View style={styles.inputContainer}>
         <Image
-          source={require('../assets/cnum.png')}
+          source={require('../../assets/cnum.png')}
           style={styles.icon}
         />
         <TextInput
           style={styles.input}
           placeholder="Card Number"
-          placeholderTextColor="#fff" 
+          placeholderTextColor="#F6BED6" 
           value={cardnumber}
           onChangeText={setCardNumber}
         />
@@ -164,11 +168,11 @@ const Reservation = ({ navigation }: any) => {
       <View style={styles.row}>
     {/* Date Text Field */}
     <View style={[styles.halfWidth, styles.dropdownContainer]}>
-      <Image source={require('../assets/exp.png')} style={styles.image} />
+      <Image source={require('../../assets/exp.png')} style={styles.image} />
       <TextInput
         style={styles.input}
         placeholder="Exp: MM/YY"
-        placeholderTextColor="#ffffff"
+        placeholderTextColor="#F6BED6"
         value={exp}
         onChangeText={setExp}
       />
@@ -176,11 +180,11 @@ const Reservation = ({ navigation }: any) => {
 
     {/* Guests Text Field */}
     <View style={[styles.halfWidth, styles.dropdownContainer]}>
-      <Image source={require('../assets/ccv.png')} style={styles.image} />
+      <Image source={require('../../assets/ccv.png')} style={styles.image} />
       <TextInput
         style={styles.input}
         placeholder="CVV"
-        placeholderTextColor="#ffffff"
+        placeholderTextColor="#F6BED6"
         value={cvv}
         onChangeText={setCVV} 
       />
@@ -189,7 +193,7 @@ const Reservation = ({ navigation }: any) => {
 
   <View style={styles.totaltext}>
       <Text style={styles.text}>Total</Text>
-      <Text style={styles.text}>$50.00</Text>
+      <Text style={styles.textp}>$50.00</Text>
     </View>
 
       {/* Modal */}
@@ -203,9 +207,11 @@ const Reservation = ({ navigation }: any) => {
       >
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
-            <Text style={{color:"white"}}>Modal Content</Text>
+            <Text style={{color:"#F6BED6" , fontFamily: 'IbarraRealNova-Regular',}}>Culinary Canvas Café </Text>
+            <Text style={{color:"#F6BED6" , fontFamily: 'IbarraRealNova-Regular',}}>RusticRoots Kitchen. </Text>
+            <Text style={{color:"#F6BED6" , fontFamily: 'IbarraRealNova-Regular',}}>Culinary Canvas Café </Text>
             <TouchableOpacity onPress={() => toggleModal()}>
-              <Text style={{color:"white"}} >Close Modal</Text>
+              <Text style={{color:"#F6BED6"}} >Close</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -218,7 +224,8 @@ const Reservation = ({ navigation }: any) => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}
         >
-          <Text style={styles.buttonText}>Confirm Reservation</Text>
+          <Text onPress={() => navigation.navigate('Signup')} 
+          style={styles.buttonText}>Confirm Reservation</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>
@@ -228,11 +235,11 @@ const Reservation = ({ navigation }: any) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingRight: 30,
-    paddingLeft:30,
+    paddingRight: 40,
+    paddingLeft:40,
     backgroundColor: '#470D25',
     fontSize:16,
-    fontFamily:"IbarraRealNova-Regular"
+    fontFamily:"IbarraRealNova-Regular",
   
   },
   dropdownContainer: {
@@ -240,9 +247,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between', 
     borderBottomWidth: 1,
-    borderBottomColor: '#ffffff',
-    marginBottom: 10,
-    height:40
+    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
+    marginBottom: 12,
+    height:40,
   },
   row: {
     flexDirection: 'row',
@@ -253,8 +260,9 @@ const styles = StyleSheet.create({
   },
   dropdownText: {
     fontSize:16,
-    color: '#fff',
+    color: '#F6BED6',
     marginRight:"auto", 
+    fontFamily:"IbarraRealNova-Regular"
   },
   dropdownIcon: {
     width: 10,
@@ -271,7 +279,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    marginTop: 10,
+    marginTop: 20,
   },
   gradient: {
     padding: 15,
@@ -282,13 +290,12 @@ const styles = StyleSheet.create({
     color: '#270614',
     fontSize: 16,
     fontWeight: "600",
+    fontFamily:"IbarraRealNova-Regular"
   },
   logo: {
     width: 120,
     height: 120,
     alignSelf: 'center',
-    
-
   },
   image: {
     width: 24,
@@ -299,29 +306,27 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  
   },
   modalContent: {
     backgroundColor: '#2D0717',
     padding: 20,
     width:"80%",
-    color:"white"
-  
-    
+    color:"white",
   },
   input: {
     flex: 1,
     height: 40,
     backgroundColor: 'transparent',
-    color: '#fff', 
+    color:"#F6BED6",
     fontSize:16,
+    fontFamily:"IbarraRealNova-Regular"
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#ffffff', 
-    marginBottom: 5,
+    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
+    marginBottom: 12,
   },
   icon: {
     marginRight: 12, 
@@ -332,16 +337,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row', 
     justifyContent: 'space-between',
     alignItems: 'center', 
-   marginTop:5
-   
+   marginTop:5,
   },
   text: {
-    color: '#FFF', 
+    color: '#F6BED6', 
     fontSize: 16, 
+    fontFamily:"IbarraRealNova-Regular"
+    
+  },
+  textp: {
+    color: '#fff', 
+    fontSize: 18,
+    fontWeight:"bold" ,
+    fontFamily:"IbarraRealNova-Regular"
     
   },
   subtitle: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#fff', 
     textAlign:"center",
     marginBottom:10,
@@ -349,9 +361,8 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 30,
-    color: '#ff69b4', 
-    fontWeight: 'bold',
-    fontFamily:"IbarraRealNova-Regular",
+    color: '#E581AB', 
+    fontFamily:"IbarraRealNova-Bold",
     textAlign:"center",
     marginBottom:10
   },
@@ -364,10 +375,13 @@ const styles = StyleSheet.create({
     marginHorizontal:-20
   },
   headerIcon: {
-    width:30,
+    width:24,
     height: 24,
   },
-
+  headerprof:{
+    width:35,
+    height:35
+  },
   centeredview:{
     flex:1,
     justifyContent:"center",
