@@ -38,7 +38,6 @@ const SignIn = ({ navigation }: any) => {
       if (response.status === 200) {
         const responseData = response.data;
         const userId = responseData.user._id;
-  
         // Store the user ID in local storage
         await AsyncStorage.setItem('userId', userId);
         // Alert.alert('Success', responseData.user._id || 'Sign-in successful!');
@@ -104,7 +103,7 @@ const SignIn = ({ navigation }: any) => {
           <Text style={styles.linkText}>Forgot Password</Text>
         </TouchableOpacity>
   
-        <TouchableOpacity style={styles.button} onPress={() => navigation.navigate('reservation')}>
+        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
           <LinearGradient
             colors={['#E6548D', '#F1C365']}
             style={styles.gradient}

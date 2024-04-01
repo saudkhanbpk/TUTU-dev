@@ -427,7 +427,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     color: '#E581AB',
-    fontFamily: 'IbarraRealNova-Bold',
+    fontFamily: 'IbarraRealNova-Regular',
     textAlign: 'center',
     marginBottom: 10,
   },
