@@ -1,3 +1,5 @@
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useState} from 'react';
 import {
   StyleSheet,
@@ -41,35 +43,41 @@ const SignUp = ({navigation}: any) => {
     }
   
     try {
-
-      const response = await fetch('http://10.0.2.2:4000/api/v1/auth/signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const response = await axios.post(
+        'https://jittery-tan-millipede.cyclic.app/api/v1/auth/signup',
+        {
           fullName,
           email,
           phone,
           password,
-        }),
-      });
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+    
+      if (response.status === 200) {
+        const responseData = response.data;
+        const userId = responseData.user._id;
   
-      if (response.ok) {
-        Alert.alert('Success', 'Sign-up successful!');
-       
+        // Store the user ID in local storage
+        // await AsyncStorage.setItem('userId', userId);
+        // Alert.alert('Success', responseData.user._id || 'Sign-in successful!');
+        Alert.alert('Success', responseData.message || 'Sign-in successful!');
+        Alert.alert('Success', responseData.message || 'Sign-up successful!');
         navigation.navigate('reservation');
       } else {
-       
-        const errorMessage = await response.text();
-        Alert.alert('Error', errorMessage || 'Something went wrong.');
+        const errorMessage = response.data.message || 'Something went wrong.';
+        Alert.alert('Error', errorMessage);
       }
     } catch (error) {
       console.error('Error signing up:', error);
-      Alert.alert('Error', 'Something went wrong. Please try again later.');
+      Alert.alert('Error', 'user email or phone number are already registered. please go to login it');
     }
   };
-
+    
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -147,14 +155,14 @@ const SignUp = ({navigation}: any) => {
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-        <LinearGradient
-          colors={['#E6548D', '#F1C365']}
-          style={styles.gradient}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
-          <Text style={styles.buttonText}>Sign Up</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+      <LinearGradient
+        colors={['#E6548D', '#F1C365']}
+        style={styles.gradient}
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}>
+        <Text style={styles.buttonText}>Sign Up</Text>
+      </LinearGradient>
+    </TouchableOpacity>
       {/* <TouchableOpacity onPress={() => navigation.navigate('reservation')}>
         <Text style={styles.linkText}>Already have an account? Sign In</Text>
       </TouchableOpacity> */}
@@ -185,7 +193,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 30,
+    paddingHorizontal: 40,
     backgroundColor: '#470D25',
   },
   title: {
@@ -199,8 +207,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     width: 269,
     color: 'white',
-    marginTop: 2,
-    marginBottom: 20,
+    marginBottom: 10,
     textAlign: 'center',
     fontWeight: 'normal',
     fontFamily: 'IbarraRealNova-Regular',
@@ -224,7 +231,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-    marginBottom: 20,
+    marginBottom: 18,
  
   },
   icon: {
@@ -234,7 +241,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: '100%',
-    marginTop: 5,
+    marginTop: 10,
     
   },
   gradient: {
@@ -248,14 +255,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  // linkText: {
-  //   marginTop: 10,
-  //   color: '#fff',
-  //   textAlign: 'center',
-  // },
+
   logo: {
-    width: 150,
-    height: 150,
+    width: 140,
+    height: 140,
     alignSelf: 'center',
   },
   ascontainer: {
@@ -263,44 +266,42 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
   },
-
   legalLinks: {
-    
+    width:360,
     flexDirection: 'row',
-    width:355,
-    alignItems: 'start',
-    flexWrap: 'wrap', // Allow legal links to wrap if needed
-    marginTop: 50, // Add some margin for better separation
-
+    flexWrap: 'wrap',
+    marginTop: 25, 
+    justifyContent: 'center', 
+    alignItems: 'center', 
+    fontFamily: 'IbarraRealNova-Regular',
   },
   legalText: {
     fontFamily: 'IbarraRealNova-Regular',
     color: '#F6BED6',
-    fontSize: 16, // Adjust font size as needed
-    flexWrap: 'wrap', // Allow text to wrap within the component
+    fontSize: 14, 
+    textAlign: 'center',
   },
   legalLink: {
     fontFamily: 'IbarraRealNova-Regular',
-    fontSize: 16, // Adjust font size as needed
+    fontSize: 14, 
     color: 'white',
-    
-    flexWrap: 'wrap', // Allow text to wrap within the component
+    textAlign: 'center',
+  
   },
-  wordBreak: {
-    flexWrap: 'wrap', // Allow text to wrap within the component
-  },
+
   legalTexted: {
     fontFamily: 'IbarraRealNova-Regular',
     color: '#F6BED6',
-    fontSize: 16, // Adjust font size as needed
-    // Adjust color as needed
+    fontSize: 16, 
+    
   },
   legalLinked: {
     fontFamily: 'IbarraRealNova-Regular',
-    fontSize: 16, // Adjust font size as needed
+    fontSize: 16, 
     color: '#F6BED6',
-    textDecorationLine: 'underline', // Add underline for clarity
-  },
+    textDecorationLine: 'underline', 
+},
 });
+
 
 export default SignUp;
