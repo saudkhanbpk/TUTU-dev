@@ -7,7 +7,7 @@ import SignUp from './component/SignUp/SignUp';
 import Login from './component/Loginpage/Login'
 import { enableScreens } from 'react-native-screens';
 import Privacy from './component/privacyPage/Privacy';
-import DropdownComponent from './component/Forgetpassword/Forget';
+import DropdownComponent from './component/ResturantDropDown/DropDown';
 
 enableScreens();
 

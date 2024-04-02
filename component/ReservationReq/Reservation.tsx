@@ -8,10 +8,12 @@ import {
   Image,
   Modal,
   ScrollView,
+  Alert,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import DatePicker from 'react-native-modern-datepicker';
 import {getToday, getFormatedDate} from 'react-native-modern-datepicker';
+import DropdownComponent from '../ResturantDropDown/DropDown';
 // import DateTimePickerModal from 'react-native-modal-datetime-picker';
 
 
@@ -23,17 +25,16 @@ const Reservation = ({navigation}: any) => {
   const startDate = getFormatedDate(tomorrow, 'YYYY/MM/DD');
 
   const [selectedOption, setSelectedOption] = useState('');
-  const [selectedPreferredTime, setSelectedPreferredTime] = useState(new Date());
-  const [selectedBackupTime, setSelectedBackupTime] = useState(new Date());
+  const [selectedPreferredTime, setSelectedPreferredTime] = useState('');
+  const [selectedBackupTime, setSelectedBackupTime] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [fullName, setFullName] = useState('');
   const [cardnumber, setCardNumber] = useState('');
+  const [guests, setGuests] = useState('');
   const [exp, setExp] = useState('');
   const [cvv, setCVV] = useState('');
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState('');
-  const [openPreferredTime, setOpenPreferredTime] = useState(false);
-  const [openBackupTime, setOpenBackupTime] = useState(false);
 
   const handleDropdownSelect = (option: string) => {
     setSelectedOption(option);
@@ -50,6 +51,14 @@ const Reservation = ({navigation}: any) => {
   const handleChange = (propDate: any) => {
     setDate(propDate);
   };
+
+  const handleReservation = ()=>{
+    if (!date || !guests || !selectedBackupTime || !selectedPreferredTime || !cardnumber
+       || !fullName || !exp || !cvv ! ) {
+      Alert.alert('Error', 'Please fill in all fields.');
+      return;
+    }
+  }
 
   // const handleTimePressPreferred = () => {
   //   const options = {
@@ -92,7 +101,7 @@ const Reservation = ({navigation}: any) => {
       <Text style={styles.title}>Reservation Request</Text>
       <Text style={styles.subtitle}>Reservation Details</Text>
 
-      <TouchableOpacity
+      {/* <TouchableOpacity
         style={styles.dropdownContainer}
         onPress={() => toggleModal()}>
         <Image source={require('../../assets/ring.png')} style={styles.image} />
@@ -101,7 +110,9 @@ const Reservation = ({navigation}: any) => {
           source={require('../../assets/dpicon.png')}
           style={styles.dropdownIcon}
         />
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+
+      <DropdownComponent/>
 
       <View style={styles.row}>
         <TouchableOpacity
@@ -111,7 +122,7 @@ const Reservation = ({navigation}: any) => {
             source={require('../../assets/date.png')}
             style={styles.image}
           />
-          <Text style={styles.dropdownText}>Date</Text>
+          <TextInput style={styles.dropdownText} value={date.toString()} placeholder='Date' placeholderTextColor="#F6BED6"/>
 
           <Image
             source={require('../../assets/dpicon.png')}
@@ -152,7 +163,18 @@ const Reservation = ({navigation}: any) => {
             source={require('../../assets/guests.png')}
             style={styles.image}
           />
-          <Text style={styles.dropdownText}>Guests</Text>
+          <TextInput style={styles.dropdownText}  value={guests}
+          placeholder='Guest'
+          placeholderTextColor="#F6BED6"
+           onChangeText={text => {
+            // Use regular expression to remove non-numeric characters
+            const numericValue = text.replace(/[^0-9]/g, '');
+            // Set the state with the numeric value
+            setGuests(numericValue);
+          }}
+          keyboardType="numeric"
+          
+          />
 
           <Image
             source={require('../../assets/dpicon.png')}
@@ -169,7 +191,10 @@ const Reservation = ({navigation}: any) => {
           source={require('../../assets/ptime.png')}
           style={styles.image}
         />
-        <Text style={styles.dropdownText}>Preferred Time</Text>
+        <TextInput style={styles.dropdownText} placeholder='Preferred Time' 
+        value={selectedPreferredTime}
+        onChangeText={ setSelectedPreferredTime}
+          placeholderTextColor="#F6BED6" />
 
         <Image
           source={require('../../assets/dpicon.png')}
@@ -181,7 +206,10 @@ const Reservation = ({navigation}: any) => {
         style={styles.dropdownContainer}
         >
         <Image source={require('../../assets/bak.png')} style={styles.image} />
-        <Text style={styles.dropdownText}>Backup Time</Text>
+        <TextInput style={styles.dropdownText} placeholder='Backup Time' 
+        value={selectedBackupTime}
+        onChangeText={ setSelectedBackupTime}
+          placeholderTextColor="#F6BED6" />
         <Image
           source={require('../../assets/dpicon.png')}
           style={styles.dropdownIcon}
@@ -252,33 +280,7 @@ const Reservation = ({navigation}: any) => {
       </View>
 
       {/* Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={showModal}
-        onRequestClose={() => {
-          toggleModal();
-        }}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text
-              style={{color: '#F6BED6', fontFamily: 'IbarraRealNova-Regular'}}>
-              Culinary Canvas Café{' '}
-            </Text>
-            <Text
-              style={{color: '#F6BED6', fontFamily: 'IbarraRealNova-Regular'}}>
-              RusticRoots Kitchen.{' '}
-            </Text>
-            <Text
-              style={{color: '#F6BED6', fontFamily: 'IbarraRealNova-Regular'}}>
-              Culinary Canvas Café{' '}
-            </Text>
-            <TouchableOpacity onPress={() => toggleModal()}>
-              <Text style={{color: '#F6BED6'}}>Close</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+
 
       <TouchableOpacity style={styles.button}>
         <LinearGradient
@@ -328,6 +330,7 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     fontFamily: 'IbarraRealNova-Regular',
   },
+  
   dropdownIcon: {
     width: 10,
     height: 10,
@@ -421,7 +424,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
-    marginBottom: 10,
+    
     fontFamily: 'IbarraRealNova-Regular',
   },
   title: {
@@ -462,6 +465,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   datePicker: {},
+
 });
 
 export default Reservation;

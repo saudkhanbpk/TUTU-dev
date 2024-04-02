@@ -61,9 +61,9 @@ const SignUp = ({navigation}: any) => {
       if (response.status === 200) {
         const responseData = response.data;
         const userId = responseData.user._id;
-  
-        // Store the user ID in local storage
-        // await AsyncStorage.setItem('userId', userId);
+        await AsyncStorage.setItem('userId', userId);
+     
+     
         // Alert.alert('Success', responseData.user._id || 'Sign-in successful!');
         Alert.alert('Success', responseData.message || 'Sign-in successful!');
         Alert.alert('Success', responseData.message || 'Sign-up successful!');
@@ -177,9 +177,9 @@ const SignUp = ({navigation}: any) => {
 
       <View style={styles.legalLinks}> 
       <Text style={styles.legalText}>By signing in, I accept the </Text>
-      <Text onPress={() => console.log("Terms of Service pressed")} style={styles.legalLink}>Terms of Service</Text>
+      <Text onPress={() => navigation.navigate('reservation')} style={styles.legalLink}>Terms of Service</Text>
       <Text style={styles.legalText}> and </Text>
-      <Text onPress={() => console.log("Community Guidelines pressed")} style={styles.legalLink}>Community Guidelines</Text>
+      <Text onPress={() => navigation.navigate('dropdown')} style={styles.legalLink}>Community Guidelines</Text>
       <Text style={styles.legalText}> and have read the </Text>
       <Text onPress= {() => navigation.navigate('privacy')} style={styles.legalLink}> Privacy Policy</Text>
     </View>
