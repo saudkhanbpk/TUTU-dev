@@ -81,15 +81,14 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   dropdown: {
-    height: 50,
-    backgroundColor: '#470D25',
-    borderWidth: 0,
+    height: 40,
+   backgroundColor: '#470D25',
+   borderWidth: 0,
 
-    // borderRadius: 8,
-    paddingHorizontal: 8,
   },
   icon: {
-    marginRight: 5,
+    marginRight: 10,
+    
   },
   label: {
     position: 'absolute',
@@ -98,12 +97,12 @@ const styles = StyleSheet.create({
     top: 20,
     zIndex: 999,
     paddingHorizontal: 8,
-    fontSize: 14,
+    fontSize: 16,
     color: '#F6BED6',
     fontFamily: 'IbarraRealNova-Regular',
   },
   placeholderStyle: {
-    marginLeft: 30,
+    marginLeft: 40,
     fontSize: 16,
     color: '#F6BED6',
     fontFamily: 'IbarraRealNova-Regular',
@@ -111,15 +110,18 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     fontSize: 16,
     color: '#F6BED6',
-    marginLeft: 30,
+    marginLeft: 40,
     fontFamily: 'IbarraRealNova-Regular',
   },
   iconStyle: {
-    width: 25,
-    height: 25,
+    width: 24,
+    height: 24,
+    position:"relative",
+    left:5
+
   },
   inputSearchStyle: {
-    height: 60,
+    height: 40,
     fontSize: 16,
     backgroundColor: '#2D0717',
     color: '#F6BED6',
@@ -135,6 +137,6 @@ const styles = StyleSheet.create({
     height: 24,
     zIndex: 999,
     top: 35,
-    left: 2,
+   
   },
 });

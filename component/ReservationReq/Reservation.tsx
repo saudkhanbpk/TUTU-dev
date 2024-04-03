@@ -16,6 +16,8 @@ import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import DropdownComponent from '../ResturantDropDown/DropDown';
 // import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 
 const Reservation = ({ navigation }: any) => {
@@ -36,10 +38,119 @@ const Reservation = ({ navigation }: any) => {
   const [date, setDate] = useState('');
   const [totalPrice, setTotalPrice] = useState(100);
 
+  // const [selectedPreferredTime, setSelectedPreferredTime] = useState(new Date());
+  // const [selectedBackupTime, setSelectedBackupTime] = useState(new Date());
+  // const [showPreferredTimePicker, setShowPreferredTimePicker] = useState(false);
+  // const [showBackupTimePicker, setShowBackupTimePicker] = useState(false);
+
+  // const handlePreferredTimeChange = (event: any, selectedTime: any) => {
+  //   const currentTime = selectedTime || selectedPreferredTime;
+  //   setShowPreferredTimePicker(false);
+  //   setSelectedPreferredTime(currentTime);
+  // };
+
+  // const handleBackupTimeChange = (event: any, selectedTime: any) => {
+  //   const currentTime = selectedTime || selectedBackupTime;
+  //   setShowBackupTimePicker(false);
+  //   setSelectedBackupTime(currentTime);
+  // };
+
+  // const showPreferredTimePickerModal = () => {
+  //   setShowPreferredTimePicker(true);
+  // };
+
+  // const showBackupTimePickerModal = () => {
+  //   setShowBackupTimePicker(true);
+  // };
+
+  // const [cardNumber, setCardNumber] = useState('');
+
+  // const handleCardNumberChange = (text: string) => {
+  //   // Use regular expression to remove non-numeric characters
+  //   const numericValue = text.replace(/[^0-9]/g, '');
+  //   // Set the state with the numeric value
+  //   setCardNumber(numericValue);
+  // };
+
+
   const [selectedPreferredTime, setSelectedPreferredTime] = useState(new Date());
   const [selectedBackupTime, setSelectedBackupTime] = useState(new Date());
   const [showPreferredTimePicker, setShowPreferredTimePicker] = useState(false);
   const [showBackupTimePicker, setShowBackupTimePicker] = useState(false);
+
+
+
+
+  const handleReservation = async () => {
+  
+    console.log('resturant' , selectedOption)
+    // const reservationDate = new Date(date);
+    // const expiry = new Date(exp);
+    
+    const userId = await AsyncStorage.getItem('userId');
+    const token = await AsyncStorage.getItem('token'); // Retrieve token from AsyncStorage
+    console.log(userId)
+    console.log(token)
+    // Check if user ID and token exist
+    if (!userId || !token) {
+      // Handle case where user ID or token is not found in AsyncStorage
+      Alert.alert('Error', 'User ID or token not found.');
+      return;
+    }
+    
+    if (
+        !date ||
+        !guests ||
+        !selectedBackupTime ||
+        !selectedPreferredTime ||
+        !cardNumber ||
+        !fullName ||
+        !exp ||
+        !cvv ||
+        !selectedOption
+        ) {
+          Alert.alert('Error', 'Please fill in all fields.');
+          return;
+        }
+    
+       
+        try {
+  
+      const response = await axios.post(
+        'https://jittery-tan-millipede.cyclic.app/api/v1/auth/reservation',
+        {
+          // userId:userId,
+          restaurant: selectedOption,
+          date: date,
+          guests: parseInt(guests), // Convert guests to number
+          preferredTime: selectedPreferredTime,
+          backupTime: selectedBackupTime,
+          fullName,
+          cardNumber: cardNumber,
+          expiryDate: exp,
+          cvv,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `bearer ${token}`, // Include token in Authorization header
+          },
+        }
+      );
+  
+      console.log("response :", response);
+      if (response.status === 200) {
+        // const responseData = response.data;
+        // navigation.navigate('reservation');
+      } else {
+        const errorMessage = response.data.message || 'Something went wrong.';
+        Alert.alert('Error', errorMessage);
+      }
+    } catch (error:any) {
+      Alert.alert('Error Reservation:', error);
+    }
+  };
+  
 
   const handlePreferredTimeChange = (event: any, selectedTime: any) => {
     const currentTime = selectedTime || selectedPreferredTime;
@@ -87,13 +198,7 @@ const Reservation = ({ navigation }: any) => {
     setDate(propDate);
   };
 
-  const handleReservation = () => {
-    if (!date || !guests || !selectedBackupTime || !selectedPreferredTime || !cardNumber
-      || !fullName || !exp || !cvv!) {
-      Alert.alert('Error', 'Please fill in all fields.');
-      return;
-    }
-  }
+
 
 
 const updateTotalPrice = (restaurant: string, selectedDate: any) => {
@@ -131,7 +236,6 @@ if (selectedOption && date) {
   
 }
 },[selectedOption, date])
-
 
 
 
@@ -348,14 +452,14 @@ if (selectedOption && date) {
       {/* Modal */}
 
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleReservation}>
         <LinearGradient
           colors={['#E6548D', '#F1C365']}
           style={styles.gradient}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}>
           <Text
-            onPress={() => navigation.navigate('Signup')}
+            
             style={styles.buttonText}>
             Confirm Reservation
           </Text>
@@ -518,7 +622,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 40,
   },
 
   modalview: {
@@ -527,6 +631,10 @@ const styles = StyleSheet.create({
     height: 370,
     backgroundColor: '#2D0717',
     alignItems: 'center',
+    position:"relative",
+    top:110,
+    right:30
+    
   },
   datePicker: {},
 

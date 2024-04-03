@@ -1,56 +1,43 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useState} from 'react';
-import {
-  StyleSheet,
-  View,
-  TextInput,
-  Text,
-  TouchableOpacity,
-  Alert,
-  Image,
-  ScrollView,
-} from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, TextInput, Text, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const SignUp = ({navigation}: any) => {
+const SignUp = ({ navigation }: any) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // State variable to track password visibility
+  const [isSigningUp, setIsSigningUp] = useState(false); // State variable to track sign-up process
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Toggle the state to show/hide password
   };
 
-
-  const clearStorage = async () => {
-    try {
-      await AsyncStorage.clear(); // Clear AsyncStorage
-      console.log('Storage cleared successfully.');
-    } catch (error) {
-      console.error('Error clearing storage:', error);
-    }
-  };
-
   const handleSignUp = async () => {
-    
+    if (isSigningUp) return; // Prevent further requests if already signing up
+    setIsSigningUp(true); // Set signing up state to true
+
     if (!fullName || !email || !phone || !password || !confirmPassword) {
       Alert.alert('Error', 'Please fill in all fields.');
+      setIsSigningUp(false); // Reset signing up state
       return;
     }
     if (password !== confirmPassword) {
       Alert.alert('Error', 'Passwords do not match.');
+      setIsSigningUp(false); // Reset signing up state
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       Alert.alert('Error', 'Please enter a valid email address.');
+      setIsSigningUp(false); // Reset signing up state
       return;
     }
-  
+
     try {
       const response = await axios.post(
         'https://jittery-tan-millipede.cyclic.app/api/v1/auth/signup',
@@ -66,18 +53,13 @@ const SignUp = ({navigation}: any) => {
           },
         }
       );
-    
+
       if (response.status === 200) {
         const responseData = response.data;
         const userId = responseData.user._id;
-        const token = responseData.token
+        const token = responseData.tokens
         console.log('hello', responseData.token)
         await AsyncStorage.setItem('userId', userId);
-        await AsyncStorage.setItem('token', token);
-     
-     
-        // Alert.alert('Success', responseData.user._id || 'Sign-in successful!');
-        Alert.alert('Success', responseData.message || 'Sign-in successful!');
         Alert.alert('Success', responseData.message || 'Sign-up successful!');
         navigation.navigate('reservation');
       } else {
@@ -86,15 +68,16 @@ const SignUp = ({navigation}: any) => {
       }
     } catch (error) {
       console.error('Error signing up:', error);
-      Alert.alert('Error', 'user email or phone number are already registered. please go to login it');
+      Alert.alert('Error', 'User email or phone number are already registered. Please go to login.');
+    } finally {
+      setIsSigningUp(false); // Reset signing up state
     }
   };
-    
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image source={require('../../assets/IMG.png')} style={styles.logo} />
-      <Text style={styles.title} onPress={clearStorage}>Let's Get Started</Text>
+      <Text style={styles.title}>Let's Get Started</Text>
       <Text style={styles.subtitle}>
         You are one step away from making your first reservation.
       </Text>
@@ -144,14 +127,13 @@ const SignUp = ({navigation}: any) => {
           onChangeText={setPassword}
           secureTextEntry={!showPassword}
         />
-         <TouchableOpacity onPress={togglePasswordVisibility}>
-        <Image  source={require('../../assets/hidden.png')} style={styles.icon} />
+        <TouchableOpacity onPress={togglePasswordVisibility}>
+          <Image source={require('../../assets/hidden.png')} style={styles.icon} />
         </TouchableOpacity>
       </View>
 
       <View style={styles.inputContainer}>
         <Image source={require('../../assets/v4.png')} style={styles.icon} />
-
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
@@ -161,23 +143,20 @@ const SignUp = ({navigation}: any) => {
           secureTextEntry={!showPassword}
         />
         <TouchableOpacity onPress={togglePasswordVisibility}>
-        <Image  source={require('../../assets/hidden.png')} style={styles.icon} />
+          <Image source={require('../../assets/hidden.png')} style={styles.icon} />
         </TouchableOpacity>
-
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
-      <LinearGradient
-        colors={['#E6548D', '#F1C365']}
-        style={styles.gradient}
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 0}}>
-        <Text style={styles.buttonText}>Sign Up</Text>
-      </LinearGradient>
-    </TouchableOpacity>
-      {/* <TouchableOpacity onPress={() => navigation.navigate('reservation')}>
-        <Text style={styles.linkText}>Already have an account? Sign In</Text>
-      </TouchableOpacity> */}
+      <TouchableOpacity style={styles.button} onPress={handleSignUp} disabled={isSigningUp}>
+        <LinearGradient
+          colors={['#E6548D', '#F1C365']}
+          style={styles.gradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}>
+          <Text style={styles.buttonText}>{isSigningUp ? 'Signing Up...' : 'Sign Up'}</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+
       <View style={styles.ascontainer}>
         <Text style={styles.legalTexted}>Already have an account? </Text>
         <Text
@@ -187,14 +166,14 @@ const SignUp = ({navigation}: any) => {
         </Text>
       </View>
 
-      <View style={styles.legalLinks}> 
-      <Text style={styles.legalText}>By signing in, I accept the </Text>
-      <Text onPress={() => navigation.navigate('reservation')} style={styles.legalLink}>Terms of Service</Text>
-      <Text style={styles.legalText}> and </Text>
-      <Text onPress={() => navigation.navigate('dropdown')} style={styles.legalLink}>Community Guidelines</Text>
-      <Text style={styles.legalText}> and have read the </Text>
-      <Text onPress= {() => navigation.navigate('privacy')} style={styles.legalLink}> Privacy Policy</Text>
-    </View>
+      <View style={styles.legalLinks}>
+        <Text style={styles.legalText}>By signing in, I accept the </Text>
+        <Text onPress={() => navigation.navigate('reservation')} style={styles.legalLink}>Terms of Service</Text>
+        <Text style={styles.legalText}> and </Text>
+        <Text onPress={() => navigation.navigate('dropdown')} style={styles.legalLink}>Community Guidelines</Text>
+        <Text style={styles.legalText}> and have read the </Text>
+        <Text onPress={() => navigation.navigate('privacy')} style={styles.legalLink}> Privacy Policy</Text>
+      </View>
 
     </ScrollView>
   );
