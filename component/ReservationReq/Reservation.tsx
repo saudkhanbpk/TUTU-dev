@@ -356,9 +356,9 @@ const styles = StyleSheet.create({
   },
 
   dropdownIcon: {
-    width: 10,
-    height: 10,
-    tintColor: '#fff',
+    width: 12,
+    height: 12,
+    tintColor: '#AA617F',
   },
   maincontent: {
     fontSize: 16,
