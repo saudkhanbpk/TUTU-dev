@@ -26,6 +26,15 @@ const SignUp = ({navigation}: any) => {
   };
 
 
+  const clearStorage = async () => {
+    try {
+      await AsyncStorage.clear(); // Clear AsyncStorage
+      console.log('Storage cleared successfully.');
+    } catch (error) {
+      console.error('Error clearing storage:', error);
+    }
+  };
+
   const handleSignUp = async () => {
     
     if (!fullName || !email || !phone || !password || !confirmPassword) {
@@ -61,7 +70,10 @@ const SignUp = ({navigation}: any) => {
       if (response.status === 200) {
         const responseData = response.data;
         const userId = responseData.user._id;
+        const token = responseData.token
+        console.log('hello', responseData.token)
         await AsyncStorage.setItem('userId', userId);
+        await AsyncStorage.setItem('token', token);
      
      
         // Alert.alert('Success', responseData.user._id || 'Sign-in successful!');
@@ -82,7 +94,7 @@ const SignUp = ({navigation}: any) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image source={require('../../assets/IMG.png')} style={styles.logo} />
-      <Text style={styles.title}>Let's Get Started</Text>
+      <Text style={styles.title} onPress={clearStorage}>Let's Get Started</Text>
       <Text style={styles.subtitle}>
         You are one step away from making your first reservation.
       </Text>

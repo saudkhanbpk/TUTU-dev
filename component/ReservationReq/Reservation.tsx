@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -12,12 +12,13 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import DatePicker from 'react-native-modern-datepicker';
-import {getToday, getFormatedDate} from 'react-native-modern-datepicker';
+import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import DropdownComponent from '../ResturantDropDown/DropDown';
 // import DateTimePickerModal from 'react-native-modal-datetime-picker';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
-const Reservation = ({navigation}: any) => {
+const Reservation = ({ navigation }: any) => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
@@ -25,16 +26,50 @@ const Reservation = ({navigation}: any) => {
   const startDate = getFormatedDate(tomorrow, 'YYYY/MM/DD');
 
   const [selectedOption, setSelectedOption] = useState('');
-  const [selectedPreferredTime, setSelectedPreferredTime] = useState('');
-  const [selectedBackupTime, setSelectedBackupTime] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [fullName, setFullName] = useState('');
-  const [cardnumber, setCardNumber] = useState('');
+
   const [guests, setGuests] = useState('');
   const [exp, setExp] = useState('');
   const [cvv, setCVV] = useState('');
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState('');
+  const [totalPrice, setTotalPrice] = useState(100);
+
+  const [selectedPreferredTime, setSelectedPreferredTime] = useState(new Date());
+  const [selectedBackupTime, setSelectedBackupTime] = useState(new Date());
+  const [showPreferredTimePicker, setShowPreferredTimePicker] = useState(false);
+  const [showBackupTimePicker, setShowBackupTimePicker] = useState(false);
+
+  const handlePreferredTimeChange = (event: any, selectedTime: any) => {
+    const currentTime = selectedTime || selectedPreferredTime;
+    setShowPreferredTimePicker(false);
+    setSelectedPreferredTime(currentTime);
+  };
+
+  const handleBackupTimeChange = (event: any, selectedTime: any) => {
+    const currentTime = selectedTime || selectedBackupTime;
+    setShowBackupTimePicker(false);
+    setSelectedBackupTime(currentTime);
+  };
+
+  const showPreferredTimePickerModal = () => {
+    setShowPreferredTimePicker(true);
+  };
+
+  const showBackupTimePickerModal = () => {
+    setShowBackupTimePicker(true);
+  };
+
+  const [cardNumber, setCardNumber] = useState('');
+
+  const handleCardNumberChange = (text: string) => {
+    // Use regular expression to remove non-numeric characters
+    const numericValue = text.replace(/[^0-9]/g, '');
+    // Set the state with the numeric value
+    setCardNumber(numericValue);
+  };
+
 
   const handleDropdownSelect = (option: string) => {
     setSelectedOption(option);
@@ -52,26 +87,55 @@ const Reservation = ({navigation}: any) => {
     setDate(propDate);
   };
 
-  const handleReservation = ()=>{
-    if (!date || !guests || !selectedBackupTime || !selectedPreferredTime || !cardnumber
-       || !fullName || !exp || !cvv ! ) {
+  const handleReservation = () => {
+    if (!date || !guests || !selectedBackupTime || !selectedPreferredTime || !cardNumber
+      || !fullName || !exp || !cvv!) {
       Alert.alert('Error', 'Please fill in all fields.');
       return;
     }
   }
 
-  // const handleTimePressPreferred = () => {
-  //   const options = {
-  //     mode: 'time',
-  //     date: selectedPreferredTime,
-  //     is24Hour: false, // Adjust for 24-hour format if needed
-  //   };
-  //   DateTimePickerModal(options, (result) => {
-  //     if (result.action !== 'dismissedAction') {
-  //       setSelectedPreferredTime(result.date);
-  //     }
-  //   });
-  // };
+
+const updateTotalPrice = (restaurant: string, selectedDate: any) => {
+  console.log("selected:", selectedDate)
+  // Parse the selected date string
+  const dateComponents = selectedDate.split("/");
+  const year = parseInt(dateComponents[0]);
+  const month = parseInt(dateComponents[1]) - 1; // Months are zero-based
+  const day = parseInt(dateComponents[2]);
+
+  // Create a Date object with the parsed components
+  const dateObject = new Date(year, month, day);
+
+  if (isNaN(dateObject.getTime())) {
+    // If the dateObject is invalid, log an error and set the total price to 100
+    console.error("Invalid date:", selectedDate);
+    setTotalPrice(100);
+    return;
+  }
+
+  const dayOfWeek = dateObject.getDay();
+  console.log("dayOfWeek:", dayOfWeek);
+  const restaurantsWithSpecialPrice = ['Mastros', 'STK', 'Abe & Louie\'s', 'Savr', 'Mariel', 'Yvonnes', 'Ruka', 'Caveau', 'Grille 23'];
+  if ((dayOfWeek === 5 || dayOfWeek === 6) && restaurantsWithSpecialPrice.includes(restaurant)) {
+    setTotalPrice(125);
+  } else {
+    setTotalPrice(100);
+  }
+};
+
+
+useEffect(()=> {
+if (selectedOption && date) {
+  updateTotalPrice(selectedOption, date)
+  
+}
+},[selectedOption, date])
+
+
+
+
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -101,18 +165,9 @@ const Reservation = ({navigation}: any) => {
       <Text style={styles.title}>Reservation Request</Text>
       <Text style={styles.subtitle}>Reservation Details</Text>
 
-      {/* <TouchableOpacity
-        style={styles.dropdownContainer}
-        onPress={() => toggleModal()}>
-        <Image source={require('../../assets/ring.png')} style={styles.image} />
-        <Text style={styles.dropdownText}>Select Restaurent</Text>
-        <Image
-          source={require('../../assets/dpicon.png')}
-          style={styles.dropdownIcon}
-        />
-      </TouchableOpacity> */}
 
-      <DropdownComponent/>
+
+      <DropdownComponent onValueChange={setSelectedOption}/>
 
       <View style={styles.row}>
         <TouchableOpacity
@@ -122,7 +177,7 @@ const Reservation = ({navigation}: any) => {
             source={require('../../assets/date.png')}
             style={styles.image}
           />
-          <TextInput style={styles.dropdownText} value={date.toString()} placeholder='Date' placeholderTextColor="#F6BED6"/>
+          <TextInput style={styles.dropdownText} value={date.toString()} placeholder='Date' placeholderTextColor="#F6BED6" />
 
           <Image
             source={require('../../assets/dpicon.png')}
@@ -147,8 +202,8 @@ const Reservation = ({navigation}: any) => {
                 <LinearGradient
                   colors={['#E6548D', '#F1C365']}
                   style={styles.gradient}
-                  start={{x: 0, y: 0}}
-                  end={{x: 1, y: 0}}>
+                  start={{ x: 0, y: 0 }}
+                  end={{ x: 1, y: 0 }}>
                   <Text style={styles.buttonText}>Done</Text>
                 </LinearGradient>
               </TouchableOpacity>
@@ -158,22 +213,22 @@ const Reservation = ({navigation}: any) => {
 
         <TouchableOpacity
           style={[styles.halfWidth, styles.dropdownContainer]}
-          >
+        >
           <Image
             source={require('../../assets/guests.png')}
             style={styles.image}
           />
-          <TextInput style={styles.dropdownText}  value={guests}
-          placeholder='Guest'
-          placeholderTextColor="#F6BED6"
-           onChangeText={text => {
-            // Use regular expression to remove non-numeric characters
-            const numericValue = text.replace(/[^0-9]/g, '');
-            // Set the state with the numeric value
-            setGuests(numericValue);
-          }}
-          keyboardType="numeric"
-          
+          <TextInput style={styles.dropdownText} value={guests}
+            placeholder='Guest'
+            placeholderTextColor="#F6BED6"
+            onChangeText={text => {
+              // Use regular expression to remove non-numeric characters
+              const numericValue = text.replace(/[^0-9]/g, '');
+              // Set the state with the numeric value
+              setGuests(numericValue);
+            }}
+            keyboardType="numeric"
+
           />
 
           <Image
@@ -184,37 +239,39 @@ const Reservation = ({navigation}: any) => {
       </View>
 
       {/* Dropdown for Preferred Time */}
-      <TouchableOpacity
-        style={styles.dropdownContainer}
-        >
-        <Image
-          source={require('../../assets/ptime.png')}
-          style={styles.image}
-        />
-        <TextInput style={styles.dropdownText} placeholder='Preferred Time' 
-        value={selectedPreferredTime}
-        onChangeText={ setSelectedPreferredTime}
-          placeholderTextColor="#F6BED6" />
-
-        <Image
-          source={require('../../assets/dpicon.png')}
-          style={styles.dropdownIcon}
-        />
+      <TouchableOpacity style={styles.dropdownContainer} onPress={showPreferredTimePickerModal}>
+        <Image source={require('../../assets/ptime.png')} style={styles.image} />
+        <Text style={styles.dropdownText}>{selectedPreferredTime.toLocaleTimeString()}</Text>
+        <Image source={require('../../assets/dpicon.png')} style={styles.dropdownIcon} />
       </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.dropdownContainer}
-        >
+      {showPreferredTimePicker && (
+        <DateTimePicker
+          testID="preferredTimePicker"
+          value={selectedPreferredTime}
+          mode="time"
+          is24Hour={true}
+          display="default"
+          onChange={handlePreferredTimeChange}
+        />
+      )}
+
+      <TouchableOpacity style={styles.dropdownContainer} onPress={showBackupTimePickerModal}>
         <Image source={require('../../assets/bak.png')} style={styles.image} />
-        <TextInput style={styles.dropdownText} placeholder='Backup Time' 
-        value={selectedBackupTime}
-        onChangeText={ setSelectedBackupTime}
-          placeholderTextColor="#F6BED6" />
-        <Image
-          source={require('../../assets/dpicon.png')}
-          style={styles.dropdownIcon}
-        />
+        <Text style={styles.dropdownText}>{selectedBackupTime.toLocaleTimeString()}</Text>
+        <Image source={require('../../assets/dpicon.png')} style={styles.dropdownIcon} />
       </TouchableOpacity>
+
+      {showBackupTimePicker && (
+        <DateTimePicker
+          testID="backupTimePicker"
+          value={selectedBackupTime}
+          mode="time"
+          is24Hour={true}
+          display="default"
+          onChange={handleBackupTimeChange}
+        />
+      )}
 
       <Text style={styles.maincontent}>Payment Information</Text>
 
@@ -237,8 +294,10 @@ const Reservation = ({navigation}: any) => {
           style={styles.input}
           placeholder="Card Number"
           placeholderTextColor="#F6BED6"
-          value={cardnumber}
-          onChangeText={setCardNumber}
+          value={cardNumber}
+          onChangeText={handleCardNumberChange}
+          keyboardType="numeric"
+          maxLength={16} // Set maximum character length to 16
         />
       </View>
 
@@ -268,15 +327,22 @@ const Reservation = ({navigation}: any) => {
             style={styles.input}
             placeholder="CVV"
             placeholderTextColor="#F6BED6"
+            keyboardType="numeric"
+            maxLength={3}
             value={cvv}
-            onChangeText={setCVV}
+            onChangeText={(text) => {
+
+              if (/^\d*$/.test(text)) {
+                setCVV(text);
+              }
+            }}
           />
         </View>
       </View>
 
       <View style={styles.totaltext}>
         <Text style={styles.text}>Total</Text>
-        <Text style={styles.textp}>$50.00</Text>
+        <Text style={styles.textp}>{totalPrice}</Text>
       </View>
 
       {/* Modal */}
@@ -286,8 +352,8 @@ const Reservation = ({navigation}: any) => {
         <LinearGradient
           colors={['#E6548D', '#F1C365']}
           style={styles.gradient}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}>
           <Text
             onPress={() => navigation.navigate('Signup')}
             style={styles.buttonText}>
@@ -301,7 +367,6 @@ const Reservation = ({navigation}: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     paddingHorizontal: 40,
     paddingVertical: 20,
     backgroundColor: '#470D25',
@@ -314,7 +379,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-    marginBottom: 12,
+    marginBottom: 15,
     height: 40,
   },
   row: {
@@ -330,22 +395,22 @@ const styles = StyleSheet.create({
     marginRight: 'auto',
     fontFamily: 'IbarraRealNova-Regular',
   },
-  
+
   dropdownIcon: {
-    width: 10,
-    height: 10,
-    tintColor: '#fff',
+    width: 12,
+    height: 12,
+    tintColor: '#AA617F',
   },
   maincontent: {
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
-    padding: 10,
+    padding: 20,
     fontFamily: 'IbarraRealNova-Regular',
   },
   button: {
     width: '100%',
-    marginTop: 20,
+    marginTop: 30,
   },
   buttonDone: {
     width: '70%',
@@ -363,8 +428,8 @@ const styles = StyleSheet.create({
     fontFamily: 'IbarraRealNova-Regular',
   },
   logo: {
-    width: 120,
-    height: 120,
+    width: 130,
+    height: 130,
     alignSelf: 'center',
   },
   image: {
@@ -396,7 +461,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-    marginBottom: 12,
+    marginBottom: 15,
   },
   icon: {
     marginRight: 12,
@@ -407,7 +472,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 5,
+    marginTop: 8,
   },
   text: {
     color: '#F6BED6',
@@ -424,7 +489,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
-    
     fontFamily: 'IbarraRealNova-Regular',
   },
   title: {
@@ -432,7 +496,7 @@ const styles = StyleSheet.create({
     color: '#E581AB',
     fontFamily: 'IbarraRealNova-Regular',
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: 20,
   },
   headerContainer: {
     flexDirection: 'row',

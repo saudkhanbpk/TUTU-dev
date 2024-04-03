@@ -13,6 +13,15 @@ const SignIn = ({ navigation }: any) => {
     setShowPassword(!showPassword); // Toggle the state to show/hide password
   };
 
+  const clearStorage = async () => {
+    try {
+      await AsyncStorage.clear(); // Clear AsyncStorage
+      console.log('Storage cleared successfully.');
+    } catch (error) {
+      console.error('Error clearing storage:', error);
+    }
+  };
+
 
   const handleSignIn = async () => {
 
@@ -34,12 +43,18 @@ const SignIn = ({ navigation }: any) => {
           },
         }
       );
-    
+    console.log("response ;",response)
       if (response.status === 200) {
         const responseData = response.data;
-        const userId = responseData.user._id;
-        // Store the user ID in local storage
+        const userIds = responseData.user._id
+        const userId = userIds.toString();
+        console.log("userid",userId)
+        console.log('hello', responseData.token);
+        const tokens = responseData.token;
+        const token = tokens.toString()
         await AsyncStorage.setItem('userId', userId);
+        await AsyncStorage.setItem('token', token);
+        // Store the user ID in local storage
         // Alert.alert('Success', responseData.user._id || 'Sign-in successful!');
         Alert.alert('Success', responseData.message || 'Sign-in successful!');
         navigation.navigate('reservation');
@@ -99,7 +114,7 @@ const SignIn = ({ navigation }: any) => {
           </TouchableOpacity>
         </View>
   
-        <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordScreen')}>
+        <TouchableOpacity onPress={clearStorage}>
           <Text style={styles.linkText}>Forgot Password</Text>
         </TouchableOpacity>
   
@@ -124,7 +139,7 @@ const SignIn = ({ navigation }: any) => {
   
         <View style={styles.legalLinks}> 
         <Text style={styles.legalText}>By signing in, I accept the </Text>
-        <Text onPress={() => console.log("Terms of Service pressed")} style={styles.legalLink}>Terms of Service</Text>
+        <Text onPress={() => navigation.navigate('reservation')} style={styles.legalLink}>Terms of Service</Text>
         <Text style={styles.legalText}> and </Text>
         <Text onPress={() => console.log("Community Guidelines pressed")} style={styles.legalLink}>Community Guidelines</Text>
         <Text style={styles.legalText}> and have read the </Text>

@@ -17,12 +17,12 @@ const App = () => {
   return (
     <>    
     <NavigationContainer>
-  <Stack.Navigator initialRouteName="Signup" screenOptions={{ headerShown: false }}>
+  <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
     <Stack.Screen name="Login" component={Login} /> 
     <Stack.Screen name="Signup" component={SignUp} />
     <Stack.Screen name="reservation" component={Reservation} />
     <Stack.Screen name="privacy" component={Privacy} />
-    <Stack.Screen name="dropdown" component={DropdownComponent} />
+    {/* <Stack.Screen name="dropdown" component={DropdownComponent} /> */}
   </Stack.Navigator>
 </NavigationContainer>
     </>
