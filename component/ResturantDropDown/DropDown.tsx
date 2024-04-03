@@ -3,14 +3,20 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
 const data = [
-  {label: 'Item 1', value: '1'},
-  {label: 'Item 2', value: '2'},
-  {label: 'Item 3', value: '3'},
-  {label: 'Item 4', value: '4'},
-  {label: 'Item 5', value: '5'},
-  {label: 'Item 6', value: '6'},
-  {label: 'Item 7', value: '7'},
-  {label: 'Item 8', value: '8'},
+  {label: 'Mastros', value: '1'},
+  {label: 'STK', value: '2'},
+  {label: 'Abe & Louies', value: '3'},
+  {label: 'Savr', value: '4'},
+  {label: 'Mariel', value: '5'},
+  {label: 'Yvonnes', value: '6'},
+  {label: 'Ruka', value: '7'},
+  {label: 'Caveau', value: '8'},
+  {label: 'Grille 23', value: '8'},
+  {label: 'Lolita Fort Point', value: '8'},
+  {label: 'Lolita Back bay', value: '8'},
+  {label: 'Serafina', value: '8'},
+  {label: 'Atlantic Fish', value: '8'},
+  {label: 'Prima', value: '8'},
 ];
 
 const DropdownComponent = () => {
@@ -74,7 +80,10 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
   },
   dropdown: {
-    height: 40, 
+    height: 40,
+   backgroundColor: '#470D25',
+   borderWidth: 0,
+
   },
   icon: {
     marginRight: 10,
@@ -82,6 +91,7 @@ const styles = StyleSheet.create({
   },
   label: {
     position: 'absolute',
+    backgroundColor: '#470D25',
     left: 22,
     top: 20,
     zIndex: 999,
@@ -93,6 +103,7 @@ const styles = StyleSheet.create({
   placeholderStyle: {
     marginLeft: 40,
     fontSize: 16,
+    color: '#F6BED6',
     fontFamily: 'IbarraRealNova-Regular',
   },
   selectedTextStyle: {
