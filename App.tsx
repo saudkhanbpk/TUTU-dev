@@ -8,6 +8,8 @@ import Login from './component/Loginpage/Login'
 import { enableScreens } from 'react-native-screens';
 import Privacy from './component/privacyPage/Privacy';
 import DropdownComponent from './component/ResturantDropDown/DropDown';
+import Forget from './component/Forgetpassword/Forget';
+import Confirmpass from './component/Confirmpassword/Confirmpass';
 
 enableScreens();
 
@@ -22,7 +24,8 @@ const App = () => {
     <Stack.Screen name="Signup" component={SignUp} />
     <Stack.Screen name="reservation" component={Reservation} />
     <Stack.Screen name="privacy" component={Privacy} />
-    <Stack.Screen name="dropdown" component={DropdownComponent} />
+    <Stack.Screen name="forget" component={Forget} />
+    <Stack.Screen name="confirmpass" component={Confirmpass} />
   </Stack.Navigator>
 </NavigationContainer>
     </>

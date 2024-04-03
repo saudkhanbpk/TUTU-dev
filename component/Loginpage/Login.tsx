@@ -8,24 +8,27 @@ const SignIn = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // State variable to track password visibility
+  const [isSigningIn, setIsSigningIn] = useState(false); // State variable to track sign-in process
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Toggle the state to show/hide password
   };
 
-
   const handleSignIn = async () => {
+    if (isSigningIn) return; // Prevent further requests if already signing in
+    setIsSigningIn(true); // Set signing in state to true
 
     if (!email || !password) {
       Alert.alert('Error', 'Please fill in all fields.');
+      setIsSigningIn(false); // Reset signing in state
       return;
     }
- 
+
     try {
       const response = await axios.post(
         'https://jittery-tan-millipede.cyclic.app/api/v1/auth/login',
         {
-          email, 
+          email,
           password,
         },
         {
@@ -34,13 +37,12 @@ const SignIn = ({ navigation }: any) => {
           },
         }
       );
-    
+
       if (response.status === 200) {
         const responseData = response.data;
         const userId = responseData.user._id;
         // Store the user ID in local storage
         await AsyncStorage.setItem('userId', userId);
-        // Alert.alert('Success', responseData.user._id || 'Sign-in successful!');
         Alert.alert('Success', responseData.message || 'Sign-in successful!');
         navigation.navigate('reservation');
       } else {
@@ -48,81 +50,82 @@ const SignIn = ({ navigation }: any) => {
         Alert.alert('Error', errorMessage);
       }
     } catch (error) {
-      console.error('Error signing up:', error);
-      Alert.alert('Error', 'User not Found or invalid credentials');
+      console.error('Error signing in:', error);
+      Alert.alert('Error', 'User not found or invalid credentials');
+    } finally {
+      setIsSigningIn(false); // Reset signing in state
     }
   };
-  
-    // After successful sign-in, navigate to another screen
-    
 
-  
-    return (
-      <View style={styles.container}>
+  return (
+    <View style={styles.container}>
+      <Image
+        source={require('../../assets/IMG.png')}
+        style={styles.logo}
+      />
+
+      <View style={styles.inputContainer}>
         <Image
-          source={require('../../assets/IMG.png')}
-          style={styles.logo}
-        />
-  
-  
-        <View style={styles.inputContainer}>
-          <Image
-            source={require('../../assets/v2.png')}
+          source={require('../../assets/v2.png')}
           style={styles.icon}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            placeholderTextColor="#F6BED6" 
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-          />
-        </View>
-  
-        <View style={styles.inputContainer}>
-          <Image
-            source={require('../../assets/v4.png')}
-            style={styles.icon}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="#F6BED6" 
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-  
-          />
-           <TouchableOpacity onPress={togglePasswordVisibility}>
-          <Image  source={require('../../assets/hidden.png')} style={styles.icon} />
-          </TouchableOpacity>
-        </View>
-  
-        <TouchableOpacity onPress={() => navigation.navigate('ForgotPasswordScreen')}>
-          <Text style={styles.linkText}>Forgot Password</Text>
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#F6BED6"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Image
+          source={require('../../assets/v4.png')}
+          style={styles.icon}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#F6BED6"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+        />
+        <TouchableOpacity onPress={togglePasswordVisibility}>
+          <Image source={require('../../assets/hidden.png')} style={styles.icon} />
         </TouchableOpacity>
-  
-        <TouchableOpacity style={styles.button} onPress={handleSignIn}>
-          <LinearGradient
-            colors={['#E6548D', '#F1C365']}
-            style={styles.gradient}
-            start={{ x: 0, y: 0 }} 
-            end={{ x: 1, y: 0 }}   
-          >
-            <Text style={styles.buttonText}>Sign In</Text>
-          </LinearGradient>
-        </TouchableOpacity>
-        <View style={styles.ascontainer}>
-          <Text style={styles.legalTexted}>Don't have an account? </Text>
-          <Text
-            style={styles.legalLinked}
-            onPress={() => navigation.navigate('Signup')}>
-            Sign up
-          </Text>
-        </View>
-  
-        <View style={styles.legalLinks}> 
+      </View>
+
+      <TouchableOpacity onPress={() => navigation.navigate('forget')}>
+        <Text style={styles.linkText}>Forgot Password</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSignIn}
+        disabled={isSigningIn} // Disable button when signing in
+      >
+        <LinearGradient
+          colors={['#E6548D', '#F1C365']}
+          style={styles.gradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}
+        >
+          <Text style={styles.buttonText}>{isSigningIn ? 'Signing In...' : 'Sign In'}</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+
+      <View style={styles.ascontainer}>
+        <Text style={styles.legalTexted}>Don't have an account? </Text>
+        <Text
+          style={styles.legalLinked}
+          onPress={() => navigation.navigate('Signup')}>
+          Sign up
+        </Text>
+      </View>
+
+      <View style={styles.legalLinks}>
         <Text style={styles.legalText}>By signing in, I accept the </Text>
         <Text onPress={() => console.log("Terms of Service pressed")} style={styles.legalLink}>Terms of Service</Text>
         <Text style={styles.legalText}> and </Text>
@@ -130,10 +133,9 @@ const SignIn = ({ navigation }: any) => {
         <Text style={styles.legalText}> and have read the </Text>
         <Text onPress={() => navigation.navigate('privacy')} style={styles.legalLink}> Privacy Policy</Text>
       </View>
-      </View>
-    );
-  };
-  
+    </View>
+  );
+};
   const styles = StyleSheet.create({
     container: {
       flex: 1,
