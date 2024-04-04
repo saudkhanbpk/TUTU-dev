@@ -57,6 +57,8 @@ const SignUp = ({ navigation }: any) => {
       if (response.status === 200) {
         const responseData = response.data;
         const userId = responseData.user._id;
+        const token = responseData.tokens
+        console.log('hello', responseData.token)
         await AsyncStorage.setItem('userId', userId);
         Alert.alert('Success', responseData.message || 'Sign-up successful!');
         navigation.navigate('reservation');

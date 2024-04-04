@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -17,6 +17,8 @@ import DropdownComponent from '../ResturantDropDown/DropDown';
 // import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ProfileDropdown from '../ProfileDpdown/ProfileDropdown';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 
 const Reservation = ({ navigation }: any) => {
@@ -35,6 +37,42 @@ const Reservation = ({ navigation }: any) => {
   const [cvv, setCVV] = useState('');
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState('');
+  const [totalPrice, setTotalPrice] = useState(100);
+
+  // const [selectedPreferredTime, setSelectedPreferredTime] = useState(new Date());
+  // const [selectedBackupTime, setSelectedBackupTime] = useState(new Date());
+  // const [showPreferredTimePicker, setShowPreferredTimePicker] = useState(false);
+  // const [showBackupTimePicker, setShowBackupTimePicker] = useState(false);
+
+  // const handlePreferredTimeChange = (event: any, selectedTime: any) => {
+  //   const currentTime = selectedTime || selectedPreferredTime;
+  //   setShowPreferredTimePicker(false);
+  //   setSelectedPreferredTime(currentTime);
+  // };
+
+  // const handleBackupTimeChange = (event: any, selectedTime: any) => {
+  //   const currentTime = selectedTime || selectedBackupTime;
+  //   setShowBackupTimePicker(false);
+  //   setSelectedBackupTime(currentTime);
+  // };
+
+  // const showPreferredTimePickerModal = () => {
+  //   setShowPreferredTimePicker(true);
+  // };
+
+  // const showBackupTimePickerModal = () => {
+  //   setShowBackupTimePicker(true);
+  // };
+
+  // const [cardNumber, setCardNumber] = useState('');
+
+  // const handleCardNumberChange = (text: string) => {
+  //   // Use regular expression to remove non-numeric characters
+  //   const numericValue = text.replace(/[^0-9]/g, '');
+  //   // Set the state with the numeric value
+  //   setCardNumber(numericValue);
+  // };
+
 
   const [selectedPreferredTime, setSelectedPreferredTime] = useState(new Date());
   const [selectedBackupTime, setSelectedBackupTime] = useState(new Date());
@@ -42,6 +80,80 @@ const Reservation = ({ navigation }: any) => {
   const [showBackupTimePicker, setShowBackupTimePicker] = useState(false);
    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
    
+
+
+
+
+  const handleReservation = async () => {
+  
+    console.log('resturant' , selectedOption)
+    // const reservationDate = new Date(date);
+    // const expiry = new Date(exp);
+    
+    const userId = await AsyncStorage.getItem('userId');
+    const token = await AsyncStorage.getItem('token'); // Retrieve token from AsyncStorage
+    console.log(userId)
+    console.log(token)
+    // Check if user ID and token exist
+    if (!userId || !token) {
+      // Handle case where user ID or token is not found in AsyncStorage
+      Alert.alert('Error', 'User ID or token not found.');
+      return;
+    }
+    
+    if (
+        !date ||
+        !guests ||
+        !selectedBackupTime ||
+        !selectedPreferredTime ||
+        !cardNumber ||
+        !fullName ||
+        !exp ||
+        !cvv ||
+        !selectedOption
+        ) {
+          Alert.alert('Error', 'Please fill in all fields.');
+          return;
+        }
+    
+       
+        try {
+  
+      const response = await axios.post(
+        'https://jittery-tan-millipede.cyclic.app/api/v1/auth/reservation',
+        {
+          // userId:userId,
+          restaurant: selectedOption,
+          date: date,
+          guests: parseInt(guests), // Convert guests to number
+          preferredTime: selectedPreferredTime,
+          backupTime: selectedBackupTime,
+          fullName,
+          cardNumber: cardNumber,
+          expiryDate: exp,
+          cvv,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `bearer ${token}`, // Include token in Authorization header
+          },
+        }
+      );
+  
+      console.log("response :", response);
+      if (response.status === 200) {
+        // const responseData = response.data;
+        // navigation.navigate('reservation');
+      } else {
+        const errorMessage = response.data.message || 'Something went wrong.';
+        Alert.alert('Error', errorMessage);
+      }
+    } catch (error:any) {
+      Alert.alert('Error Reservation:', error);
+    }
+  };
+  
 
   const handlePreferredTimeChange = (event: any, selectedTime: any) => {
     const currentTime = selectedTime || selectedPreferredTime;
@@ -87,43 +199,97 @@ const Reservation = ({ navigation }: any) => {
     setDate(propDate);
   };
 
-  const handleReservation = () => {
-    if (!date || !guests || !selectedBackupTime || !selectedPreferredTime || !cardNumber
-      || !fullName || !exp || !cvv!) {
-      Alert.alert('Error', 'Please fill in all fields.');
-      return;
-    }
+
+
+
+const updateTotalPrice = (restaurant: string, selectedDate: any) => {
+  console.log("selected:", selectedDate)
+  // Parse the selected date string
+  const dateComponents = selectedDate.split("/");
+  const year = parseInt(dateComponents[0]);
+  const month = parseInt(dateComponents[1]) - 1; // Months are zero-based
+  const day = parseInt(dateComponents[2]);
+
+  // Create a Date object with the parsed components
+  const dateObject = new Date(year, month, day);
+
+  if (isNaN(dateObject.getTime())) {
+    // If the dateObject is invalid, log an error and set the total price to 100
+    console.error("Invalid date:", selectedDate);
+    setTotalPrice(100);
+    return;
   }
 
-  const handleLogout = () => {
-    setIsDropdownVisible(false); 
-  };
-  const handleClose = () => {
-    setIsDropdownVisible(false);
-  };
+  // const handleLogout = () => {
+  //   setIsDropdownVisible(false); 
+  // };
+  // const handleClose = () => {
+  //   setIsDropdownVisible(false);
+  // };
 
-  const handleAccountSettings = () => {
-    console.log('Navigating to account settings');
-    setIsDropdownVisible(false); 
-  };
-  const handleMyaccount= () => {
+  // const handleAccountSettings = () => {
+  //   console.log('Navigating to account settings');
+  //   setIsDropdownVisible(false); 
+  // };
+  // const handleMyaccount= () => {
     
-    setIsDropdownVisible(false); 
-  };
-  const handlemyReservation = () => {
+  //   setIsDropdownVisible(false); 
+  // };
+  // const handlemyReservation = () => {
    
-    setIsDropdownVisible(false); 
-  };
-  const handlePayment = () => {
+  //   setIsDropdownVisible(false); 
+  // };
+  // const handlePayment = () => {
     
-    setIsDropdownVisible(false); 
+  //   setIsDropdownVisible(false); 
+  // };
+
+
+
+  const dayOfWeek = dateObject.getDay();
+  console.log("dayOfWeek:", dayOfWeek);
+  const restaurantsWithSpecialPrice = ['Mastros', 'STK', 'Abe & Louie\'s', 'Savr', 'Mariel', 'Yvonnes', 'Ruka', 'Caveau', 'Grille 23'];
+  if ((dayOfWeek === 5 || dayOfWeek === 6) && restaurantsWithSpecialPrice.includes(restaurant)) {
+    setTotalPrice(125);
+  } else {
+    setTotalPrice(100);
+  }
+};
+
+
+useEffect(()=> {
+if (selectedOption && date) {
+  updateTotalPrice(selectedOption, date)
+  
+}
+},[selectedOption, date])
+
+
+
+ function handlemyReservation():void {
+   
+   setIsDropdownVisible(false); 
   };
 
+  function handleLogout(): void {
+    setIsDropdownVisible(false);
+  }
 
+  function handleAccountSettings(): void {
+    setIsDropdownVisible(false); 
+  }
 
+  function handleMyaccount(): void {
+    setIsDropdownVisible(false);
+  }
 
+  function handlePayment(): void {
+    setIsDropdownVisible(false);
+  }
 
-
+  function handleClose(): void {
+    setIsDropdownVisible(false);
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -162,7 +328,7 @@ const Reservation = ({ navigation }: any) => {
 
 
 
-      <DropdownComponent />
+      <DropdownComponent onValueChange={setSelectedOption}/>
 
       <View style={styles.row}>
         <TouchableOpacity
@@ -338,20 +504,20 @@ const Reservation = ({ navigation }: any) => {
 
       <View style={styles.totaltext}>
         <Text style={styles.text}>Total</Text>
-        <Text style={styles.textp}>$50.00</Text>
+        <Text style={styles.textp}>{totalPrice}</Text>
       </View>
 
       {/* Modal */}
 
 
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleReservation}>
         <LinearGradient
           colors={['#E6548D', '#F1C365']}
           style={styles.gradient}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 0 }}>
           <Text
-            onPress={() => navigation.navigate('Signup')}
+            
             style={styles.buttonText}>
             Confirm Reservation
           </Text>
@@ -524,7 +690,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#2D0717',
     alignItems: 'center',
     position:"relative",
-    top:60
+    top:60,
+    right:30
+    
   },
   datePicker: {},
   
