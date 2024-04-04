@@ -57,7 +57,7 @@ const Forget = () => {
   style={styles.button}
   onPress={() => {
     handlePasswordReset();
-    navigation.navigate('confirmpass'); 
+    navigation.navigate('verification'); 
   }}>
   <LinearGradient
     colors={['#E6548D', '#F1C365']}
@@ -87,12 +87,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 40,
     backgroundColor: '#470D25',
-    justifyContent:"center"
   },
   backButton: {
     position: 'absolute',
-    top: 10, // Adjust top spacing
-    left: 10, // Adjust left spacing
+    top: 10, 
+    left: 10, 
     padding: 10, // Padding to make it easier to tap
   },
   backIcon: {
@@ -112,7 +111,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.3)', 
-    marginBottom: 20,
+    marginBottom: 30,
   },
   icon: {
     marginRight: 10, 

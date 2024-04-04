@@ -16,6 +16,7 @@ import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import DropdownComponent from '../ResturantDropDown/DropDown';
 // import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import ProfileDropdown from '../ProfileDpdown/ProfileDropdown';
 
 
 const Reservation = ({ navigation }: any) => {
@@ -39,6 +40,8 @@ const Reservation = ({ navigation }: any) => {
   const [selectedBackupTime, setSelectedBackupTime] = useState(new Date());
   const [showPreferredTimePicker, setShowPreferredTimePicker] = useState(false);
   const [showBackupTimePicker, setShowBackupTimePicker] = useState(false);
+   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+   
 
   const handlePreferredTimeChange = (event: any, selectedTime: any) => {
     const currentTime = selectedTime || selectedPreferredTime;
@@ -63,9 +66,7 @@ const Reservation = ({ navigation }: any) => {
   const [cardNumber, setCardNumber] = useState('');
 
   const handleCardNumberChange = (text: string) => {
-    // Use regular expression to remove non-numeric characters
     const numericValue = text.replace(/[^0-9]/g, '');
-    // Set the state with the numeric value
     setCardNumber(numericValue);
   };
 
@@ -94,10 +95,39 @@ const Reservation = ({ navigation }: any) => {
     }
   }
 
+  const handleLogout = () => {
+    setIsDropdownVisible(false); 
+  };
+  const handleClose = () => {
+    setIsDropdownVisible(false);
+  };
+
+  const handleAccountSettings = () => {
+    console.log('Navigating to account settings');
+    setIsDropdownVisible(false); 
+  };
+  const handleMyaccount= () => {
+    
+    setIsDropdownVisible(false); 
+  };
+  const handlemyReservation = () => {
+   
+    setIsDropdownVisible(false); 
+  };
+  const handlePayment = () => {
+    
+    setIsDropdownVisible(false); 
+  };
+
+
+
+
+
 
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
+      
       <View style={styles.headerContainer}>
         <TouchableOpacity
           onPress={() => navigation.goBack()}
@@ -107,18 +137,24 @@ const Reservation = ({ navigation }: any) => {
             style={styles.headerIcon}
           />
         </TouchableOpacity>
-        <Image source={require('../../assets/IMG.png')} style={styles.logo} />
 
-        <TouchableOpacity
-          onPress={() => {
-            /* Handle profile action */
-          }}
-          style={styles.headerButton}>
-          <Image
-            source={require('../../assets/Subtract.png')}
-            style={styles.headerprof}
-          />
-        </TouchableOpacity>
+        <TouchableOpacity >
+        <Image source={require('../../assets/IMG.png')} style={styles.logo} />
+      </TouchableOpacity>
+
+  
+        <TouchableOpacity onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
+        <Image source={require('../../assets/Subtract.png')} style={styles.headerprof} />
+        <ProfileDropdown
+          isVisible={isDropdownVisible}
+          onLogout={handleLogout}
+          onAccountSettings={handleAccountSettings}
+          onMyaccount={handleMyaccount}
+          onReservation={handlemyReservation}
+          onPayment={handlePayment}
+          onClose={handleClose}
+        />
+      </TouchableOpacity>
       </View>
 
       <Text style={styles.title}>Reservation Request</Text>
@@ -136,7 +172,7 @@ const Reservation = ({ navigation }: any) => {
             source={require('../../assets/date.png')}
             style={styles.image}
           />
-          <TextInput style={styles.dropdownText} value={date.toString()} placeholder='Date' placeholderTextColor="#F6BED6" />
+          <TextInput style={styles.dropdownText} value={date.toString()} placeholder='Date' placeholderTextColor="#F6BED6"  editable={false}/>
 
           <Image
             source={require('../../assets/dpicon.png')}
@@ -256,12 +292,13 @@ const Reservation = ({ navigation }: any) => {
           value={cardNumber}
           onChangeText={handleCardNumberChange}
           keyboardType="numeric"
-          maxLength={16} // Set maximum character length to 16
+          maxLength={16}
         />
       </View>
 
       <View style={styles.row}>
-        {/* Date Text Field */}
+        
+        
         <View style={[styles.halfWidth, styles.dropdownContainer]}>
           <Image
             source={require('../../assets/exp.png')}
@@ -387,8 +424,8 @@ const styles = StyleSheet.create({
     fontFamily: 'IbarraRealNova-Regular',
   },
   logo: {
-    width: 130,
-    height: 130,
+    width: 140,
+    height: 140,
     alignSelf: 'center',
   },
   image: {
@@ -460,10 +497,10 @@ const styles = StyleSheet.create({
   headerContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginHorizontal:-20
   },
   headerButton: {
     marginTop: 10,
-    marginHorizontal: -20,
   },
   headerIcon: {
     width: 24,
@@ -477,7 +514,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 40,
   },
 
   modalview: {
@@ -486,8 +523,13 @@ const styles = StyleSheet.create({
     height: 370,
     backgroundColor: '#2D0717',
     alignItems: 'center',
+    position:"relative",
+    top:60
   },
   datePicker: {},
+  
+
+ 
 
 });
 

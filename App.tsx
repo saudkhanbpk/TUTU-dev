@@ -10,6 +10,8 @@ import Privacy from './component/privacyPage/Privacy';
 import DropdownComponent from './component/ResturantDropDown/DropDown';
 import Forget from './component/Forgetpassword/Forget';
 import Confirmpass from './component/Confirmpassword/Confirmpass';
+import Verify from './component/Verification/Verify';
+import ProfileDropdown from './component/ProfileDpdown/ProfileDropdown';
 
 enableScreens();
 
@@ -25,7 +27,9 @@ const App = () => {
     <Stack.Screen name="reservation" component={Reservation} />
     <Stack.Screen name="privacy" component={Privacy} />
     <Stack.Screen name="forget" component={Forget} />
+    <Stack.Screen name="verification" component={Verify} />
     <Stack.Screen name="confirmpass" component={Confirmpass} />
+    {/* <Stack.Screen name="profiledropdown" component={ProfileDropdown} /> */}
   </Stack.Navigator>
 </NavigationContainer>
     </>
