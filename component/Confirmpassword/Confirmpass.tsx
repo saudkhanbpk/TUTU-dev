@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   View,
   TextInput,
@@ -12,20 +12,59 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const Confirmpass = () => {
+
   const [newPassword, setNewPassword] = useState('');
+  const [emailID, setEmailID] = useState<string | null>(null);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
   const navigation = useNavigation();
+  useEffect(() => {
+    const fetchEmail = async () => {
+      const email = await AsyncStorage.getItem('userEmail');
+      setEmailID(email);
+    };
 
-  const handleChangePassword = () => {
+    fetchEmail();
+  }, []);
+  const handleChangePassword = async () => {
     if (newPassword === confirmPassword) {
       Alert.alert('Success', 'Your password has been updated successfully.');
       // Add navigation or further actions here if necessary
     } else {
       Alert.alert('Error', 'The passwords do not match. Please try again.');
     }
+    try {
+   
+
+      const response = await axios.post(
+        'https://jittery-tan-millipede.cyclic.app/api/v1/auth/resetPassword',
+        { 
+          email:emailID,
+          newPassword: confirmPassword
+         },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        Alert.alert('Success', response.data.message || 'send email successful!');
+       
+      } else {
+        const errorMessage = response.data.message || 'Something went wrong.';
+        Alert.alert('Error', errorMessage);
+      }
+    } catch (error) {
+      console.error('Error signing up:', error);
+      // Alert.alert('Error', error);
+    }
+
   };
 
   const togglePasswordVisibility = () => {

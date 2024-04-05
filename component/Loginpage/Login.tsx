@@ -9,7 +9,7 @@ const SignIn = ({ navigation }: any) => {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // State variable to track password visibility
   const [isSigningIn, setIsSigningIn] = useState(false); // State variable to track sign-in process
-
+  const apiUrl = process.env.apiUrl
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Toggle the state to show/hide password
   };
@@ -26,7 +26,7 @@ const SignIn = ({ navigation }: any) => {
 
     try {
       const response = await axios.post(
-        'https://jittery-tan-millipede.cyclic.app/api/v1/auth/login',
+        `https://jittery-tan-millipede.cyclic.app/api/v1/auth/login`,
         {
           email,
           password,

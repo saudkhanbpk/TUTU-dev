@@ -1,17 +1,48 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image,SafeAreaView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+ // Import useNavigation
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Forget = () => {
+const Forget = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
-  const navigation = useNavigation(); // Initialize the navigation hook
+// Initialize the navigation hook
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const handlePasswordReset = async () => {
+    try {
+      const response = await axios.post('https://jittery-tan-millipede.cyclic.app/api/v1/auth/sendOtp',
+      JSON.stringify({
+        email,
+      
+      }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
 
-  const handlePasswordReset = () => {
-    // Implement password reset logic here
-    Alert.alert('Password Reset', `Password reset link sent to ${email}`, [
-      { text: 'OK' },
-    ]);
+      if (response.status === 200) {
+        const responseData = response.data;
+        console.log(response)
+        // const userId = responseData.user._id;
+        // const token = responseData.tokens
+        // console.log('hello', responseData.token)
+        await AsyncStorage.setItem('userEmail', email);
+        Alert.alert('Success', responseData.message || 'send email succesfull!');
+        navigation.navigate('verification');
+      } else {
+        const errorMessage = response.data.message || 'Something went wrong.';
+        Alert.alert('Error', errorMessage);
+      }
+    } catch (error) {
+      console.error('Error signing up:', error);
+      Alert.alert('Error', '');
+    } finally {
+      setIsSigningUp(false); // Reset signing up state
+    }
+  
   };
 
   return (
@@ -57,7 +88,7 @@ const Forget = () => {
   style={styles.button}
   onPress={() => {
     handlePasswordReset();
-    navigation.navigate('verification'); 
+     
   }}>
   <LinearGradient
     colors={['#E6548D', '#F1C365']}
@@ -69,11 +100,16 @@ const Forget = () => {
 </TouchableOpacity>
       <View style={styles.ascontainer}>
         <Text style={styles.legalTexted}>Remember the password? </Text>
+        <TouchableOpacity
+        // onPress={() => navigation.navigate('Login')}
+        >
+
         <Text
           style={styles.legalLinked}
-          onPress={() => navigation.navigate('Login')}>
+          >
           Sign In
         </Text>
+        </TouchableOpacity>
       </View>
       </View>
       </SafeAreaView>

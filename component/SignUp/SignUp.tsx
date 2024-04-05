@@ -1,5 +1,5 @@
 import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Text, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -12,7 +12,7 @@ const SignUp = ({ navigation }: any) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // State variable to track password visibility
   const [isSigningUp, setIsSigningUp] = useState(false); // State variable to track sign-up process
-
+  const apiUrl = process.env.apiUrl
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword); // Toggle the state to show/hide password
   };
@@ -39,14 +39,13 @@ const SignUp = ({ navigation }: any) => {
     }
 
     try {
-      const response = await axios.post(
-        'https://jittery-tan-millipede.cyclic.app/api/v1/auth/signup',
-        {
-          fullName,
-          email,
-          phone,
-          password,
-        },
+      const response = await axios.post('https://jittery-tan-millipede.cyclic.app/api/v1/auth/signup',
+      JSON.stringify({
+        fullName,
+        email,
+        phone,
+        password,
+      }),
         {
           headers: {
             'Content-Type': 'application/json',
@@ -56,19 +55,20 @@ const SignUp = ({ navigation }: any) => {
 
       if (response.status === 200) {
         const responseData = response.data;
-        const userId = responseData.user._id;
-        const token = responseData.tokens
-        console.log('hello', responseData.token)
-        await AsyncStorage.setItem('userId', userId);
+        console.log(response)
+        // const userId = responseData.user._id;
+        // const token = responseData.tokens
+        // console.log('hello', responseData.token)
+        // await AsyncStorage.setItem('userId', token);
         Alert.alert('Success', responseData.message || 'Sign-up successful!');
-        navigation.navigate('reservation');
+        navigation.navigate('login');
       } else {
         const errorMessage = response.data.message || 'Something went wrong.';
         Alert.alert('Error', errorMessage);
       }
     } catch (error) {
       console.error('Error signing up:', error);
-      Alert.alert('Error', 'User email or phone number are already registered. Please go to login.');
+      Alert.alert('Error', '');
     } finally {
       setIsSigningUp(false); // Reset signing up state
     }

@@ -1,17 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image,SafeAreaView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+// import { useNavigation } from '@react-navigation/native'; // Import useNavigation
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 
-const Verify = () => {
-  const [code, setCode] = useState('');
-  const navigation = useNavigation(); 
 
-  const handleSubmit = () => {
-    
-    console.log('Submitted Code:', code);
-    
+const Verify = ({ navigation }: any) => {
+  const [code, setCode] = useState<number>(0);
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const [emailID, setEmailID] = useState<string | null>(null); // State to store email
+
+  useEffect(() => {
+    const fetchEmail = async () => {
+      const email = await AsyncStorage.getItem('userEmail');
+      setEmailID(email);
+    };
+
+    fetchEmail();
+  }, []); // Run only once on component mount
+
+  const handleSubmit = async () => {
+    try {
+      const data = {
+        email: emailID,
+        otp: code
+      };
+
+      const response = await axios.post(
+        'https://jittery-tan-millipede.cyclic.app/api/v1/auth/confirmOtp',
+        { 
+          email:emailID,
+          otp: code
+         },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        Alert.alert('Success', response.data.message || 'send email successful!');
+        navigation.navigate('confirmpass');
+      } else {
+        const errorMessage = response.data.message || 'Something went wrong.';
+        Alert.alert('Error', errorMessage);
+      }
+    } catch (error) {
+      console.error('Error signing up:', error);
+      // Alert.alert('Error', error);
+    }
   };
   const handleResend = () => {
     // Handle resend action here
@@ -45,16 +85,15 @@ to sa****@gmail.com</Text>
 
       <View style={styles.inputContainer}>
       <TextInput
-        style={styles.input}
-        onChangeText={setCode}
-        value={code}
-        keyboardType="number-pad"
-        maxLength={4} 
-        autoFocus={true}
-        placeholder='Enter Code'
-        placeholderTextColor="#F6BED6"
-        
-      />
+  style={styles.input}
+  onChangeText={(text) => setCode(parseInt(text, 10))}
+  value={code?.toString()} // Convert number to string for TextInput value
+  keyboardType="number-pad"
+  maxLength={6} 
+  autoFocus={true}
+  placeholder='Enter Code'
+  placeholderTextColor="#F6BED6"
+/>
 </View>
 
 <View style={styles.seccont}>
@@ -72,10 +111,8 @@ to sa****@gmail.com</Text>
 
 
 <TouchableOpacity style={styles.button}  
-onPress={() => {
-    handleSubmit();
-    navigation.navigate('confirmpass'); 
-  }}>
+onPress={
+    handleSubmit }>
           <LinearGradient
             colors={['#E6548D', '#F1C365']}
             style={styles.gradient}

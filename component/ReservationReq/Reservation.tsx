@@ -25,6 +25,7 @@ const Reservation = ({ navigation }: any) => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
+  const apiUrl = process.env.apiUrl
 
   const startDate = getFormatedDate(tomorrow, 'YYYY/MM/DD');
 
@@ -102,6 +103,7 @@ const Reservation = ({ navigation }: any) => {
     }
     
     if (
+      !selectedOption||
         !date ||
         !guests ||
         !selectedBackupTime ||
@@ -109,8 +111,7 @@ const Reservation = ({ navigation }: any) => {
         !cardNumber ||
         !fullName ||
         !exp ||
-        !cvv ||
-        !selectedOption
+        !cvv 
         ) {
           Alert.alert('Error', 'Please fill in all fields.');
           return;
@@ -143,6 +144,7 @@ const Reservation = ({ navigation }: any) => {
   
       console.log("response :", response);
       if (response.status === 200) {
+        Alert.alert('reserved succesfully')
         // const responseData = response.data;
         // navigation.navigate('reservation');
       } else {
@@ -510,7 +512,8 @@ if (selectedOption && date) {
       {/* Modal */}
 
 
-      <TouchableOpacity style={styles.button} onPress={handleReservation}>
+      <TouchableOpacity style={styles.button}
+      onPress={handleReservation} >
         <LinearGradient
           colors={['#E6548D', '#F1C365']}
           style={styles.gradient}
@@ -530,7 +533,7 @@ if (selectedOption && date) {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 40,
-    paddingVertical: 20,
+    paddingVertical: 40,
     backgroundColor: '#470D25',
     fontSize: 16,
     fontFamily: 'IbarraRealNova-Regular',
