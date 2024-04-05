@@ -61,7 +61,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
           <View style={styles.account}>
             <View>
             <View>
-            <TouchableOpacity onPress={onMyaccount} style={styles.dropdownItem}>
+            <TouchableOpacity  onPress={() => navigation.navigate('profile')} style={styles.dropdownItem}>
             <View style={styles.itemContent}>
               <Image source={require('../../assets/puser.png')} style={styles.icon} />
               <Text style={styles.dropdownText}>Profile</Text>
@@ -69,10 +69,10 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
           </TouchableOpacity>
           </View>
             <View>
-            <TouchableOpacity onPress={onReservation} style={styles.dropdownItem}>
+            <TouchableOpacity onPress={() => navigation.navigate('reservationprofile')} style={styles.dropdownItem}>
             <View style={styles.itemContent}>
               <Image source={require('../../assets/Mask.png')} style={styles.icon} />
-              <Text style={styles.dropdownText}>Reservation</Text>
+              <Text style={styles.dropdownText}>Reservations</Text>
             </View>
           </TouchableOpacity>
           </View>
