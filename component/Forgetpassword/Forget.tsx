@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   ascontainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 30,
   },
 
  

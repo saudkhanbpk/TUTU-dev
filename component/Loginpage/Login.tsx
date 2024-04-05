@@ -123,7 +123,7 @@ const SignIn = ({ navigation }: any) => {
         <Text style={styles.legalTexted}>Don't have an account? </Text>
         <Text
           style={styles.legalLinked}
-          onPress={() => navigation.navigate('Signup')}>
+          onPress={() => navigation.navigate('reservation')}>
           Sign up
         </Text>
       </View>

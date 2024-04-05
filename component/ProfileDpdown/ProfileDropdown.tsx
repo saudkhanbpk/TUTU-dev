@@ -64,7 +64,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
             <TouchableOpacity onPress={onMyaccount} style={styles.dropdownItem}>
             <View style={styles.itemContent}>
               <Image source={require('../../assets/puser.png')} style={styles.icon} />
-              <Text style={styles.dropdownText}>My Account</Text>
+              <Text style={styles.dropdownText}>Profile</Text>
             </View>
           </TouchableOpacity>
           </View>
@@ -80,18 +80,18 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
             <TouchableOpacity onPress={onPayment} style={styles.dropdownItem}>
             <View style={styles.itemContent}>
               <Image source={require('../../assets/pay.png')} style={styles.icon} />
-              <Text style={styles.dropdownText}>Payment</Text>
+              <Text style={styles.dropdownText}>Payment Method</Text>
             </View>
           </TouchableOpacity>
           </View>
-            <View>
+            {/* <View>
             <TouchableOpacity onPress={onAccountSettings} style={styles.dropdownItem}>
             <View style={styles.itemContent}>
               <Image source={require('../../assets/setting.png')} style={styles.icon} />
               <Text style={styles.dropdownText}>Settings</Text>
             </View>
           </TouchableOpacity>
-          </View>
+          </View> */}
           
           </View>
           
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start', // Align to the left side of the screen
   },
   dropdown: {
-    width: "90%",
+    width: "85%",
     height:"100%",
     backgroundColor: '#BF879F',
     shadowColor: '#000',
@@ -136,7 +136,7 @@ const styles = StyleSheet.create({
   
   },
   dropdownItem: {
-    paddingVertical:15,
+    paddingVertical:20,
     borderBottomWidth:1,
     borderBottomColor:"#470D25",
 
@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
 
   },
   dropdownText: {
-    fontSize: 16,
+    fontSize: 17,
     fontFamily: 'IbarraRealNova-Regular',
     fontWeight:"600",
    

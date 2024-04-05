@@ -105,7 +105,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         padding: 40,
         backgroundColor: '#470D25',
-        justifyContent:"center"
       },
       backButton: {
         position: 'absolute',
@@ -139,7 +138,7 @@ const styles = StyleSheet.create({
       },
       button: {
         width: '100%', 
-        marginTop: 10
+        marginTop: 20
       },
       gradient: {
         padding: 15,
