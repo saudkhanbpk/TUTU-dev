@@ -1,0 +1,170 @@
+import React, { useState } from 'react';
+import { StyleSheet, View, TextInput, Text, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+
+const Profile = ({ navigation }: any) => {
+  const [fullName, setFullName] = useState('');
+  const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
+
+  const handleUpdateProfile = () => {
+    Alert.alert('Profile Updated', 'Your profile details have been successfully updated.');
+    // Here you can add the logic to update the profile details in your backend
+  };
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.headerContainer}>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}>
+          <Image
+            source={require('../../assets/arrow.png')}
+            style={styles.headerIcon}
+          />
+        </TouchableOpacity>
+
+        <TouchableOpacity >
+        <Text style={styles.headtxt}>Profile</Text>
+      </TouchableOpacity>
+
+  
+        <TouchableOpacity >
+        <Image source={require('../../assets/Subtract.png')} style={styles.headerprof} />
+        
+      </TouchableOpacity>
+      </View>
+      
+      <View style={styles.maincontent}>
+      <View style={styles.inputContainer}>
+        <Image source={require('../../assets/Vector.png')} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Full Name"
+          placeholderTextColor="#F6BED6"
+          value={fullName}
+          onChangeText={setFullName}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Image source={require('../../assets/v2.png')} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#F6BED6"
+          value={email}
+          onChangeText={setEmail}
+          
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <Image source={require('../../assets/v3.png')} style={styles.icon} />
+        <TextInput
+          style={styles.input}
+          placeholder="Phone"
+          placeholderTextColor="#F6BED6"
+          value={phone}
+          onChangeText={setPhone}
+          
+        />
+      </View>
+
+      
+<View style={{alignItems:"center"}} >
+      <TouchableOpacity style={styles.button} onPress={handleUpdateProfile} >
+        <LinearGradient
+          colors={['#E6548D', '#F1C365']}
+          style={styles.gradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}>
+          <Text style={styles.buttonText}>Update Changes</Text>
+        </LinearGradient>
+      </TouchableOpacity>
+      </View>
+      </View>
+
+
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flexGrow:1,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    backgroundColor: '#470D25',
+    fontSize: 16,
+    fontFamily: 'IbarraRealNova-Regular',
+  },
+ 
+
+  input: {
+    height: 45,
+    backgroundColor: 'transparent',
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'IbarraRealNova-Regular',
+  },
+  inputContainer: {
+
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
+    marginBottom: 18,
+ 
+  },
+  icon: {
+    marginRight: 10,
+    width: 26,
+    height: 24,
+  },
+  button: {
+    width: '80%',
+    marginTop: 20,
+
+    
+  },
+  gradient: {
+    padding: 15,
+    alignItems: 'center',
+    width: '100%',
+  },
+  buttonText: {
+    fontFamily: 'IbarraRealNova-Regular',
+    color: '#270614',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+
+  
+headerContainer: {
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+
+},
+
+headerIcon: {
+  width: 24,
+  height: 24,
+},
+headerprof: {
+  width: 35,
+  height: 35,
+},
+headtxt:{
+  fontFamily: 'IbarraRealNova-Regular',
+    color: '#E581AB',
+    fontSize: 20,
+    alignSelf:"center"
+},
+maincontent:{
+  marginTop:20,
+
+}
+});
+
+
+export default Profile;
