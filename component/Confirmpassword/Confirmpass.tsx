@@ -20,7 +20,9 @@ const Confirmpass = ({ navigation }: any) => {
   const [newPassword, setNewPassword] = useState('');
   const [emailID, setEmailID] = useState<string | null>(null);
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
+  const [showPassword, setShowPassword] = useState(false); 
+  const [showPassword2, setShowPassword2] = useState(false); 
+  const [loading, setLoading] = useState(false)
   // const navigation = useNavigation();
   useEffect(() => {
     const fetchEmail = async () => {
@@ -30,16 +32,20 @@ const Confirmpass = ({ navigation }: any) => {
 
     fetchEmail();
   }, []);
-  const handleChangePassword = async () => {
-    if (newPassword === confirmPassword) {
-      Alert.alert('Success', 'Your password has been updated successfully.');
-      // Add navigation or further actions here if necessary
-    } else {
-      Alert.alert('Error', 'The passwords do not match. Please try again.');
-    }
-    try {
-   
 
+  const handleChangePassword = async () => {
+
+    if (newPassword !== confirmPassword) {
+    return  Alert.alert('Error', 'The passwords do not match. Please try again.');
+    } 
+    if (newPassword?.length < 5) {
+      // Alert.alert('Success', 'Your password has been updated successfully.');
+    return   Alert.alert('Error', 'please enter valid the password length will be atleat 6.');
+    } 
+
+     try {
+      setLoading(true)
+   
       const response = await axios.post(
         'https://jittery-tan-millipede.cyclic.app/api/v1/auth/resetPassword',
         { 
@@ -54,13 +60,15 @@ const Confirmpass = ({ navigation }: any) => {
       );
 
       if (response.status === 200) {
-        Alert.alert('Success', response.data.message || 'send email successful!');
+        Alert.alert('Success', response.data.message || 'successfully updated');
         navigation.navigate('Login')
       } else {
         const errorMessage = response.data.message || 'Something went wrong.';
         Alert.alert('Error', errorMessage);
       }
+      setLoading(false)
     } catch (error) {
+      setLoading(false)
       console.error('Error signing up:', error);
       // Alert.alert('Error', error);
     }
@@ -69,6 +77,9 @@ const Confirmpass = ({ navigation }: any) => {
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+  const togglePasswordVisibility2 = () => {
+    setShowPassword2(!showPassword2);
   };
 
   return (
@@ -116,15 +127,15 @@ const Confirmpass = ({ navigation }: any) => {
             placeholderTextColor="#F6BED6"
             value={confirmPassword}
             onChangeText={setConfirmPassword}
-            secureTextEntry={!showPassword}
+            secureTextEntry={!showPassword2}
           />
           
-          <TouchableOpacity onPress={togglePasswordVisibility}>
+          <TouchableOpacity onPress={togglePasswordVisibility2}>
             <Image source={require('../../assets/hidden.png')} style={styles.icon} />
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.button} onPress={handleChangePassword}>
+        <TouchableOpacity style={styles.button} onPress={handleChangePassword} disabled={loading}>
           <LinearGradient
             colors={['#E6548D', '#F1C365']}
             style={styles.gradient}
