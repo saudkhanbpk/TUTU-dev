@@ -91,9 +91,9 @@ const Reservations = ({ navigation }: any) => {
           // isVisible={isDropdownVisible}
           // onLogout={handleLogout}
           // onAccountSettings={handleAccountSettings}
-          // onMyaccount={handleMyaccount}
-          // onReservation={handlemyReservation}
-          // onPayment={handlePayment}
+          onMyaccount={handleMyaccount}
+          onReservation={handlemyReservation}
+          onPayment={handlePayment}
           // onClose={handleClose}
           isVisible={isDropdownVisible}
           onLogout={handleLogout}

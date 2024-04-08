@@ -168,7 +168,7 @@ const SignUp = ({ navigation }: any) => {
 
       <View style={styles.legalLinks}>
         <Text style={styles.legalText}>By signing in, I accept the </Text>
-        <Text onPress={() => navigation.navigate('reservation')} style={styles.legalLink}>Terms of Service</Text>
+        <Text style={styles.legalLink}>Terms of Service</Text>
         <Text style={styles.legalText}> and </Text>
         <Text onPress={() => navigation.navigate('dropdown')} style={styles.legalLink}>Community Guidelines</Text>
         <Text style={styles.legalText}> and have read the </Text>

@@ -101,7 +101,7 @@ const Forget = ({ navigation }: any) => {
       <View style={styles.ascontainer}>
         <Text style={styles.legalTexted}>Remember the password? </Text>
         <TouchableOpacity
-        // onPress={() => navigation.navigate('Login')}
+        onPress={() => navigation.navigate('Login')}
         >
 
         <Text
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
   ascontainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 30,
   },
 
  
