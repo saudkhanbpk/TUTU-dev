@@ -314,12 +314,16 @@ if (selectedOption && date) {
         <TouchableOpacity onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
         <Image source={require('../../assets/Subtract.png')} style={styles.headerprof} />
         <ProfileDropdown
+          // isVisible={isDropdownVisible}
+          // onLogout={handleLogout}
+          // onAccountSettings={handleAccountSettings}
+          // onMyaccount={handleMyaccount}
+          // onReservation={handlemyReservation}
+          // onPayment={handlePayment}
+          // onClose={handleClose}
           isVisible={isDropdownVisible}
           onLogout={handleLogout}
           onAccountSettings={handleAccountSettings}
-          onMyaccount={handleMyaccount}
-          onReservation={handlemyReservation}
-          onPayment={handlePayment}
           onClose={handleClose}
         />
       </TouchableOpacity>
@@ -436,73 +440,7 @@ if (selectedOption && date) {
         />
       )}
 
-      <Text style={styles.maincontent}>Payment Information</Text>
-
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../../assets/Vector.png')}
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="#F6BED6"
-          value={fullName}
-          onChangeText={setFullName}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Image source={require('../../assets/cnum.png')} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Card Number"
-          placeholderTextColor="#F6BED6"
-          value={cardNumber}
-          onChangeText={handleCardNumberChange}
-          keyboardType="numeric"
-          maxLength={16}
-        />
-      </View>
-
-      <View style={styles.row}>
-        
-        
-        <View style={[styles.halfWidth, styles.dropdownContainer]}>
-          <Image
-            source={require('../../assets/exp.png')}
-            style={styles.image}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Exp: MM/YY"
-            placeholderTextColor="#F6BED6"
-            value={exp}
-            onChangeText={setExp}
-          />
-        </View>
-
-        {/* Guests Text Field */}
-        <View style={[styles.halfWidth, styles.dropdownContainer]}>
-          <Image
-            source={require('../../assets/ccv.png')}
-            style={styles.image}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="CVV"
-            placeholderTextColor="#F6BED6"
-            keyboardType="numeric"
-            maxLength={3}
-            value={cvv}
-            onChangeText={(text) => {
-
-              if (/^\d*$/.test(text)) {
-                setCVV(text);
-              }
-            }}
-          />
-        </View>
-      </View>
+  
 
       <View style={styles.totaltext}>
         <Text style={styles.text}>Total</Text>
@@ -522,7 +460,7 @@ if (selectedOption && date) {
           <Text
             
             style={styles.buttonText}>
-            Confirm Reservation
+            Request Reservation
           </Text>
         </LinearGradient>
       </TouchableOpacity>
@@ -532,6 +470,7 @@ if (selectedOption && date) {
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     paddingHorizontal: 40,
     paddingVertical: 40,
     backgroundColor: '#470D25',

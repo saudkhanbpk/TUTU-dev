@@ -8,7 +8,7 @@ import axios from 'axios';
 
 
 const Verify = ({ navigation }: any) => {
-  const [code, setCode] = useState<number>(0);
+  const [code, setCode] = useState<number>();
   const [isSigningUp, setIsSigningUp] = useState(false);
   const [emailID, setEmailID] = useState<string | null>(null); // State to store email
 
@@ -53,8 +53,44 @@ const Verify = ({ navigation }: any) => {
       // Alert.alert('Error', error);
     }
   };
-  const handleResend = () => {
-    // Handle resend action here
+  // const handleResend = () => {
+  //   // Handle resend action here
+  // };
+
+  const handlePasswordReset = async () => {
+    try {
+      const response = await axios.post('https://jittery-tan-millipede.cyclic.app/api/v1/auth/sendOtp',
+      JSON.stringify({
+        email:emailID,
+      
+      }),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      if (response.status === 200) {
+        const responseData = response.data;
+        console.log(response)
+        // const userId = responseData.user._id;
+        // const token = responseData.tokens
+        // console.log('hello', responseData.token)
+        // await AsyncStorage.setItem('userEmail', email);
+        Alert.alert('Success', responseData.message || 'send email succesfull!');
+        // navigation.navigate('verification');
+      } else {
+        const errorMessage = response.data.message || 'Something went wrong.';
+        Alert.alert('Error', errorMessage);
+      }
+    } catch (error) {
+      console.error('Error signing up:', error);
+      Alert.alert('Error', '');
+    } finally {
+      setIsSigningUp(false); // Reset signing up state
+    }
+  
   };
 
   const handleContactSupport = () => {
@@ -103,7 +139,7 @@ to sa****@gmail.com</Text>
 </View>
 
 <View style={styles.resend}>
-        <TouchableOpacity onPress={handleResend}>
+        <TouchableOpacity onPress={handlePasswordReset}>
           <Text style={styles.vertext}>Didn't receive email? <Text style={styles.resendLink}>Resend</Text></Text>
         </TouchableOpacity>
       </View>

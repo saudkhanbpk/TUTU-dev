@@ -1,8 +1,11 @@
 import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput} from 'react-native';
 import React, { useState } from 'react';
+import LinearGradient from 'react-native-linear-gradient';
 
-const PaymentMehtod = () => {
+const PaymentMehtod = ({ navigation }: any) => {
     const [fullName, setFullName] = useState('');
+    const [country, setCountry] = useState('');
+    const [zipCode, setZipCode] = useState('');
     const [exp, setExp] = useState('');
     const [cvv, setCVV] = useState('');
    const [cardNumber, setCardNumber] = useState('');
@@ -11,14 +14,22 @@ const PaymentMehtod = () => {
     setCardNumber(numericValue);
   };
   return (
-    <View>
+    <View style={styles.container}>
+      <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.headerButton}>
+          <Image
+            source={require('../../assets/arrow.png')}
+            style={styles.headerIcon}
+          />
+        </TouchableOpacity>
        <TouchableOpacity >
         <Image source={require('../../assets/IMG.png')} style={styles.logo} />
       </TouchableOpacity> 
-      <Text style={styles.title}>Reservation Request</Text>
-      <Text style={styles.subtitle}>Reservation Details</Text>
+      <Text style={styles.title}>Payment Information</Text>
+      {/* <Text style={styles.subtitle}></Text> */}
 
-      <Text style={styles.maincontent}>Payment Information</Text>
+      <Text style={styles.maincontent}>Lets add a payment method for reservations.</Text>
 
       <View style={styles.inputContainer}>
         <Image
@@ -82,12 +93,61 @@ const PaymentMehtod = () => {
           />
         </View>
       </View>
+      <View style={[styles.fullWidth, styles.dropdownContainer]}>
+          <Image
+            source={require('../../assets/planet.png')}
+            style={styles.image}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Country or Region"
+            placeholderTextColor="#F6BED6"
+            keyboardType="numeric"
+            maxLength={3}
+            value={country}
+            onChangeText={setCountry}
+         
+          />
+        </View>
+        <View style={[styles.fullWidth, styles.dropdownContainer]}>
+          <Image
+            source={require('../../assets/maping.png')}
+            style={styles.image}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder="Zip Code"
+            placeholderTextColor="#F6BED6"
+            keyboardType="numeric"
+            maxLength={3}
+            value={zipCode}
+            onChangeText={setZipCode}
+          />
+        </View>
+       
+
+        <TouchableOpacity style={styles.button}
+      // onPress={handleReservation} 
+      >
+        <LinearGradient
+          colors={['#E6548D', '#F1C365']}
+          style={styles.gradient}
+          start={{ x: 0, y: 0 }}
+          end={{ x: 1, y: 0 }}>
+          <Text
+            
+            style={styles.buttonText}>
+            Save Card & Continue
+          </Text>
+        </LinearGradient>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex:1,
     paddingHorizontal: 40,
     paddingVertical: 40,
     backgroundColor: '#470D25',
@@ -110,6 +170,9 @@ const styles = StyleSheet.create({
   halfWidth: {
     width: '45%',
   },
+  fullWidth: {
+    width: '100%',
+  },
   dropdownText: {
     fontSize: 16,
     color: '#F6BED6',
@@ -126,8 +189,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
-    padding: 20,
+    // paddingVertical: 10,
     fontFamily: 'IbarraRealNova-Regular',
+    paddingHorizontal:60
   },
   button: {
     width: '100%',

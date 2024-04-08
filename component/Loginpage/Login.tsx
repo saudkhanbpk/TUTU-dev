@@ -130,7 +130,7 @@ const SignIn = ({ navigation }: any) => {
 
       <View style={styles.legalLinks}>
         <Text style={styles.legalText}>By signing in, I accept the </Text>
-        <Text style={styles.legalLink}>Terms of Service</Text>
+        <Text style={styles.legalLink} onPress={() => navigation.navigate('reservation')} >Terms of Service</Text>
         <Text style={styles.legalText}> and </Text>
         <Text onPress={() => console.log("Community Guidelines pressed")} style={styles.legalLink}>Community Guidelines</Text>
         <Text style={styles.legalText}> and have read the </Text>

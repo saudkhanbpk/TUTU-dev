@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
+import ProfileDropdown from '../ProfileDpdown/ProfileDropdown';
 
-const Reservations = ({ navigation }) => {
+const Reservations = ({ navigation }: any) => {
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const data = [
     { label1: 'Date', 
     value1: '12/04/2024' ,
@@ -42,6 +44,30 @@ const Reservations = ({ navigation }) => {
     
   ];
 
+  function handlemyReservation():void {
+   
+    setIsDropdownVisible(false); 
+   };
+ 
+   function handleLogout(): void {
+     setIsDropdownVisible(false);
+   }
+ 
+   function handleAccountSettings(): void {
+     setIsDropdownVisible(false); 
+   }
+ 
+   function handleMyaccount(): void {
+     setIsDropdownVisible(false);
+   }
+ 
+   function handlePayment(): void {
+     setIsDropdownVisible(false);
+   }
+ 
+   function handleClose(): void {
+     setIsDropdownVisible(false);
+   }
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
@@ -61,6 +87,19 @@ const Reservations = ({ navigation }) => {
             source={require('../../assets/Subtract.png')}
             style={styles.headerprof}
           />
+               <ProfileDropdown
+          // isVisible={isDropdownVisible}
+          // onLogout={handleLogout}
+          // onAccountSettings={handleAccountSettings}
+          // onMyaccount={handleMyaccount}
+          // onReservation={handlemyReservation}
+          // onPayment={handlePayment}
+          // onClose={handleClose}
+          isVisible={isDropdownVisible}
+          onLogout={handleLogout}
+          onAccountSettings={handleAccountSettings}
+          onClose={handleClose}
+        />
         </TouchableOpacity>
       </View>
 
@@ -85,7 +124,8 @@ const styles = StyleSheet.create({
   container: {
     flexGrow:1,
     paddingHorizontal: 20,
-    paddingVertical: 20,
+    paddingTop: 30,
+    paddingBottom:20,
     backgroundColor: '#470D25',
     fontSize: 16,
     fontFamily: 'IbarraRealNova-Regular',
@@ -98,14 +138,16 @@ headerContainer: {
 },
 
 headerIcon: {
+  marginTop:10,
   width: 24,
   height: 24,
 },
 headerprof: {
-  width: 35,
-  height: 35,
+  width: 50,
+  height: 50,
 },
 headtxt:{
+  marginTop:10,
   fontFamily: 'IbarraRealNova-Regular',
     color: '#E581AB',
     fontSize: 20,

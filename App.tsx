@@ -14,6 +14,7 @@ import Verify from './component/Verification/Verify';
 import ProfileDropdown from './component/ProfileDpdown/ProfileDropdown';
 import Profile from './component/Profile/Profile';
 import Reservations from './component/ReservationsProfile/Reservations';
+import PaymentMehtod from './component/paymentMethod/PaymentMehtod';
 
 enableScreens();
 
@@ -33,6 +34,8 @@ const App = () => {
     <Stack.Screen name="confirmpass" component={Confirmpass} />
     <Stack.Screen name="profile" component={Profile} />
     <Stack.Screen name="reservationprofile" component={Reservations} />
+    <Stack.Screen name="paymentmethod" component={PaymentMehtod} />
+
     
   </Stack.Navigator>
 </NavigationContainer>

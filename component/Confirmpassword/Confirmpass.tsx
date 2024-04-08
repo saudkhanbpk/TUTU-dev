@@ -11,17 +11,17 @@ import {
   Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
+// import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-const Confirmpass = () => {
+const Confirmpass = ({ navigation }: any) => {
 
   const [newPassword, setNewPassword] = useState('');
   const [emailID, setEmailID] = useState<string | null>(null);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false); // For toggling password visibility
-  const navigation = useNavigation();
+  // const navigation = useNavigation();
   useEffect(() => {
     const fetchEmail = async () => {
       const email = await AsyncStorage.getItem('userEmail');
@@ -55,7 +55,7 @@ const Confirmpass = () => {
 
       if (response.status === 200) {
         Alert.alert('Success', response.data.message || 'send email successful!');
-       
+        navigation.navigate('Login')
       } else {
         const errorMessage = response.data.message || 'Something went wrong.';
         Alert.alert('Error', errorMessage);
