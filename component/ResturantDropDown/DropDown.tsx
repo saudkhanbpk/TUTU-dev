@@ -3,23 +3,27 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
 const restaurants = [
-  { value:"Mastros" ,label: "Mastros",  },
-  { value:"STK" ,label: "STK",  },
-  { value:"Abe & Louie's" ,label: "Abe & Louie's", },
-  { value:"Savr" ,label: "Savr",  },
-  { value:"Mariel" ,label: "Mariel",  },
-  { value:"Yvonnes" ,label: "Yvonnes",  },
-  { value:"Ruka" ,label: "Ruka",  },
-  { value:"Caveau" ,label: "Caveau",  },
-  { value:"Grille 23" ,label: "Grille 23",  },
-  { value:"Lolita Fort Point" ,label: "Lolita Fort Point",  },
-  { value:"Lolita Fort Point" ,label: "Lolita Back bay",  },
-  { value:"Serafina" ,label: "Serafina",  },
-  { value:"Atlantic Fish" ,label: "Atlantic Fish",  },
-  { value:"Prima" ,label: "Prima",  }
+  {value: 'Mastros', label: 'Mastros'},
+  {value: 'STK', label: 'STK'},
+  {value: "Abe & Louie's", label: "Abe & Louie's"},
+  {value: 'Savr', label: 'Savr'},
+  {value: 'Mariel', label: 'Mariel'},
+  {value: 'Yvonnes', label: 'Yvonnes'},
+  {value: 'Ruka', label: 'Ruka'},
+  {value: 'Caveau', label: 'Caveau'},
+  {value: 'Grille 23', label: 'Grille 23'},
+  {value: 'Lolita Fort Point', label: 'Lolita Fort Point'},
+  {value: 'Lolita Fort Point', label: 'Lolita Back bay'},
+  {value: 'Serafina', label: 'Serafina'},
+  {value: 'Atlantic Fish', label: 'Atlantic Fish'},
+  {value: 'Prima', label: 'Prima'},
 ];
 
-const DropdownComponent = ({onValueChange}: {onValueChange: (value: string) => void}) => {
+const DropdownComponent = ({
+  onValueChange,
+}: {
+  onValueChange: (value: string) => void;
+}) => {
   const [value, setValue] = useState<string | null>(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -60,7 +64,7 @@ const DropdownComponent = ({onValueChange}: {onValueChange: (value: string) => v
         placeholder={!isFocus ? 'Select Resturant' : ''}
         searchPlaceholder="Search..."
         value={value}
-        iconColor='#AA617F'
+        iconColor="#AA617F"
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={item => {
@@ -82,13 +86,11 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: 40,
-   backgroundColor: '#470D25',
-   borderWidth: 0,
-
+    backgroundColor: '#470D25',
+    borderWidth: 0,
   },
   icon: {
     marginRight: 10,
-    
   },
   label: {
     position: 'absolute',
@@ -116,9 +118,8 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: 24,
     height: 24,
-    position:"relative",
-    left:5
-
+    position: 'relative',
+    left: 5,
   },
   inputSearchStyle: {
     height: 40,
@@ -137,6 +138,5 @@ const styles = StyleSheet.create({
     height: 20,
     zIndex: 999,
     top: 35,
-   
   },
 });

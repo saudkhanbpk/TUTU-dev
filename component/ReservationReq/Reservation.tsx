@@ -150,8 +150,6 @@ const Reservation = ({navigation}: any) => {
   };
 
   const updateTotalPrice = (restaurant: string, selectedDate: any) => {
-    console.log('selected:', selectedDate);
-    // Parse the selected date string
     const dateComponents = selectedDate.split('/');
     const year = parseInt(dateComponents[0]);
     const month = parseInt(dateComponents[1]) - 1;
@@ -159,7 +157,6 @@ const Reservation = ({navigation}: any) => {
 
     const dateObject = new Date(year, month, day);
     if (isNaN(dateObject.getTime())) {
-      console.error('Invalid date:', selectedDate);
       setTotalPrice(100);
       return;
     }
@@ -193,23 +190,11 @@ const Reservation = ({navigation}: any) => {
     }
   }, [selectedOption, date]);
 
-  function handlemyReservation(): void {
-    setIsDropdownVisible(false);
-  }
-
   function handleLogout(): void {
     setIsDropdownVisible(false);
   }
 
   function handleAccountSettings(): void {
-    setIsDropdownVisible(false);
-  }
-
-  function handleMyaccount(): void {
-    setIsDropdownVisible(false);
-  }
-
-  function handlePayment(): void {
     setIsDropdownVisible(false);
   }
 
@@ -230,7 +215,10 @@ const Reservation = ({navigation}: any) => {
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Image source={require('../../assets/pngImage.png')} style={styles.logo} />
+          <Image
+            source={require('../../assets/pngImage.png')}
+            style={styles.logo}
+          />
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -325,9 +313,7 @@ const Reservation = ({navigation}: any) => {
             placeholder="Guest"
             placeholderTextColor="#F6BED6"
             onChangeText={text => {
-              // Use regular expression to remove non-numeric characters
               const numericValue = text.replace(/[^0-9]/g, '');
-              // Set the state with the numeric value
               setGuests(numericValue);
             }}
             keyboardType="numeric"
@@ -371,7 +357,10 @@ const Reservation = ({navigation}: any) => {
       <TouchableOpacity
         style={styles.dropdownContainer}
         onPress={showBackupTimePickerModal}>
-        <Image source={require('../../assets/time-left2.png')} style={styles.image} />
+        <Image
+          source={require('../../assets/time-left2.png')}
+          style={styles.image}
+        />
         <Text style={styles.dropdownText}>
           {selectedBackupTime.toLocaleTimeString()}
         </Text>

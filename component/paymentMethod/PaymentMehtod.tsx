@@ -1,48 +1,47 @@
-import {View, Text, StyleSheet, TouchableOpacity, Image, TextInput} from 'react-native';
-import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  TextInput,
+} from 'react-native';
+import React, {useState} from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 
-const PaymentMehtod = ({ navigation }: any) => {
-    const [fullName, setFullName] = useState('');
-    const [country, setCountry] = useState('');
-    const [zipCode, setZipCode] = useState('');
-    const [exp, setExp] = useState('');
-    const [cvv, setCVV] = useState('');
-   const [cardNumber, setCardNumber] = useState('');
-   const handleCardNumberChange = (text: string) => {
+const PaymentMehtod = ({navigation}: any) => {
+  const [fullName, setFullName] = useState('');
+  const [country, setCountry] = useState('');
+  const [zipCode, setZipCode] = useState('');
+  const [exp, setExp] = useState('');
+  const [cvv, setCVV] = useState('');
+  const [cardNumber, setCardNumber] = useState('');
+  const handleCardNumberChange = (text: string) => {
     const numericValue = text.replace(/[^0-9]/g, '');
     setCardNumber(numericValue);
   };
   return (
     <View style={styles.container}>
       <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.headerButton}>
-          <Image
-            source={require('../../assets/arrow.png')}
-            style={styles.headerIcon}
-          />
-        </TouchableOpacity>
-       <TouchableOpacity >
-        <Image source={require('../../assets/pngImage.png')} style={styles.logo} />
-      </TouchableOpacity> 
+        onPress={() => navigation.goBack()}
+        style={styles.headerButton}>
+        <Image
+          source={require('../../assets/arrow.png')}
+          style={styles.headerIcon}
+        />
+      </TouchableOpacity>
+      <TouchableOpacity>
+        <Image
+          source={require('../../assets/pngImage.png')}
+          style={styles.logo}
+        />
+      </TouchableOpacity>
       <Text style={styles.title}>Payment Information</Text>
 
-      <Text style={styles.maincontent}>Lets add a payment method for reservations.</Text>
+      <Text style={styles.maincontent}>
+        Lets add a payment method for reservations.
+      </Text>
 
-      {/* <View style={styles.inputContainer}>
-        <Image
-          source={require('../../assets/Vector2.png')}
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="#F6BED6"
-          value={fullName}
-          onChangeText={setFullName}
-        />
-      </View> */}
       <View style={styles.inputContainer}>
         <Image source={require('../../assets/Card.png')} style={styles.icon} />
         <TextInput
@@ -92,50 +91,40 @@ const PaymentMehtod = ({ navigation }: any) => {
         </View>
       </View>
       <View style={[styles.fullWidth, styles.dropdownContainer]}>
-          <Image
-            source={require('../../assets/plane.png')}
-            style={styles.image}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Country or Region"
-            placeholderTextColor="#F6BED6"
-            keyboardType="numeric"
-            maxLength={3}
-            value={country}
-            onChangeText={setCountry}
-         
-          />
-        </View>
-        <View style={[styles.fullWidth, styles.dropdownContainer]}>
-          <Image
-            source={require('../../assets/mapa.png')}
-            style={styles.image}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Zip Code"
-            placeholderTextColor="#F6BED6"
-            keyboardType="numeric"
-            maxLength={3}
-            value={zipCode}
-            onChangeText={setZipCode}
-          />
-        </View>
-       
+        <Image
+          source={require('../../assets/plane.png')}
+          style={styles.image}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Country or Region"
+          placeholderTextColor="#F6BED6"
+          keyboardType="numeric"
+          maxLength={3}
+          value={country}
+          onChangeText={setCountry}
+        />
+      </View>
+      <View style={[styles.fullWidth, styles.dropdownContainer]}>
+        <Image source={require('../../assets/mapa.png')} style={styles.image} />
+        <TextInput
+          style={styles.input}
+          placeholder="Zip Code"
+          placeholderTextColor="#F6BED6"
+          keyboardType="numeric"
+          maxLength={3}
+          value={zipCode}
+          onChangeText={setZipCode}
+        />
+      </View>
 
-        <TouchableOpacity style={styles.button}
-      >
+      <TouchableOpacity style={styles.button}>
         <LinearGradient
           colors={['#E6548D', '#F1C365']}
           style={styles.gradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}>
-          <Text
-            
-            style={styles.buttonText}>
-            Save Card & Continue
-          </Text>
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}>
+          <Text style={styles.buttonText}>Save Card & Continue</Text>
         </LinearGradient>
       </TouchableOpacity>
     </View>
@@ -144,7 +133,7 @@ const PaymentMehtod = ({ navigation }: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex:1,
+    flex: 1,
     paddingHorizontal: 40,
     paddingVertical: 40,
     backgroundColor: '#470D25',
@@ -187,7 +176,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     textAlign: 'center',
     fontFamily: 'IbarraRealNova-Regular',
-    paddingHorizontal:60
+    paddingHorizontal: 60,
   },
   button: {
     width: '100%',

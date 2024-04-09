@@ -1,13 +1,19 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Modal, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
 
-const ProfileDropdown = ({
+
+interface ProfileDropdownProps {
+  isVisible: boolean;
+  onLogout: () => void;
+  onAccountSettings: () => void;
+  onClose: () => void;
+}
+const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
   isVisible,
   onLogout,
   onAccountSettings,
   onClose,
-  
 }) => {
   const navigation = useNavigation();
 
@@ -35,7 +41,7 @@ const ProfileDropdown = ({
           <View style={styles.main}>
             <View style={styles.header}>
               <TouchableOpacity>
-                <Image source={require('../../assets/Subtract.png')}  />
+                <Image source={require('../../assets/Subtract.png')} />
               </TouchableOpacity>
               <Text style={styles.headname}>Eric Sullivan</Text>
             </View>
@@ -47,7 +53,7 @@ const ProfileDropdown = ({
           </View>
           <View style={styles.account}>
             <View>
-              <TouchableOpacity  onPress={() => navigation.navigate('profile')} style={styles.dropdownItem}>
+              <TouchableOpacity onPress={() => navigation.navigate('profile')} style={styles.dropdownItem}>
                 <View style={styles.itemContent}>
                   <Image source={require('../../assets/puser.png')} style={styles.icon} />
                   <Text style={styles.dropdownText}>My Account</Text>
@@ -102,7 +108,7 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     width: "90%",
-    height:"100%",
+    height: "100%",
     backgroundColor: '#BF879F',
     shadowColor: '#000',
     shadowOffset: {
@@ -112,50 +118,50 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    paddingVertical:45,
-    paddingHorizontal:30
+    paddingVertical: 45,
+    paddingHorizontal: 30
   },
   dropdownItem: {
-    paddingVertical:15,
-    borderBottomWidth:1,
-    borderBottomColor: 'rgba(71, 13, 37, 0.3)', 
+    paddingVertical: 15,
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(71, 13, 37, 0.3)',
   },
   dropdownText: {
-    color:'#470D25',
+    color: '#470D25',
     fontSize: 16,
     fontFamily: 'IbarraRealNova-Regular',
-    fontWeight:"700",
+    fontWeight: "700",
   },
-  main:{
-    flexDirection:"row",
-    justifyContent:"space-between"
+  main: {
+    flexDirection: "row",
+    justifyContent: "space-between"
   },
-  header:{
-    flexDirection:"row",
-    alignItems:"center",
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
   },
-  headname:{
-    marginLeft:10,
-    fontSize:16,
+  headname: {
+    marginLeft: 10,
+    fontSize: 16,
     fontFamily: 'IbarraRealNova-Regular',
-    fontWeight:"600",
-    color:"white"
+    fontWeight: "600",
+    color: "white"
   },
-  account:{
-    marginTop:15
+  account: {
+    marginTop: 15
   },
   itemContent: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   icon: {
-    width: 24, 
-    height: 24, 
-    marginRight: 10, 
+    width: 24,
+    height: 24,
+    marginRight: 10,
   },
-  footer:{
-    flex:1,
-    justifyContent:"flex-end",
+  footer: {
+    flex: 1,
+    justifyContent: "flex-end",
   }
 });
 

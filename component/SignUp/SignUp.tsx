@@ -1,33 +1,42 @@
 import axios from 'axios';
-import React, { useState } from 'react';
-import { StyleSheet, View, TextInput, Text, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
+import React, {useState} from 'react';
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Image,
+  ScrollView,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const SignUp = ({ navigation }: any) => {
+const SignUp = ({navigation}: any) => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [isSigningUp, setIsSigningUp] = useState(false); 
-  const apiUrl = process.env.apiUrl
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const apiUrl = process.env.apiUrl;
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); 
+    setShowPassword(!showPassword);
   };
 
   const handleSignUp = async () => {
-    if (isSigningUp) return; 
-    setIsSigningUp(true); 
+    if (isSigningUp) return;
+    setIsSigningUp(true);
 
     if (!fullName || !email || !phone || !password || !confirmPassword) {
       Alert.alert('Error', 'Please fill in all fields.');
-      setIsSigningUp(false); 
+      setIsSigningUp(false);
       return;
     }
     if (password !== confirmPassword) {
       Alert.alert('Error', 'Passwords do not match.');
-      setIsSigningUp(false); 
+      setIsSigningUp(false);
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -38,18 +47,19 @@ const SignUp = ({ navigation }: any) => {
     }
 
     try {
-      const response = await axios.post('https://jittery-tan-millipede.cyclic.app/api/v1/auth/signup',
-      JSON.stringify({
-        fullName,
-        email,
-        phone,
-        password,
-      }),
+      const response = await axios.post(
+        'https://jittery-tan-millipede.cyclic.app/api/v1/auth/signup',
+        JSON.stringify({
+          fullName,
+          email,
+          phone,
+          password,
+        }),
         {
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
 
       if (response.status === 200) {
@@ -62,12 +72,15 @@ const SignUp = ({ navigation }: any) => {
         Alert.alert('Success', responseData.message || 'Sign-up successful!');
         navigation.navigate('Login');
       } else {
-        const errorMessage = response.data.message || 'Email or phoneNo already exist or Something went wrong.';
+        const errorMessage =
+          response.data.message ||
+          'Email or phoneNo already exist or Something went wrong.';
         Alert.alert('Error', errorMessage);
       }
-    } catch (error:any) {
-  
-      const errorMessage = error.response ? error.response.data.message : 'Something went wrong.';
+    } catch (error: any) {
+      const errorMessage = error.response
+        ? error.response.data.message
+        : 'Something went wrong.';
       Alert.alert('Error', errorMessage);
     } finally {
       setIsSigningUp(false);
@@ -76,14 +89,20 @@ const SignUp = ({ navigation }: any) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/pngImage.png')} style={styles.logo} />
+      <Image
+        source={require('../../assets/pngImage.png')}
+        style={styles.logo}
+      />
       <Text style={styles.title}>Let's Get Started</Text>
       <Text style={styles.subtitle}>
         You are one step away from making your first reservation.
       </Text>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/Vector2.png')} style={styles.icon} />
+        <Image
+          source={require('../../assets/Vector2.png')}
+          style={styles.icon}
+        />
         <TextInput
           style={styles.input}
           placeholder="Full Name"
@@ -106,7 +125,10 @@ const SignUp = ({ navigation }: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/phonee.png')} style={styles.icon} />
+        <Image
+          source={require('../../assets/phonee.png')}
+          style={styles.icon}
+        />
         <TextInput
           style={styles.input}
           placeholder="Phone"
@@ -118,7 +140,10 @@ const SignUp = ({ navigation }: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/closed1.png')} style={styles.icon} />
+        <Image
+          source={require('../../assets/closed1.png')}
+          style={styles.icon}
+        />
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -128,12 +153,18 @@ const SignUp = ({ navigation }: any) => {
           secureTextEntry={!showPassword}
         />
         <TouchableOpacity onPress={togglePasswordVisibility}>
-          <Image source={require('../../assets/hidden.png')} style={styles.icon} />
+          <Image
+            source={require('../../assets/hidden.png')}
+            style={styles.icon}
+          />
         </TouchableOpacity>
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/closed1.png')} style={styles.icon} />
+        <Image
+          source={require('../../assets/closed1.png')}
+          style={styles.icon}
+        />
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
@@ -143,17 +174,25 @@ const SignUp = ({ navigation }: any) => {
           secureTextEntry={!showPassword}
         />
         <TouchableOpacity onPress={togglePasswordVisibility}>
-          <Image source={require('../../assets/hidden.png')} style={styles.icon} />
+          <Image
+            source={require('../../assets/hidden.png')}
+            style={styles.icon}
+          />
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleSignUp} disabled={isSigningUp}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSignUp}
+        disabled={isSigningUp}>
         <LinearGradient
           colors={['#E6548D', '#F1C365']}
           style={styles.gradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}>
-          <Text style={styles.buttonText}>{isSigningUp ? 'Signing Up...' : 'Sign Up'}</Text>
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}>
+          <Text style={styles.buttonText}>
+            {isSigningUp ? 'Signing Up...' : 'Sign Up'}
+          </Text>
         </LinearGradient>
       </TouchableOpacity>
 
@@ -170,11 +209,19 @@ const SignUp = ({ navigation }: any) => {
         <Text style={styles.legalText}>By signing in, I accept the </Text>
         <Text style={styles.legalLink}>Terms of Service</Text>
         <Text style={styles.legalText}> and </Text>
-        <Text onPress={() => navigation.navigate('dropdown')} style={styles.legalLink}>Community Guidelines</Text>
+        <Text
+          onPress={() => navigation.navigate('dropdown')}
+          style={styles.legalLink}>
+          Community Guidelines
+        </Text>
         <Text style={styles.legalText}> and have read the </Text>
-        <Text onPress={() => navigation.navigate('privacy')} style={styles.legalLink}> Privacy Policy</Text>
+        <Text
+          onPress={() => navigation.navigate('privacy')}
+          style={styles.legalLink}>
+          {' '}
+          Privacy Policy
+        </Text>
       </View>
-
     </ScrollView>
   );
 };
@@ -184,7 +231,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingVertical:20,
+    paddingVertical: 20,
     paddingHorizontal: 40,
     backgroundColor: '#470D25',
   },
@@ -224,17 +271,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.3)',
     marginBottom: 18,
- 
   },
   icon: {
     marginRight: 10,
-    width: 20, 
-      height: 20, 
+    width: 20,
+    height: 20,
   },
   button: {
     width: '100%',
     marginTop: 10,
-    
   },
   gradient: {
     padding: 15,
@@ -259,41 +304,38 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   legalLinks: {
-    width:360,
+    width: 360,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 25, 
-    justifyContent: 'center', 
-    alignItems: 'center', 
+    marginTop: 25,
+    justifyContent: 'center',
+    alignItems: 'center',
     fontFamily: 'IbarraRealNova-Regular',
   },
   legalText: {
     fontFamily: 'IbarraRealNova-Regular',
     color: '#F6BED6',
-    fontSize: 14, 
+    fontSize: 14,
     textAlign: 'center',
   },
   legalLink: {
     fontFamily: 'IbarraRealNova-Regular',
-    fontSize: 14, 
+    fontSize: 14,
     color: 'white',
     textAlign: 'center',
-  
   },
 
   legalTexted: {
     fontFamily: 'IbarraRealNova-Regular',
     color: '#F6BED6',
-    fontSize: 16, 
-    
+    fontSize: 16,
   },
   legalLinked: {
     fontFamily: 'IbarraRealNova-Regular',
-    fontSize: 16, 
+    fontSize: 16,
     color: '#F6BED6',
-    textDecorationLine: 'underline', 
-},
+    textDecorationLine: 'underline',
+  },
 });
-
 
 export default SignUp;
