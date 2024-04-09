@@ -8,9 +8,9 @@ import axios from 'axios';
 
 
 const Verify = ({ navigation }: any) => {
-  const [code, setCode] = useState<number>();
-  const [isSigningUp, setIsSigningUp] = useState(false);
-  const [emailID, setEmailID] = useState<string | null>(null); // State to store email
+  const [code, setCode] = useState<string>();
+  const [loading, setLoading] = useState(false)
+  const [emailID, setEmailID] = useState<string | null>(null); 
 
   useEffect(() => {
     const fetchEmail = async () => {
@@ -19,15 +19,14 @@ const Verify = ({ navigation }: any) => {
     };
 
     fetchEmail();
-  }, []); // Run only once on component mount
+  }, []);
 
   const handleSubmit = async () => {
     try {
-      const data = {
-        email: emailID,
-        otp: code
-      };
-
+      if (!code){
+      return   Alert.alert('please enter the code!');
+      }
+      setLoading(true)
       const response = await axios.post(
         'https://jittery-tan-millipede.cyclic.app/api/v1/auth/confirmOtp',
         { 
@@ -42,15 +41,16 @@ const Verify = ({ navigation }: any) => {
       );
 
       if (response.status === 200) {
-        Alert.alert('Success', response.data.message || 'send email successful!');
+        Alert.alert('Success', response.data.message || 'please update your password!');
         navigation.navigate('confirmpass');
       } else {
         const errorMessage = response.data.message || 'Something went wrong.';
         Alert.alert('Error', errorMessage);
       }
+      setLoading(false)
     } catch (error) {
-      console.error('Error signing up:', error);
-      // Alert.alert('Error', error);
+      setLoading(false)
+      Alert.alert('Error', 'please enter valid code!');
     }
   };
   // const handleResend = () => {
@@ -59,6 +59,7 @@ const Verify = ({ navigation }: any) => {
 
   const handlePasswordReset = async () => {
     try {
+      setLoading(true)
       const response = await axios.post('https://jittery-tan-millipede.cyclic.app/api/v1/auth/sendOtp',
       JSON.stringify({
         email:emailID,
@@ -71,14 +72,14 @@ const Verify = ({ navigation }: any) => {
         }
       );
 
-      if (response.status === 200) {
+      if (response?.status === 200) {
         const responseData = response.data;
         console.log(response)
         // const userId = responseData.user._id;
         // const token = responseData.tokens
         // console.log('hello', responseData.token)
         // await AsyncStorage.setItem('userEmail', email);
-        Alert.alert('Success', responseData.message || 'send email succesfull!');
+        Alert.alert('Success', responseData.message || 'Otp send to you email');
         // navigation.navigate('verification');
       } else {
         const errorMessage = response.data.message || 'Something went wrong.';
@@ -88,7 +89,7 @@ const Verify = ({ navigation }: any) => {
       console.error('Error signing up:', error);
       Alert.alert('Error', '');
     } finally {
-      setIsSigningUp(false); // Reset signing up state
+      setLoading(false)
     }
   
   };
@@ -122,8 +123,9 @@ to sa****@gmail.com</Text>
       <View style={styles.inputContainer}>
       <TextInput
   style={styles.input}
-  onChangeText={(text) => setCode(parseInt(text, 10))}
-  value={code?.toString()} // Convert number to string for TextInput value
+  onChangeText={(text) => 
+    setCode(text)}
+  value={code} 
   keyboardType="number-pad"
   maxLength={6} 
   autoFocus={true}
@@ -139,14 +141,18 @@ to sa****@gmail.com</Text>
 </View>
 
 <View style={styles.resend}>
-        <TouchableOpacity onPress={handlePasswordReset}>
-          <Text style={styles.vertext}>Didn't receive email? <Text style={styles.resendLink}>Resend</Text></Text>
-        </TouchableOpacity>
+        
+          <Text style={styles.vertext}>Didn't receive email? 
+          <TouchableOpacity onPress={handlePasswordReset} disabled={loading}>
+
+          <Text style={[styles.resendLink, styles.vertext]}>Resend</Text>
+          </TouchableOpacity>
+          </Text>
       </View>
       </View>
 
 
-<TouchableOpacity style={styles.button}  
+<TouchableOpacity style={styles.button}  disabled={loading}
 onPress={
     handleSubmit }>
           <LinearGradient
