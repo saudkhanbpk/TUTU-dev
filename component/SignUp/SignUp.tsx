@@ -55,15 +55,15 @@ const SignUp = ({ navigation }: any) => {
 
       if (response.status === 200) {
         const responseData = response.data;
-        console.log(response)
+        // console.log(response)
         // const userId = responseData.user._id;
         // const token = responseData.tokens
         // console.log('hello', responseData.token)
         // await AsyncStorage.setItem('userId', token);
         Alert.alert('Success', responseData.message || 'Sign-up successful!');
-        navigation.navigate('login');
+        navigation.navigate('Login');
       } else {
-        const errorMessage = response.data.message || 'Something went wrong.';
+        const errorMessage = response.data.message || 'Email or phoneNo already exist or Something went wrong.';
         Alert.alert('Error', errorMessage);
       }
     } catch (error) {
