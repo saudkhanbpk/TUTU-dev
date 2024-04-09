@@ -1,5 +1,4 @@
 import axios from 'axios';
-// import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import { StyleSheet, View, TextInput, Text, TouchableOpacity, Alert, Image, ScrollView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -10,31 +9,31 @@ const SignUp = ({ navigation }: any) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State variable to track password visibility
-  const [isSigningUp, setIsSigningUp] = useState(false); // State variable to track sign-up process
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSigningUp, setIsSigningUp] = useState(false); 
   const apiUrl = process.env.apiUrl
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Toggle the state to show/hide password
+    setShowPassword(!showPassword); 
   };
 
   const handleSignUp = async () => {
-    if (isSigningUp) return; // Prevent further requests if already signing up
-    setIsSigningUp(true); // Set signing up state to true
+    if (isSigningUp) return; 
+    setIsSigningUp(true); 
 
     if (!fullName || !email || !phone || !password || !confirmPassword) {
       Alert.alert('Error', 'Please fill in all fields.');
-      setIsSigningUp(false); // Reset signing up state
+      setIsSigningUp(false); 
       return;
     }
     if (password !== confirmPassword) {
       Alert.alert('Error', 'Passwords do not match.');
-      setIsSigningUp(false); // Reset signing up state
+      setIsSigningUp(false); 
       return;
     }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       Alert.alert('Error', 'Please enter a valid email address.');
-      setIsSigningUp(false); // Reset signing up state
+      setIsSigningUp(false);
       return;
     }
 
@@ -66,24 +65,25 @@ const SignUp = ({ navigation }: any) => {
         const errorMessage = response.data.message || 'Email or phoneNo already exist or Something went wrong.';
         Alert.alert('Error', errorMessage);
       }
-    } catch (error) {
-      console.error('Error signing up:', error);
-      Alert.alert('Error', '');
+    } catch (error:any) {
+  
+      const errorMessage = error.response ? error.response.data.message : 'Something went wrong.';
+      Alert.alert('Error', errorMessage);
     } finally {
-      setIsSigningUp(false); // Reset signing up state
+      setIsSigningUp(false);
     }
   };
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <Image source={require('../../assets/IMG.png')} style={styles.logo} />
+      <Image source={require('../../assets/pngImage.png')} style={styles.logo} />
       <Text style={styles.title}>Let's Get Started</Text>
       <Text style={styles.subtitle}>
         You are one step away from making your first reservation.
       </Text>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/Vector.png')} style={styles.icon} />
+        <Image source={require('../../assets/Vector2.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Full Name"
@@ -94,7 +94,7 @@ const SignUp = ({ navigation }: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/v2.png')} style={styles.icon} />
+        <Image source={require('../../assets/g267.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -106,7 +106,7 @@ const SignUp = ({ navigation }: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/v3.png')} style={styles.icon} />
+        <Image source={require('../../assets/phonee.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Phone"
@@ -118,7 +118,7 @@ const SignUp = ({ navigation }: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/v4.png')} style={styles.icon} />
+        <Image source={require('../../assets/closed1.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Password"
@@ -133,7 +133,7 @@ const SignUp = ({ navigation }: any) => {
       </View>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/v4.png')} style={styles.icon} />
+        <Image source={require('../../assets/closed1.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Confirm Password"
@@ -184,6 +184,7 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical:20,
     paddingHorizontal: 40,
     backgroundColor: '#470D25',
   },
@@ -227,8 +228,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10,
-    width: 26,
-    height: 24,
+    width: 20, 
+      height: 20, 
   },
   button: {
     width: '100%',

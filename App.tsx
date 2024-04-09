@@ -7,13 +7,11 @@ import SignUp from './component/SignUp/SignUp';
 import Login from './component/Loginpage/Login'
 import { enableScreens } from 'react-native-screens';
 import Privacy from './component/privacyPage/Privacy';
-import DropdownComponent from './component/ResturantDropDown/DropDown';
 import Forget from './component/Forgetpassword/Forget';
 import Confirmpass from './component/Confirmpassword/Confirmpass';
 import Verify from './component/Verification/Verify';
-import ProfileDropdown from './component/ProfileDpdown/ProfileDropdown';
 import Profile from './component/Profile/Profile';
-import Reservations from './component/ReservationsProfile/Reservations';
+import Reservations from './component/ReservationsProfile/ReservationsProfile';
 import PaymentMehtod from './component/paymentMethod/PaymentMehtod';
 
 enableScreens();
@@ -34,9 +32,7 @@ const App = () => {
     <Stack.Screen name="confirmpass" component={Confirmpass} />
     <Stack.Screen name="profile" component={Profile} />
     <Stack.Screen name="reservationprofile" component={Reservations} />
-    <Stack.Screen name="paymentmethod" component={PaymentMehtod} />
-
-    
+    <Stack.Screen name="paymentmethod" component={PaymentMehtod} />    
   </Stack.Navigator>
 </NavigationContainer>
     </>

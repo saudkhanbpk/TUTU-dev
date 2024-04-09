@@ -38,7 +38,7 @@ const DropdownComponent = ({onValueChange}: {onValueChange: (value: string) => v
     <View style={styles.container}>
       {renderLabel()}
       <Image
-        source={require('../../assets/ring.png')}
+        source={require('../../assets/Mask1.png')}
         style={styles.inputImage}
       />
       <Dropdown
@@ -133,8 +133,8 @@ const styles = StyleSheet.create({
   },
 
   inputImage: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
     zIndex: 999,
     top: 35,
    

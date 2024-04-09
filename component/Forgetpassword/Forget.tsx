@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Image,SafeAreaView } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
- // Import useNavigation
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Forget = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
-// Initialize the navigation hook
+
   const [isSigningUp, setIsSigningUp] = useState(false);
   const handlePasswordReset = async () => {
     try {
@@ -26,9 +25,6 @@ const Forget = ({ navigation }: any) => {
       if (response.status === 200) {
         const responseData = response.data;
         console.log(response)
-        // const userId = responseData.user._id;
-        // const token = responseData.tokens
-        // console.log('hello', responseData.token)
         await AsyncStorage.setItem('userEmail', email);
         Alert.alert('Success', responseData.message || 'send email succesfull!');
         navigation.navigate('verification');
@@ -36,11 +32,13 @@ const Forget = ({ navigation }: any) => {
         const errorMessage = response.data.message || 'Something went wrong.';
         Alert.alert('Error', errorMessage);
       }
-    } catch (error) {
-      console.error('Error signing up:', error);
-      Alert.alert('Error', '');
+    } catch (error:any) {
+     
+   
+      const errorMessage = error.response ? error.response.data.message : 'Something went wrong.';
+      Alert.alert('Error', errorMessage);
     } finally {
-      setIsSigningUp(false); // Reset signing up state
+      setIsSigningUp(false);
     }
   
   };
@@ -48,19 +46,16 @@ const Forget = ({ navigation }: any) => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={styles.container}>
-        {/* Back Button */}
         <TouchableOpacity
-          onPress={() => navigation.goBack()} // Use navigation to go back
+          onPress={() => navigation.goBack()} 
           style={styles.backButton}>
           <Image
-            source={require('../../assets/arrow.png')} // Ensure your image path is correct
+            source={require('../../assets/arrow.png')} 
             style={styles.backIcon}
           />
-          </TouchableOpacity>
-    
-  
+          </TouchableOpacity>  
       <Image
-        source={require('../../assets/IMG.png')}
+        source={require('../../assets/pngImage.png')}
         style={styles.logo}
       />
 
@@ -71,7 +66,7 @@ const Forget = ({ navigation }: any) => {
 
       <View style={styles.inputContainer}>
         <Image
-          source={require('../../assets/v2.png')}
+          source={require('../../assets/Vector2.png')}
           style={styles.icon}
         />
         <TextInput
@@ -128,7 +123,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 10, 
     left: 10, 
-    padding: 10, // Padding to make it easier to tap
+    padding: 10, 
   },
   backIcon: {
     width: 24,
@@ -151,8 +146,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 10, 
-    width: 26, 
-    height: 24, 
+    width: 20, 
+    height: 20, 
   },
   button: {
     width: '100%', 

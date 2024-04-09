@@ -24,16 +24,15 @@ const PaymentMehtod = ({ navigation }: any) => {
           />
         </TouchableOpacity>
        <TouchableOpacity >
-        <Image source={require('../../assets/IMG.png')} style={styles.logo} />
+        <Image source={require('../../assets/pngImage.png')} style={styles.logo} />
       </TouchableOpacity> 
       <Text style={styles.title}>Payment Information</Text>
-      {/* <Text style={styles.subtitle}></Text> */}
 
       <Text style={styles.maincontent}>Lets add a payment method for reservations.</Text>
 
-      <View style={styles.inputContainer}>
+      {/* <View style={styles.inputContainer}>
         <Image
-          source={require('../../assets/Vector.png')}
+          source={require('../../assets/Vector2.png')}
           style={styles.icon}
         />
         <TextInput
@@ -43,9 +42,9 @@ const PaymentMehtod = ({ navigation }: any) => {
           value={fullName}
           onChangeText={setFullName}
         />
-      </View>
+      </View> */}
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/cnum.png')} style={styles.icon} />
+        <Image source={require('../../assets/Card.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Card Number"
@@ -60,7 +59,7 @@ const PaymentMehtod = ({ navigation }: any) => {
       <View style={styles.row}>
         <View style={[styles.halfWidth, styles.dropdownContainer]}>
           <Image
-            source={require('../../assets/exp.png')}
+            source={require('../../assets/tomorrow.png')}
             style={styles.image}
           />
           <TextInput
@@ -72,10 +71,9 @@ const PaymentMehtod = ({ navigation }: any) => {
           />
         </View>
 
-        {/* Guests Text Field */}
         <View style={[styles.halfWidth, styles.dropdownContainer]}>
           <Image
-            source={require('../../assets/ccv.png')}
+            source={require('../../assets/asteris.png')}
             style={styles.image}
           />
           <TextInput
@@ -95,7 +93,7 @@ const PaymentMehtod = ({ navigation }: any) => {
       </View>
       <View style={[styles.fullWidth, styles.dropdownContainer]}>
           <Image
-            source={require('../../assets/planet.png')}
+            source={require('../../assets/plane.png')}
             style={styles.image}
           />
           <TextInput
@@ -111,7 +109,7 @@ const PaymentMehtod = ({ navigation }: any) => {
         </View>
         <View style={[styles.fullWidth, styles.dropdownContainer]}>
           <Image
-            source={require('../../assets/maping.png')}
+            source={require('../../assets/mapa.png')}
             style={styles.image}
           />
           <TextInput
@@ -127,7 +125,6 @@ const PaymentMehtod = ({ navigation }: any) => {
        
 
         <TouchableOpacity style={styles.button}
-      // onPress={handleReservation} 
       >
         <LinearGradient
           colors={['#E6548D', '#F1C365']}
@@ -189,7 +186,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
-    // paddingVertical: 10,
     fontFamily: 'IbarraRealNova-Regular',
     paddingHorizontal:60
   },
@@ -218,8 +214,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   image: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
     marginRight: 12,
   },
   modalContainer: {

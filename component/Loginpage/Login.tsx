@@ -7,20 +7,20 @@ import LinearGradient from 'react-native-linear-gradient';
 const SignIn = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPassword, setShowPassword] = useState(false); // State variable to track password visibility
-  const [isSigningIn, setIsSigningIn] = useState(false); // State variable to track sign-in process
+  const [showPassword, setShowPassword] = useState(false);
+  const [isSigningIn, setIsSigningIn] = useState(false);
   const apiUrl = process.env.apiUrl
   const togglePasswordVisibility = () => {
-    setShowPassword(!showPassword); // Toggle the state to show/hide password
+    setShowPassword(!showPassword); 
   };
 
   const handleSignIn = async () => {
-    if (isSigningIn) return; // Prevent further requests if already signing in
-    setIsSigningIn(true); // Set signing in state to true
+    if (isSigningIn) return; 
+    setIsSigningIn(true); 
 
     if (!email || !password) {
       Alert.alert('Error', 'Please fill in all fields.');
-      setIsSigningIn(false); // Reset signing in state
+      setIsSigningIn(false); 
       return;
     }
 
@@ -39,10 +39,9 @@ const SignIn = ({ navigation }: any) => {
       );
       if (response.status === 200) {
         const responseData = response.data;
+        
         const userIds = responseData.user._id
         const userId = userIds.toString();
-        console.log("userid",userId)
-        console.log('hello', responseData.token);
         const tokens = responseData.token;
         const token = tokens.toString()
         await AsyncStorage.setItem('userId', userId);
@@ -52,9 +51,9 @@ const SignIn = ({ navigation }: any) => {
         const errorMessage = response.data.message || 'Something went wrong.';
         Alert.alert('Error', errorMessage);
       }
-    } catch (error) {
-      console.error('Error signing in:', error);
-      Alert.alert('Error', 'User not found or invalid credentials');
+    } catch (error:any) {
+      const errorMessage = error.response ? error.response.data.message : 'Something went wrong.';
+      Alert.alert('Error', errorMessage);
     } finally {
       setIsSigningIn(false); // Reset signing in state
     }
@@ -63,13 +62,13 @@ const SignIn = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/IMG.png')}
+        source={require('../../assets/pngImage.png')}
         style={styles.logo}
       />
 
       <View style={styles.inputContainer}>
         <Image
-          source={require('../../assets/v2.png')}
+          source={require('../../assets/Vector2.png')}
           style={styles.icon}
         />
         <TextInput
@@ -84,7 +83,7 @@ const SignIn = ({ navigation }: any) => {
 
       <View style={styles.inputContainer}>
         <Image
-          source={require('../../assets/v4.png')}
+          source={require('../../assets/closed1.png')}
           style={styles.icon}
         />
         <TextInput
@@ -107,7 +106,7 @@ const SignIn = ({ navigation }: any) => {
       <TouchableOpacity
         style={styles.button}
         onPress={handleSignIn}
-        disabled={isSigningIn} // Disable button when signing in
+        disabled={isSigningIn} 
       >
         <LinearGradient
           colors={['#E6548D', '#F1C365']}
@@ -132,7 +131,7 @@ const SignIn = ({ navigation }: any) => {
         <Text style={styles.legalText}>By signing in, I accept the </Text>
         <Text style={styles.legalLink} >Terms of Service</Text>
         <Text style={styles.legalText}> and </Text>
-        <Text onPress={() => console.log("Community Guidelines pressed")} style={styles.legalLink}>Community Guidelines</Text>
+        <Text onPress={() => navigation.navigate('reservation')}  style={styles.legalLink}>Community Guidelines</Text>
         <Text style={styles.legalText}> and have read the </Text>
         <Text onPress={() => navigation.navigate('privacy')} style={styles.legalLink}> Privacy Policy</Text>
       </View>
@@ -171,8 +170,8 @@ const SignIn = ({ navigation }: any) => {
     },
     icon: {
       marginRight: 10, 
-      width: 26, 
-      height: 24, 
+      width: 20, 
+      height: 20, 
     },
     button: {
       width: '100%', 
@@ -243,7 +242,7 @@ const SignIn = ({ navigation }: any) => {
       color: '#F6BED6',
       textDecorationLine: 'underline', 
       fontFamily:"IbarraRealNova-Regular",
-    },
+  },
   });
 
 export default SignIn;

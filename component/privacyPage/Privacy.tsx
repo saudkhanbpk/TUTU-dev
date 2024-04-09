@@ -4,12 +4,10 @@ import {
   ScrollView,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Image,
-  Modal,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
+
 
 const termsAndConditionsData = [
   { 

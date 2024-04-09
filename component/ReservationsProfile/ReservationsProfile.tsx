@@ -71,12 +71,12 @@ const Reservations = ({ navigation }: any) => {
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../../assets/arrow.png')}
-            style={styles.headerIcon}
-          />
-        </TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Image
+              source={require('../../assets/arrow.png')}
+              style={styles.headerIcon}
+            />
+          </TouchableOpacity>
 
         <TouchableOpacity>
           <Text style={styles.headtxt}>Reservations</Text>
@@ -88,13 +88,9 @@ const Reservations = ({ navigation }: any) => {
             style={styles.headerprof}
           />
                <ProfileDropdown
-          // isVisible={isDropdownVisible}
-          // onLogout={handleLogout}
-          // onAccountSettings={handleAccountSettings}
-          onMyaccount={handleMyaccount}
-          onReservation={handlemyReservation}
-          onPayment={handlePayment}
-          // onClose={handleClose}
+          // onMyaccount={handleMyaccount}
+          // onReservation={handlemyReservation}
+          // onPayment={handlePayment} 
           isVisible={isDropdownVisible}
           onLogout={handleLogout}
           onAccountSettings={handleAccountSettings}
@@ -124,7 +120,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow:1,
     paddingHorizontal: 20,
-    paddingTop: 30,
+    paddingTop: 60,
     paddingBottom:20,
     backgroundColor: '#470D25',
     fontSize: 16,
@@ -164,8 +160,6 @@ mainbox:{
 },
 box1:{
   flexDirection:"column",
-  // borderWidth:2,
-  // borderColor:"white",
   width:"60%",
   height:100,
   gap:10

@@ -3,13 +3,13 @@ import { StyleSheet, View, TextInput, Text, TouchableOpacity, Alert, Image, Scro
 import LinearGradient from 'react-native-linear-gradient';
 
 const Profile = ({ navigation }: any) => {
-  const [fullName, setFullName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  // const [fullName, setFullName] = useState('');
+  // const [email, setEmail] = useState('');
+  // const [phone, setPhone] = useState('');
 
   const handleUpdateProfile = () => {
     Alert.alert('Profile Updated', 'Your profile details have been successfully updated.');
-    // Here you can add the logic to update the profile details in your backend
+   
   };
 
   return (
@@ -37,37 +37,24 @@ const Profile = ({ navigation }: any) => {
       <View style={styles.maincontent}>
       <View style={styles.inputContainer}>
         <Image source={require('../../assets/Vector.png')} style={styles.icon} />
-        <TextInput
+        <Text
           style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="#F6BED6"
-          value={fullName}
-          onChangeText={setFullName}
-        />
+         
+        >Eric Survillan</Text>
       </View>
 
       <View style={styles.inputContainer}>
         <Image source={require('../../assets/v2.png')} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#F6BED6"
-          value={email}
-          onChangeText={setEmail}
-          
-        />
+        <Text
+  style={styles.input}
+        >sample@gmail.com</Text>
       </View>
 
       <View style={styles.inputContainer}>
         <Image source={require('../../assets/v3.png')} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Phone"
-          placeholderTextColor="#F6BED6"
-          value={phone}
-          onChangeText={setPhone}
-          
-        />
+        <Text
+         style={styles.input} 
+      >824-8585-628</Text>
       </View>
 
       
@@ -94,6 +81,7 @@ const styles = StyleSheet.create({
     flexGrow:1,
     paddingHorizontal: 20,
     paddingVertical: 20,
+    paddingTop: 80,
     backgroundColor: '#470D25',
     fontSize: 16,
     fontFamily: 'IbarraRealNova-Regular',
@@ -101,9 +89,9 @@ const styles = StyleSheet.create({
  
 
   input: {
-    height: 45,
+    height: 25,
     backgroundColor: 'transparent',
-    color: '#fff',
+    color: '#F6BED6',
     fontSize: 16,
     fontFamily: 'IbarraRealNova-Regular',
   },

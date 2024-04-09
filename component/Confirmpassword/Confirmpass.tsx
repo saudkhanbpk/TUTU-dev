@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import {
   View,
   TextInput,
-  Button,
   Text,
   StyleSheet,
   Alert,
@@ -11,7 +10,6 @@ import {
   Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-// import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
@@ -39,7 +37,7 @@ const Confirmpass = ({ navigation }: any) => {
     return  Alert.alert('Error', 'The passwords do not match. Please try again.');
     } 
     if (newPassword?.length < 5) {
-      // Alert.alert('Success', 'Your password has been updated successfully.');
+
     return   Alert.alert('Error', 'please enter valid the password length will be atleat 6.');
     } 
 
@@ -67,10 +65,10 @@ const Confirmpass = ({ navigation }: any) => {
         Alert.alert('Error', errorMessage);
       }
       setLoading(false)
-    } catch (error) {
+    } catch (error:any) {
       setLoading(false)
-      console.error('Error signing up:', error);
-      // Alert.alert('Error', error);
+  const errorMessage = error.response ? error.response.data.message : 'Something went wrong.';
+  Alert.alert('Error', errorMessage);
     }
 
   };
@@ -96,7 +94,7 @@ const Confirmpass = ({ navigation }: any) => {
         </TouchableOpacity>
 
       <Image
-        source={require('../../assets/IMG.png')}
+        source={require('../../assets/pngImage.png')}
         style={styles.logo}
       />
 
@@ -116,7 +114,7 @@ const Confirmpass = ({ navigation }: any) => {
           />
           
           <TouchableOpacity onPress={togglePasswordVisibility}>
-            <Image source={require('../../assets/hidden.png')} style={styles.icon} />
+            <Image source={require('../../assets/closed1.png')} style={styles.icon} />
           </TouchableOpacity>
         </View>
 
@@ -131,7 +129,7 @@ const Confirmpass = ({ navigation }: any) => {
           />
           
           <TouchableOpacity onPress={togglePasswordVisibility2}>
-            <Image source={require('../../assets/hidden.png')} style={styles.icon} />
+            <Image source={require('../../assets/closed1.png')} style={styles.icon} />
           </TouchableOpacity>
         </View>
 
@@ -158,9 +156,9 @@ const styles = StyleSheet.create({
       },
       backButton: {
         position: 'absolute',
-        top: 10, // Adjust top spacing
-        left: 10, // Adjust left spacing
-        padding: 10, // Padding to make it easier to tap
+        top: 10, 
+        left: 10, 
+        padding: 10, 
       },
       backIcon: {
         width: 24,
@@ -183,8 +181,8 @@ const styles = StyleSheet.create({
       },
       icon: {
         marginRight: 10, 
-        width: 26, 
-        height: 24, 
+        width: 20, 
+        height: 20, 
       },
       button: {
         width: '100%', 
