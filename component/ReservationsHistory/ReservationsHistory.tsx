@@ -69,10 +69,11 @@ const Reservations = ({navigation}: any) => {
         </TouchableOpacity>
 
         <TouchableOpacity>
-          <Text style={styles.headtxt}>Reservations</Text>
+          <Text style={styles.headtxt}>Reservations History</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+      </View>
+        {/* <TouchableOpacity
           onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
           <Image
             source={require('../../assets/Subtract.png')}
@@ -87,8 +88,7 @@ const Reservations = ({navigation}: any) => {
             onAccountSettings={handleAccountSettings}
             onClose={handleClose}
           />
-        </TouchableOpacity>
-      </View>
+        </TouchableOpacity> */}
 
       {data.map((item, index) => (
         <View key={index} style={styles.mainbox}>
@@ -98,12 +98,13 @@ const Reservations = ({navigation}: any) => {
                 {
                   fontSize: 14,
                   fontFamily: 'IbarraRealNova-Regular',
-                  color: '#fff',
+                  color: '#BF879F',
                   fontWeight: '600',
                 },
               ]}>
               {item.label1}: {item.value1}
             </Text>
+          <View style={styles.box2}>
             <Text
               style={[
                 {
@@ -115,16 +116,15 @@ const Reservations = ({navigation}: any) => {
               ]}>
               {item.label2}: {item.value2}
             </Text>
+          <Text style={styles.texts}>
+              {item.label4}: {item.value4}
+            </Text>
+          </View>
             <Text style={styles.text}>
               {item.label3}: {item.value3}
             </Text>
           </View>
 
-          <View style={styles.box2}>
-            <Text style={styles.text}>
-              {item.label4}: {item.value4}
-            </Text>
-          </View>
         </View>
       ))}
     </View>
@@ -134,7 +134,7 @@ const Reservations = ({navigation}: any) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 40,
     paddingTop: 60,
     paddingBottom: 20,
     backgroundColor: '#470D25',
@@ -144,7 +144,8 @@ const styles = StyleSheet.create({
 
   headerContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    gap:80,
+    marginBottom:20
   },
 
   headerIcon: {
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    borderBottomColor: '#fff',
+    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
   },
   box1: {
     flexDirection: 'column',
@@ -177,10 +178,19 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   box2: {
-    width: '40%',
-    alignItems: 'flex-end',
-    justifyContent: 'center',
-    height: 100,
+    // width: '40%',
+    flexDirection: 'row',
+  //  justifyContent: 'space-between',
+  gap:60
+    // alignItems: 'flex-end',
+    // justifyContent: 'center',
+    // height: 100,
+  },
+  texts: {
+    fontSize: 18,
+    fontFamily: 'IbarraRealNova-Regular',
+    color: '#F6BED6',
+    fontWeight: '600',
   },
   text: {
     fontSize: 18,

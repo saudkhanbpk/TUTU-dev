@@ -204,27 +204,11 @@ const Reservation = ({navigation}: any) => {
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.headerButton}>
-          <Image
-            source={require('../../assets/arrow.png')}
-            style={styles.headerIcon}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity>
-          <Image
-            source={require('../../assets/pngImage.png')}
-            style={styles.logo}
-          />
-        </TouchableOpacity>
-
-        <TouchableOpacity
+      <View style={styles.headercon}>
+      <TouchableOpacity
           onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
           <Image
-            source={require('../../assets/Subtract.png')}
+            source={require('../../assets/Menu.png')}
             style={styles.headerprof}
           />
           <ProfileDropdown
@@ -244,6 +228,24 @@ const Reservation = ({navigation}: any) => {
             // onPayment={handlePayment }
           />
         </TouchableOpacity>
+      </View>
+      <View style={styles.headerContainer}>
+        {/* <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          style={styles.headerButton}>
+          <Image
+            source={require('../../assets/arrow.png')}
+            style={styles.headerIcon}
+          />
+        </TouchableOpacity> */}
+
+        <TouchableOpacity>
+          <Image
+            source={require('../../assets/pngImage.png')}
+            style={styles.logo}
+          />
+        </TouchableOpacity>
+
       </View>
 
       <Text style={styles.title}>Reservation Request</Text>
@@ -536,9 +538,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal: -20,
+    marginLeft:"auto",
+    marginRight:'auto'
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // marginHorizontal: -20,
+  },
+  headercon: {
+    marginRight:"auto",
+    // marginRight:'auto'
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // marginHorizontal: -20,
   },
   headerButton: {
     marginTop: 10,
@@ -548,8 +559,8 @@ const styles = StyleSheet.create({
     height: 24,
   },
   headerprof: {
-    width: 50,
-    height: 50,
+    width: 30,
+    height: 30,
   },
   centeredview: {
     flex: 1,

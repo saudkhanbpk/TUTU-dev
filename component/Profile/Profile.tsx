@@ -47,7 +47,7 @@ const Profile = ({navigation}: any) => {
           <Text style={styles.headtxt}>Profile</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
           <Image
             source={require('../../assets/Subtract.png')}
@@ -59,25 +59,25 @@ const Profile = ({navigation}: any) => {
             onAccountSettings={handleAccountSettings}
             onClose={handleClose}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       <View style={styles.maincontent}>
         <View style={styles.inputContainer}>
           <Image
-            source={require('../../assets/Vector.png')}
+            source={require('../../assets/Vector2.png')}
             style={styles.icon}
           />
           <Text style={styles.input}>Eric Survillan</Text>
         </View>
 
         <View style={styles.inputContainer}>
-          <Image source={require('../../assets/v2.png')} style={styles.icon} />
+          <Image source={require('../../assets/g267.png')} style={styles.icon} />
           <Text style={styles.input}>sample@gmail.com</Text>
         </View>
 
         <View style={styles.inputContainer}>
-          <Image source={require('../../assets/v3.png')} style={styles.icon} />
+          <Image source={require('../../assets/phonee.png')} style={styles.icon} />
           <Text style={styles.input}>824-8585-628</Text>
         </View>
 
@@ -100,7 +100,7 @@ const Profile = ({navigation}: any) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     paddingVertical: 20,
     paddingTop: 80,
     backgroundColor: '#470D25',
@@ -114,13 +114,15 @@ const styles = StyleSheet.create({
     color: '#F6BED6',
     fontSize: 16,
     fontFamily: 'IbarraRealNova-Regular',
+    marginTop:2
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
     borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-    marginBottom: 18,
+    marginBottom: 30,
+    paddingBottom:20
   },
   icon: {
     marginRight: 10,
@@ -145,12 +147,14 @@ const styles = StyleSheet.create({
 
   headerContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    // justifyContent: 'space-between',
+    gap:100,
+    marginBottom:20
   },
 
   headerIcon: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
   },
   headerprof: {
     width: 35,

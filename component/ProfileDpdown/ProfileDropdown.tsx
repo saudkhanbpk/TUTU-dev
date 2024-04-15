@@ -61,7 +61,15 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate('reservationprofile')} style={styles.dropdownItem}>
+              <TouchableOpacity onPress={() => navigation.navigate('reservationhistory')} style={styles.dropdownItem}>
+                <View style={styles.itemContent}>
+                  <Image source={require('../../assets/Mask.png')} style={styles.icon} />
+                  <Text style={styles.dropdownText}>Reservations</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity onPress={() => navigation.navigate('reservationrequests')} style={styles.dropdownItem}>
                 <View style={styles.itemContent}>
                   <Image source={require('../../assets/Mask.png')} style={styles.icon} />
                   <Text style={styles.dropdownText}>Reservations</Text>
@@ -73,6 +81,14 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
                 <View style={styles.itemContent}>
                   <Image source={require('../../assets/pay.png')} style={styles.icon} />
                   <Text style={styles.dropdownText}>Payment</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <TouchableOpacity onPress={() => navigation.navigate('managepayment')} style={styles.dropdownItem}>
+                <View style={styles.itemContent}>
+                  <Image source={require('../../assets/pay.png')} style={styles.icon} />
+                  <Text style={styles.dropdownText}>Manage Payment</Text>
                 </View>
               </TouchableOpacity>
             </View>

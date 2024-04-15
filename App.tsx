@@ -11,8 +11,10 @@ import Forget from './component/Forgetpassword/Forget';
 import Confirmpass from './component/Confirmpassword/Confirmpass';
 import Verify from './component/Verification/Verify';
 import Profile from './component/Profile/Profile';
-import Reservations from './component/ReservationsProfile/ReservationsProfile';
+import Reservations from './component/ReservationsHistory/ReservationsHistory';
 import PaymentMehtod from './component/paymentMethod/PaymentMehtod';
+import ManagePayment from './component/ManagePayment/ManagePayment';
+import ReservationRequest from './component/ReservationRequest/ReservationRequest';
 
 enableScreens();
 
@@ -31,8 +33,10 @@ const App = () => {
     <Stack.Screen name="verification" component={Verify} />
     <Stack.Screen name="confirmpass" component={Confirmpass} />
     <Stack.Screen name="profile" component={Profile} />
-    <Stack.Screen name="reservationprofile" component={Reservations} />
+    <Stack.Screen name="reservationhistory" component={Reservations} />
+    <Stack.Screen name="reservationrequests" component={ReservationRequest} />
     <Stack.Screen name="paymentmethod" component={PaymentMehtod} />    
+    <Stack.Screen name="managepayment" component={ManagePayment} />    
   </Stack.Navigator>
 </NavigationContainer>
     </>
