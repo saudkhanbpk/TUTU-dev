@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Image } from 'react-native';
 
-const Reservations = ({ navigation }) => {
+const Reservations = ({ navigation } :any) => {
   const data = [
     { label1: 'Date', 
     value1: '12/04/2024' ,
