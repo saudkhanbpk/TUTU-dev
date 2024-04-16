@@ -51,7 +51,7 @@ const DropdownCom = () => {
         maxHeight={300}
         labelField="label"
         valueField="value"
-        iconColor='#AA617F'
+        iconColor="#AA617F"
         placeholder={!isFocus ? 'Guests' : ''}
         searchPlaceholder="Search..."
         value={value}
@@ -110,7 +110,6 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: 30,
     height: 30,
-   
   },
   inputSearchStyle: {
     height: 60,

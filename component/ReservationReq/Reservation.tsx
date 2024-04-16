@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -12,17 +12,18 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import DatePicker from 'react-native-modern-datepicker';
-import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
+import {getToday, getFormatedDate} from 'react-native-modern-datepicker';
 import DropdownComponent from '../ResturantDropDown/DropDown';
-// import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ProfileDropdown from '../ProfileDpdown/ProfileDropdown';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
-
-const Reservation = ({ navigation }: any) => {
+const Reservation = ({navigation}: any) => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
+  const apiUrl = process.env.apiUrl;
 
   const startDate = getFormatedDate(tomorrow, 'YYYY/MM/DD');
 
@@ -35,13 +36,75 @@ const Reservation = ({ navigation }: any) => {
   const [cvv, setCVV] = useState('');
   const [open, setOpen] = useState(false);
   const [date, setDate] = useState('');
-
-  const [selectedPreferredTime, setSelectedPreferredTime] = useState(new Date());
+  const [totalPrice, setTotalPrice] = useState(100);
+  const [selectedPreferredTime, setSelectedPreferredTime] = useState(
+    new Date(),
+  );
   const [selectedBackupTime, setSelectedBackupTime] = useState(new Date());
   const [showPreferredTimePicker, setShowPreferredTimePicker] = useState(false);
   const [showBackupTimePicker, setShowBackupTimePicker] = useState(false);
-   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-   
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+  const handleReservation = async () => {
+    console.log('resturant', selectedOption);
+    const userId = await AsyncStorage.getItem('userId');
+    const token = await AsyncStorage.getItem('token');
+    console.log(userId);
+    console.log(token);
+
+    if (!userId || !token) {
+      Alert.alert('Error', 'User ID or token not found.');
+      return;
+    }
+
+    if (
+      !selectedOption ||
+      !date ||
+      !guests ||
+      !selectedBackupTime ||
+      !selectedPreferredTime ||
+      !cardNumber ||
+      !fullName ||
+      !exp ||
+      !cvv
+    ) {
+      Alert.alert('Error', 'Please fill in all fields.');
+      return;
+    }
+
+    try {
+      const response = await axios.post(
+        'https://jittery-tan-millipede.cyclic.app/api/v1/auth/reservation',
+        {
+          restaurant: selectedOption,
+          date: date,
+          guests: parseInt(guests),
+          preferredTime: selectedPreferredTime,
+          backupTime: selectedBackupTime,
+          fullName,
+          cardNumber: cardNumber,
+          expiryDate: exp,
+          cvv,
+        },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `bearer ${token}`,
+          },
+        },
+      );
+
+      console.log('response :', response);
+      if (response.status === 200) {
+        Alert.alert('reserved succesfully');
+      } else {
+        const errorMessage = response.data.message || 'Something went wrong.';
+        Alert.alert('Error', errorMessage);
+      }
+    } catch (error: any) {
+      Alert.alert('Error Reservation:', error);
+    }
+  };
 
   const handlePreferredTimeChange = (event: any, selectedTime: any) => {
     const currentTime = selectedTime || selectedPreferredTime;
@@ -70,7 +133,6 @@ const Reservation = ({ navigation }: any) => {
     setCardNumber(numericValue);
   };
 
-
   const handleDropdownSelect = (option: string) => {
     setSelectedOption(option);
   };
@@ -87,92 +149,125 @@ const Reservation = ({ navigation }: any) => {
     setDate(propDate);
   };
 
-  const handleReservation = () => {
-    if (!date || !guests || !selectedBackupTime || !selectedPreferredTime || !cardNumber
-      || !fullName || !exp || !cvv!) {
-      Alert.alert('Error', 'Please fill in all fields.');
+  const updateTotalPrice = (restaurant: string, selectedDate: any) => {
+    const dateComponents = selectedDate.split('/');
+    const year = parseInt(dateComponents[0]);
+    const month = parseInt(dateComponents[1]) - 1;
+    const day = parseInt(dateComponents[2]);
+
+    const dateObject = new Date(year, month, day);
+    if (isNaN(dateObject.getTime())) {
+      setTotalPrice(100);
       return;
     }
+
+    const dayOfWeek = dateObject.getDay();
+    console.log('dayOfWeek:', dayOfWeek);
+    const restaurantsWithSpecialPrice = [
+      'Mastros',
+      'STK',
+      "Abe & Louie's",
+      'Savr',
+      'Mariel',
+      'Yvonnes',
+      'Ruka',
+      'Caveau',
+      'Grille 23',
+    ];
+    if (
+      (dayOfWeek === 5 || dayOfWeek === 6) &&
+      restaurantsWithSpecialPrice.includes(restaurant)
+    ) {
+      setTotalPrice(125);
+    } else {
+      setTotalPrice(100);
+    }
+  };
+
+  useEffect(() => {
+    if (selectedOption && date) {
+      updateTotalPrice(selectedOption, date);
+    }
+  }, [selectedOption, date]);
+
+  function handleLogout(): void {
+    setIsDropdownVisible(false);
   }
 
-  const handleLogout = () => {
-    setIsDropdownVisible(false); 
-  };
-  const handleClose = () => {
+  function handleAccountSettings(): void {
     setIsDropdownVisible(false);
-  };
+  }
 
-  const handleAccountSettings = () => {
-    console.log('Navigating to account settings');
-    setIsDropdownVisible(false); 
-  };
-  const handleMyaccount= () => {
-    
-    setIsDropdownVisible(false); 
-  };
-  const handlemyReservation = () => {
-   
-    setIsDropdownVisible(false); 
-  };
-  const handlePayment = () => {
-    
-    setIsDropdownVisible(false); 
-  };
-
-
-
-
-
-
+  function handleClose(): void {
+    setIsDropdownVisible(false);
+  }
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
-      
+      <View style={styles.headercon}>
+      <TouchableOpacity
+          onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
+          <Image
+            source={require('../../assets/Menu.png')}
+            style={styles.headerprof}
+          />
+          <ProfileDropdown
+            // isVisible={isDropdownVisible}
+            // onLogout={handleLogout}
+            // onAccountSettings={handleAccountSettings}
+            // onMyaccount={handleMyaccount}
+            // onReservation={handlemyReservation}
+            // onPayment={handlePayment}
+            // onClose={handleClose}
+            isVisible={isDropdownVisible}
+            onLogout={handleLogout}
+            onAccountSettings={handleAccountSettings}
+            onClose={handleClose}
+            // onReservation={handlemyReservation }
+            // onMyaccount={handleMyaccount}
+            // onPayment={handlePayment }
+          />
+        </TouchableOpacity>
+      </View>
       <View style={styles.headerContainer}>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           onPress={() => navigation.goBack()}
           style={styles.headerButton}>
           <Image
             source={require('../../assets/arrow.png')}
             style={styles.headerIcon}
           />
+        </TouchableOpacity> */}
+
+        <TouchableOpacity>
+          <Image
+            source={require('../../assets/pngImage.png')}
+            style={styles.logo}
+          />
         </TouchableOpacity>
 
-        <TouchableOpacity >
-        <Image source={require('../../assets/IMG.png')} style={styles.logo} />
-      </TouchableOpacity>
-
-  
-        <TouchableOpacity onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
-        <Image source={require('../../assets/Subtract.png')} style={styles.headerprof} />
-        <ProfileDropdown
-          isVisible={isDropdownVisible}
-          onLogout={handleLogout}
-          onAccountSettings={handleAccountSettings}
-          onMyaccount={handleMyaccount}
-          onReservation={handlemyReservation}
-          onPayment={handlePayment}
-          onClose={handleClose}
-        />
-      </TouchableOpacity>
       </View>
 
       <Text style={styles.title}>Reservation Request</Text>
-      <Text style={styles.subtitle}>Reservation Details</Text>
+      <Text style={styles.subtitle}>Make your first reservations</Text>
 
-
-
-      <DropdownComponent />
+      <DropdownComponent onValueChange={setSelectedOption} />
 
       <View style={styles.row}>
         <TouchableOpacity
           style={[styles.halfWidth, styles.dropdownContainer]}
           onPress={handleOnPress}>
           <Image
-            source={require('../../assets/date.png')}
+            source={require('../../assets/tomorrow2.png')}
             style={styles.image}
           />
-          <TextInput style={styles.dropdownText} value={date.toString()} placeholder='Date' placeholderTextColor="#F6BED6"  editable={false}/>
+          <TextInput
+            style={styles.dropdownText}
+            value={date.toString()}
+            placeholder="Date"
+            placeholderTextColor="#F6BED6"
+            editable={false}
+          />
 
           <Image
             source={require('../../assets/dpicon.png')}
@@ -188,56 +283,66 @@ const Reservation = ({ navigation }: any) => {
                 mode="calendar"
                 selected={date}
                 minimumDate={startDate}
-                onDateChange={handleChange}
+                onDateChange={date => {
+                  handleChange(date);
+                  setOpen(false); // Close the modal when date is selected
+                }}
               />
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 style={styles.buttonDone}
                 onPress={handleOnPress}>
                 <LinearGradient
                   colors={['#E6548D', '#F1C365']}
                   style={styles.gradient}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 0 }}>
+                  start={{x: 0, y: 0}}
+                  end={{x: 1, y: 0}}>
                   <Text style={styles.buttonText}>Done</Text>
                 </LinearGradient>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
             </View>
           </View>
         </Modal>
 
-        <TouchableOpacity
-          style={[styles.halfWidth, styles.dropdownContainer]}
-        >
+        <TouchableOpacity style={[styles.halfWidth, styles.dropdownContainer]}>
           <Image
-            source={require('../../assets/guests.png')}
+            source={require('../../assets/gyest2.png')}
             style={styles.image}
           />
-          <TextInput style={styles.dropdownText} value={guests}
-            placeholder='Guest'
+          <TextInput
+            style={styles.dropdownText}
+            value={guests}
+            placeholder="Guest"
             placeholderTextColor="#F6BED6"
             onChangeText={text => {
-              // Use regular expression to remove non-numeric characters
               const numericValue = text.replace(/[^0-9]/g, '');
-              // Set the state with the numeric value
               setGuests(numericValue);
             }}
             keyboardType="numeric"
-
           />
 
           <Image
-            source={require('../../assets/dpicon.png')}
+            source={require('../../assets/time-left2.png')}
             style={styles.dropdownIcon}
           />
         </TouchableOpacity>
       </View>
 
       {/* Dropdown for Preferred Time */}
-      <TouchableOpacity style={styles.dropdownContainer} onPress={showPreferredTimePickerModal}>
-        <Image source={require('../../assets/ptime.png')} style={styles.image} />
-        <Text style={styles.dropdownText}>{selectedPreferredTime.toLocaleTimeString()}</Text>
-        <Image source={require('../../assets/dpicon.png')} style={styles.dropdownIcon} />
+      <TouchableOpacity
+        style={styles.dropdownContainer}
+        onPress={showPreferredTimePickerModal}>
+        <Image
+          source={require('../../assets/clock2.png')}
+          style={styles.image}
+        />
+        <Text style={styles.dropdownText}>
+          {selectedPreferredTime.toLocaleTimeString()}
+        </Text>
+        <Image
+          source={require('../../assets/dpicon.png')}
+          style={styles.dropdownIcon}
+        />
       </TouchableOpacity>
 
       {showPreferredTimePicker && (
@@ -251,10 +356,20 @@ const Reservation = ({ navigation }: any) => {
         />
       )}
 
-      <TouchableOpacity style={styles.dropdownContainer} onPress={showBackupTimePickerModal}>
-        <Image source={require('../../assets/bak.png')} style={styles.image} />
-        <Text style={styles.dropdownText}>{selectedBackupTime.toLocaleTimeString()}</Text>
-        <Image source={require('../../assets/dpicon.png')} style={styles.dropdownIcon} />
+      <TouchableOpacity
+        style={styles.dropdownContainer}
+        onPress={showBackupTimePickerModal}>
+        <Image
+          source={require('../../assets/time-left2.png')}
+          style={styles.image}
+        />
+        <Text style={styles.dropdownText}>
+          {selectedBackupTime.toLocaleTimeString()}
+        </Text>
+        <Image
+          source={require('../../assets/dpicon.png')}
+          style={styles.dropdownIcon}
+        />
       </TouchableOpacity>
 
       {showBackupTimePicker && (
@@ -268,93 +383,20 @@ const Reservation = ({ navigation }: any) => {
         />
       )}
 
-      <Text style={styles.maincontent}>Payment Information</Text>
-
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../../assets/Vector.png')}
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="#F6BED6"
-          value={fullName}
-          onChangeText={setFullName}
-        />
-      </View>
-      <View style={styles.inputContainer}>
-        <Image source={require('../../assets/cnum.png')} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Card Number"
-          placeholderTextColor="#F6BED6"
-          value={cardNumber}
-          onChangeText={handleCardNumberChange}
-          keyboardType="numeric"
-          maxLength={16}
-        />
-      </View>
-
-      <View style={styles.row}>
-        
-        
-        <View style={[styles.halfWidth, styles.dropdownContainer]}>
-          <Image
-            source={require('../../assets/exp.png')}
-            style={styles.image}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="Exp: MM/YY"
-            placeholderTextColor="#F6BED6"
-            value={exp}
-            onChangeText={setExp}
-          />
-        </View>
-
-        {/* Guests Text Field */}
-        <View style={[styles.halfWidth, styles.dropdownContainer]}>
-          <Image
-            source={require('../../assets/ccv.png')}
-            style={styles.image}
-          />
-          <TextInput
-            style={styles.input}
-            placeholder="CVV"
-            placeholderTextColor="#F6BED6"
-            keyboardType="numeric"
-            maxLength={3}
-            value={cvv}
-            onChangeText={(text) => {
-
-              if (/^\d*$/.test(text)) {
-                setCVV(text);
-              }
-            }}
-          />
-        </View>
-      </View>
-
       <View style={styles.totaltext}>
         <Text style={styles.text}>Total</Text>
-        <Text style={styles.textp}>$50.00</Text>
+        <Text style={styles.textp}>$ {totalPrice}</Text>
       </View>
 
       {/* Modal */}
 
-
-      <TouchableOpacity style={styles.button}>
+      <TouchableOpacity style={styles.button} onPress={handleReservation}>
         <LinearGradient
           colors={['#E6548D', '#F1C365']}
           style={styles.gradient}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 0 }}>
-          <Text
-            onPress={() => navigation.navigate('Signup')}
-            style={styles.buttonText}>
-            Confirm Reservation
-          </Text>
+          start={{x: 0, y: 0}}
+          end={{x: 1, y: 0}}>
+          <Text style={styles.buttonText}>Request Reservation</Text>
         </LinearGradient>
       </TouchableOpacity>
     </ScrollView>
@@ -363,8 +405,9 @@ const Reservation = ({ navigation }: any) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     paddingHorizontal: 40,
-    paddingVertical: 20,
+    paddingVertical: 40,
     backgroundColor: '#470D25',
     fontSize: 16,
     fontFamily: 'IbarraRealNova-Regular',
@@ -429,8 +472,8 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   image: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
     marginRight: 12,
   },
   modalContainer: {
@@ -478,8 +521,8 @@ const styles = StyleSheet.create({
   textp: {
     color: '#fff',
     fontSize: 18,
-    fontWeight: 'bold',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontWeight: '600',
+    fontFamily: 'IbarraRealNova-SemiBold',
   },
   subtitle: {
     fontSize: 16,
@@ -495,9 +538,18 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   headerContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginHorizontal:-20
+    marginLeft:"auto",
+    marginRight:'auto'
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // marginHorizontal: -20,
+  },
+  headercon: {
+    marginRight:"auto",
+    // marginRight:'auto'
+    // flexDirection: 'row',
+    // justifyContent: 'space-between',
+    // marginHorizontal: -20,
   },
   headerButton: {
     marginTop: 10,
@@ -507,8 +559,8 @@ const styles = StyleSheet.create({
     height: 24,
   },
   headerprof: {
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
   },
   centeredview: {
     flex: 1,
@@ -520,17 +572,14 @@ const styles = StyleSheet.create({
   modalview: {
     color: 'white',
     width: 271,
-    height: 370,
+    height: 300,
     backgroundColor: '#2D0717',
     alignItems: 'center',
-    position:"relative",
-    top:60
+    position: 'relative',
+    top: 105,
+    right: 30,
   },
   datePicker: {},
-  
-
- 
-
 });
 
 export default Reservation;

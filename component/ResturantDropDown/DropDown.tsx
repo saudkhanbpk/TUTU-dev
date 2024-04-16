@@ -2,24 +2,28 @@ import React, {useState} from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
-const data = [
-  {label: 'Mastros', value: '1'},
-  {label: 'STK', value: '2'},
-  {label: 'Abe & Louies', value: '3'},
-  {label: 'Savr', value: '4'},
-  {label: 'Mariel', value: '5'},
-  {label: 'Yvonnes', value: '6'},
-  {label: 'Ruka', value: '7'},
-  {label: 'Caveau', value: '8'},
-  {label: 'Grille 23', value: '8'},
-  {label: 'Lolita Fort Point', value: '8'},
-  {label: 'Lolita Back bay', value: '8'},
-  {label: 'Serafina', value: '8'},
-  {label: 'Atlantic Fish', value: '8'},
-  {label: 'Prima', value: '8'},
+const restaurants = [
+  {value: 'Mastros', label: 'Mastros'},
+  {value: 'STK', label: 'STK'},
+  {value: "Abe & Louie's", label: "Abe & Louie's"},
+  {value: 'Savr', label: 'Savr'},
+  {value: 'Mariel', label: 'Mariel'},
+  {value: 'Yvonnes', label: 'Yvonnes'},
+  {value: 'Ruka', label: 'Ruka'},
+  {value: 'Caveau', label: 'Caveau'},
+  {value: 'Grille 23', label: 'Grille 23'},
+  {value: 'Lolita Fort Point', label: 'Lolita Fort Point'},
+  {value: 'Lolita Fort Point', label: 'Lolita Back bay'},
+  {value: 'Serafina', label: 'Serafina'},
+  {value: 'Atlantic Fish', label: 'Atlantic Fish'},
+  {value: 'Prima', label: 'Prima'},
 ];
 
-const DropdownComponent = () => {
+const DropdownComponent = ({
+  onValueChange,
+}: {
+  onValueChange: (value: string) => void;
+}) => {
   const [value, setValue] = useState<string | null>(null);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -38,7 +42,7 @@ const DropdownComponent = () => {
     <View style={styles.container}>
       {renderLabel()}
       <Image
-        source={require('../../assets/ring.png')}
+        source={require('../../assets/Mask1.png')}
         style={styles.inputImage}
       />
       <Dropdown
@@ -51,7 +55,7 @@ const DropdownComponent = () => {
         inputSearchStyle={styles.inputSearchStyle}
         itemContainerStyle={styles.itemContainer}
         iconStyle={styles.iconStyle}
-        data={data}
+        data={restaurants}
         activeColor="#E581AB"
         search
         maxHeight={300}
@@ -60,12 +64,13 @@ const DropdownComponent = () => {
         placeholder={!isFocus ? 'Select Resturant' : ''}
         searchPlaceholder="Search..."
         value={value}
-        iconColor='#AA617F'
+        iconColor="#AA617F"
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={item => {
           setValue(item.value);
           setIsFocus(false);
+          onValueChange(item.value);
         }}
       />
     </View>
@@ -81,13 +86,11 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     height: 40,
-   backgroundColor: '#470D25',
-   borderWidth: 0,
-
+    backgroundColor: '#470D25',
+    borderWidth: 0,
   },
   icon: {
     marginRight: 10,
-    
   },
   label: {
     position: 'absolute',
@@ -115,9 +118,8 @@ const styles = StyleSheet.create({
   iconStyle: {
     width: 24,
     height: 24,
-    position:"relative",
-    left:5
-
+    position: 'relative',
+    left: 5,
   },
   inputSearchStyle: {
     height: 40,
@@ -132,10 +134,9 @@ const styles = StyleSheet.create({
   },
 
   inputImage: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
     zIndex: 999,
     top: 35,
-   
   },
 });
