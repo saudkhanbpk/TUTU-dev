@@ -64,11 +64,7 @@ const SignUp = ({navigation}: any) => {
 
       if (response.status === 200) {
         const responseData = response.data;
-        // console.log(response)
-        // const userId = responseData.user._id;
-        // const token = responseData.tokens
-        // console.log('hello', responseData.token)
-        // await AsyncStorage.setItem('userId', token);
+    
         Alert.alert('Success', responseData.message || 'Sign-up successful!');
         navigation.navigate('Login');
       } else {
@@ -90,112 +86,11 @@ const SignUp = ({navigation}: any) => {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Image
-        source={require('../../assets/pngImage.png')}
+        source={require('../../assets/tutu_white.png')}
         style={styles.logo}
       />
-      <Text style={styles.title}>Let's Get Started</Text>
-      <Text style={styles.subtitle}>
-        You are one step away from making your first reservation.
-      </Text>
-
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../../assets/Vector2.png')}
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Full Name"
-          placeholderTextColor="#F6BED6"
-          value={fullName}
-          onChangeText={setFullName}
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Image source={require('../../assets/g267.png')} style={styles.icon} />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#F6BED6"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../../assets/phonee.png')}
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Phone"
-          placeholderTextColor="#F6BED6"
-          value={phone}
-          onChangeText={setPhone}
-          keyboardType="phone-pad"
-        />
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../../assets/closed1.png')}
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#F6BED6"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={!showPassword}
-        />
-        <TouchableOpacity onPress={togglePasswordVisibility}>
-          <Image
-            source={require('../../assets/hidden.png')}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../../assets/closed1.png')}
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Confirm Password"
-          placeholderTextColor="#F6BED6"
-          value={confirmPassword}
-          onChangeText={setConfirmPassword}
-          secureTextEntry={!showPassword}
-        />
-        <TouchableOpacity onPress={togglePasswordVisibility}>
-          <Image
-            source={require('../../assets/hidden.png')}
-            style={styles.icon}
-          />
-        </TouchableOpacity>
-      </View>
-
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSignUp}
-        disabled={isSigningUp}>
-        <LinearGradient
-          colors={['#E6548D', '#F1C365']}
-          style={styles.gradient}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
-          <Text style={styles.buttonText}>
-            {isSigningUp ? 'Signing Up...' : 'Sign Up'}
-          </Text>
-        </LinearGradient>
-      </TouchableOpacity>
-
+      <View style={{flex:1, flexDirection:"column",gap:10,marginTop:20}}>
+      <Text style={styles.title}>Let's Get Started!</Text>
       <View style={styles.ascontainer}>
         <Text style={styles.legalTexted}>Already have an account? </Text>
         <Text
@@ -204,6 +99,84 @@ const SignUp = ({navigation}: any) => {
           Sign In
         </Text>
       </View>
+      </View>
+      
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Full Name"
+          placeholderTextColor="#fff"
+          value={fullName}
+          onChangeText={setFullName}
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          placeholderTextColor="#fff"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        
+        <TextInput
+          style={styles.input}
+          placeholder="Phone"
+          placeholderTextColor="#fff"
+          value={phone}
+          onChangeText={setPhone}
+          keyboardType="phone-pad"
+        />
+      </View>
+
+      <View style={styles.inputContainer}>
+        
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="#fff"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry={!showPassword}
+        />
+        <TouchableOpacity onPress={togglePasswordVisibility}>
+         
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.inputContainer}>
+        
+        <TextInput
+          style={styles.input}
+          placeholder="Confirm Password"
+          placeholderTextColor="#fff"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry={!showPassword}
+        />
+        <TouchableOpacity onPress={togglePasswordVisibility}>
+          
+        </TouchableOpacity>
+      </View>
+     
+<View>
+<View style={{ alignItems: "center",marginTop:20}}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={handleSignUp}
+        disabled={isSigningUp}>
+          <Text style={styles.buttonText}>
+            {isSigningUp ? 'Signing Up...' : 'Sign Up'}
+          </Text>
+      </TouchableOpacity>
+      </View>
+
+     
 
       <View style={styles.legalLinks}>
         <Text style={styles.legalText}>By signing in, I accept the </Text>
@@ -221,6 +194,7 @@ const SignUp = ({navigation}: any) => {
           {' '}
           Privacy Policy
         </Text>
+        </View>
       </View>
     </ScrollView>
   );
@@ -229,18 +203,16 @@ const SignUp = ({navigation}: any) => {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignItems:"center",
     paddingVertical: 20,
-    paddingHorizontal: 40,
-    backgroundColor: '#470D25',
+    paddingHorizontal: 20,
+    backgroundColor: '#000000',
   },
   title: {
-    fontSize: 30,
-    color: '#E581AB',
-    marginBottom: 5,
-    fontWeight: 'normal',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontSize: 32,
+    color: '#fff',
+    fontWeight: '600',
+    fontFamily: 'Playfair Display',
   },
   subtitle: {
     fontSize: 16,
@@ -269,8 +241,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-    marginBottom: 18,
+    borderBottomColor: 'white',
+    marginVertical:15,
   },
   icon: {
     marginRight: 10,
@@ -278,62 +250,64 @@ const styles = StyleSheet.create({
     height: 20,
   },
   button: {
-    width: '100%',
-    marginTop: 10,
-  },
-  gradient: {
-    padding: 15,
+    backgroundColor: '#E6E6E9',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 100,
     alignItems: 'center',
-    width: '100%',
+    justifyContent: 'center',
+    width: 160
   },
+  
   buttonText: {
-    fontFamily: 'IbarraRealNova-Regular',
-    color: '#270614',
+    color: 'black',
     fontSize: 16,
     fontWeight: '600',
+    fontFamily: 'poppins',
   },
 
   logo: {
-    width: 140,
-    height: 140,
+    width: 126,
+    height: 125,
     alignSelf: 'center',
   },
   ascontainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 20,
+    justifyContent:"center"
   },
   legalLinks: {
-    width: 360,
+    width: 350,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 25,
+    marginTop: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
   },
   legalText: {
-    fontFamily: 'IbarraRealNova-Regular',
-    color: '#F6BED6',
-    fontSize: 14,
+    fontFamily: 'poppins',
+    color: '#fff',
+    fontSize: 11,
     textAlign: 'center',
   },
   legalLink: {
-    fontFamily: 'IbarraRealNova-Regular',
-    fontSize: 14,
+    fontFamily: 'poppins',
+    fontSize: 11,
     color: 'white',
     textAlign: 'center',
   },
 
   legalTexted: {
-    fontFamily: 'IbarraRealNova-Regular',
-    color: '#F6BED6',
+    fontFamily: 'poppins',
+    fontWeight:"300",
+    color: '#fff',
     fontSize: 16,
   },
   legalLinked: {
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
     fontSize: 16,
-    color: '#F6BED6',
+    color: '#fff',
     textDecorationLine: 'underline',
   },
 });

@@ -30,7 +30,7 @@ const DropdownComponent = ({
   const renderLabel = () => {
     if (value || isFocus) {
       return (
-        <Text style={[styles.label, isFocus && {color: '#E581AB'}]}>
+        <Text style={[styles.label, isFocus && {color: '#fff'}]}>
           Select Resturant
         </Text>
       );
@@ -42,29 +42,28 @@ const DropdownComponent = ({
     <View style={styles.container}>
       {renderLabel()}
       <Image
-        source={require('../../assets/Mask1.png')}
+        source={require('../../assets/building.png')}
         style={styles.inputImage}
       />
       <Dropdown
         style={[
           styles.dropdown,
-          {borderBottomWidth: 1, borderColor: 'rgba(255, 255, 255, 0.3)'},
+          {borderBottomWidth: 1, borderColor: '#fff'},
         ]}
         placeholderStyle={styles.placeholderStyle}
         selectedTextStyle={styles.selectedTextStyle}
         inputSearchStyle={styles.inputSearchStyle}
         itemContainerStyle={styles.itemContainer}
+        itemTextStyle={styles.itemTextStyle}   
         iconStyle={styles.iconStyle}
         data={restaurants}
-        activeColor="#E581AB"
-        search
-        maxHeight={300}
+        activeColor="#242424"
+        maxHeight={250}
         labelField="label"
         valueField="value"
-        placeholder={!isFocus ? 'Select Resturant' : ''}
-        searchPlaceholder="Search..."
+        placeholder={!isFocus ? 'Select Restaurant' : ''}
         value={value}
-        iconColor="#AA617F"
+        iconColor="#fff"
         onFocus={() => setIsFocus(true)}
         onBlur={() => setIsFocus(false)}
         onChange={item => {
@@ -80,57 +79,65 @@ const DropdownComponent = ({
 export default DropdownComponent;
 
 const styles = StyleSheet.create({
+  itemTextStyle: {
+    color: '#fff',  
+    fontSize: 16,
+    fontFamily: 'Poppins',
+     borderBottomWidth:1,
+    borderBottomColor:"#E6E6E9",
+
+  },
   container: {
-    backgroundColor: '#470D25',
-    paddingVertical: 16,
+    paddingVertical: 8,
+
   },
   dropdown: {
     height: 40,
-    backgroundColor: '#470D25',
-    borderWidth: 0,
+    position:"relative",
+    top:12
   },
   icon: {
     marginRight: 10,
   },
   label: {
     position: 'absolute',
-    backgroundColor: '#470D25',
     left: 22,
     top: 20,
     zIndex: 999,
     paddingHorizontal: 8,
     fontSize: 16,
-    color: '#F6BED6',
-    fontFamily: 'IbarraRealNova-Regular',
+    color: '#fff',
+    fontFamily: 'Poppins',
   },
   placeholderStyle: {
-    marginLeft: 40,
+    marginLeft: 30,
     fontSize: 16,
-    color: '#F6BED6',
-    fontFamily: 'IbarraRealNova-Regular',
+    color: '#fff',
+    fontFamily: 'Poppins',
   },
   selectedTextStyle: {
     fontSize: 16,
-    color: '#F6BED6',
-    marginLeft: 40,
-    fontFamily: 'IbarraRealNova-Regular',
+    color: '#fff',
+    marginLeft: 30,
+    fontFamily: 'Poppins',
   },
   iconStyle: {
-    width: 24,
-    height: 24,
+    width: 20,
+    height: 20,
     position: 'relative',
     left: 5,
   },
   inputSearchStyle: {
-    height: 40,
+    
     fontSize: 16,
-    backgroundColor: '#2D0717',
-    color: '#F6BED6',
-    fontFamily: 'IbarraRealNova-Regular',
+    backgroundColor: '#242424',
+    color: '#fff',
+    fontFamily: 'Poppins',
   },
   itemContainer: {
-    backgroundColor: 'pink',
-    color: 'pink',
+    backgroundColor: '#242424',
+    color: 'white',
+   
   },
 
   inputImage: {

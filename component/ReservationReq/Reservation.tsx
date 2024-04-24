@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -12,14 +12,15 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import DatePicker from 'react-native-modern-datepicker';
-import {getToday, getFormatedDate} from 'react-native-modern-datepicker';
+import { getToday, getFormatedDate } from 'react-native-modern-datepicker';
 import DropdownComponent from '../ResturantDropDown/DropDown';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import ProfileDropdown from '../ProfileDpdown/ProfileDropdown';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-const Reservation = ({navigation}: any) => {
+
+const Reservation = ({ navigation }: any) => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
@@ -202,274 +203,400 @@ const Reservation = ({navigation}: any) => {
     setIsDropdownVisible(false);
   }
 
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const guestsOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; // Example options
+
+  const handleGuestSelect = (guest) => {
+    setGuests(guest);
+    setModalVisible(false);
+  };
+
+
+  const generatePreferredTimes = () => {
+    const preferredTimes = [];
+    for (let hour = 1; hour <= 12; hour++) {
+      for (let minute = 0; minute <= 30; minute += 30) {
+        preferredTimes.push({ hour, minute });
+      }
+    }
+    return preferredTimes;
+  };
+  const generateBackupTimes = () => {
+    const backupTimes = [];
+    for (let hour = 1; hour <= 12; hour++) {
+      for (let minute = 0; minute <= 30; minute += 30) {
+        backupTimes.push({ hour, minute });
+      }
+    }
+    return backupTimes;
+  };
+
+  const preferredTimes = generatePreferredTimes();
+  const backupTimes = generateBackupTimes();
+
+
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.headercon}>
-      <TouchableOpacity
-          onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
-          <Image
-            source={require('../../assets/Menu.png')}
-            style={styles.headerprof}
-          />
-          <ProfileDropdown
-            // isVisible={isDropdownVisible}
-            // onLogout={handleLogout}
-            // onAccountSettings={handleAccountSettings}
-            // onMyaccount={handleMyaccount}
-            // onReservation={handlemyReservation}
-            // onPayment={handlePayment}
-            // onClose={handleClose}
-            isVisible={isDropdownVisible}
-            onLogout={handleLogout}
-            onAccountSettings={handleAccountSettings}
-            onClose={handleClose}
-            // onReservation={handlemyReservation }
-            // onMyaccount={handleMyaccount}
-            // onPayment={handlePayment }
-          />
-        </TouchableOpacity>
-      </View>
-      <View style={styles.headerContainer}>
-        {/* <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          style={styles.headerButton}>
-          <Image
-            source={require('../../assets/arrow.png')}
-            style={styles.headerIcon}
-          />
-        </TouchableOpacity> */}
+    <View style={styles.mainContainer}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.headercon}>
+          <TouchableOpacity
+            onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
+            <Image
+              source={require('../../assets/menutwo.png')}
+              style={styles.headerprof}
+            />
+            <ProfileDropdown
 
-        <TouchableOpacity>
-          <Image
-            source={require('../../assets/pngImage.png')}
-            style={styles.logo}
-          />
-        </TouchableOpacity>
+              isVisible={isDropdownVisible}
+              onLogout={handleLogout}
+              onAccountSettings={handleAccountSettings}
+              onClose={handleClose}
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.headerContainer}>
 
-      </View>
 
-      <Text style={styles.title}>Reservation Request</Text>
-      <Text style={styles.subtitle}>Make your first reservations</Text>
+          <TouchableOpacity>
+            <Image
+              source={require('../../assets/confirmed_logo.png')}
+              style={styles.logo}
+            />
+          </TouchableOpacity>
 
-      <DropdownComponent onValueChange={setSelectedOption} />
+        </View>
 
-      <View style={styles.row}>
-        <TouchableOpacity
-          style={[styles.halfWidth, styles.dropdownContainer]}
-          onPress={handleOnPress}>
-          <Image
-            source={require('../../assets/tomorrow2.png')}
-            style={styles.image}
-          />
-          <TextInput
-            style={styles.dropdownText}
-            value={date.toString()}
-            placeholder="Date"
-            placeholderTextColor="#F6BED6"
-            editable={false}
-          />
+        <Text style={styles.title}>RESERVATION REQUEST</Text>
+        <Text style={styles.subtitle}>Make your first reservations</Text>
 
-          <Image
-            source={require('../../assets/dpicon.png')}
-            style={styles.dropdownIcon}
-          />
-        </TouchableOpacity>
+        <DropdownComponent onValueChange={setSelectedOption} />
 
-        <Modal animationType="slide" transparent={true} visible={open}>
-          <View style={styles.centeredview}>
-            <View style={styles.modalview}>
-              <DatePicker
-                style={styles.datePicker}
-                mode="calendar"
-                selected={date}
-                minimumDate={startDate}
-                onDateChange={date => {
-                  handleChange(date);
-                  setOpen(false); // Close the modal when date is selected
-                }}
-              />
+        <View style={styles.row}>
+          <TouchableOpacity
+            style={[styles.halfWidth, styles.dropdownContainer]}
+            onPress={handleOnPress}>
+            <Image
+              source={require('../../assets/calendar2.png')}
+              style={styles.image}
+            />
+            <TextInput
+              style={styles.dropdownText}
+              value={date.toString()}
+              placeholder="Date"
+              placeholderTextColor="#fff"
+              editable={false}
+            />
+            <Image
+              source={require('../../assets/selectdp.png')}
+              style={styles.dropdownIcon}
+            />
+          </TouchableOpacity>
 
-              {/* <TouchableOpacity
-                style={styles.buttonDone}
-                onPress={handleOnPress}>
-                <LinearGradient
-                  colors={['#E6548D', '#F1C365']}
-                  style={styles.gradient}
-                  start={{x: 0, y: 0}}
-                  end={{x: 1, y: 0}}>
-                  <Text style={styles.buttonText}>Done</Text>
-                </LinearGradient>
-              </TouchableOpacity> */}
+          <Modal animationType="slide" transparent={true} visible={open}>
+            <View style={styles.centeredview}>
+              <View style={styles.modalview}>
+                <DatePicker
+                  options={{
+                    textDefaultColor: '#ffffff',
+                    textHeaderColor: '#ffffff',
+                    textSecondaryColor: '#ffffff',
+                    selectedTextColor: '#ffffff',
+                    mainColor: '#ffffff',
+                  }}
+                  style={styles.datePicker}
+                  mode="calendar"
+                  selected={date}
+                  minimumDate={startDate}
+                  onDateChange={date => {
+                    handleChange(date);
+                    setOpen(false);
+                  }}
+                />
+
+              </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
 
-        <TouchableOpacity style={[styles.halfWidth, styles.dropdownContainer]}>
+          <TouchableOpacity style={[styles.halfWidth, styles.dropdownContainer]} onPress={() => setModalVisible(true)}>
+            <Image
+              source={require('../../assets/users22.png')}
+              style={styles.image}
+            />
+            <Text style={styles.dropdownText}>{guests ? `${guests}` : 'Select Guests'}</Text>
+            <Image
+              source={require('../../assets/selectdp.png')}
+              style={styles.dropdownIcon}
+            />
+          </TouchableOpacity>
+
+          {/* Modal for guest selection */}
+          <Modal
+            visible={modalVisible}
+            animationType="slide"
+            transparent={true}
+            onRequestClose={() => setModalVisible(false)}
+          >
+            <View style={styles.modalContainer}>
+              <View style={styles.modalContent}>
+                <ScrollView style={styles.scrollView}>
+                  {guestsOptions.map((guest) => (
+                    <TouchableOpacity key={guest} onPress={() => handleGuestSelect(guest)}>
+                      <Text style={[styles.modalItem, { color: 'white', borderBottomWidth: 1, borderBottomColor: '#E6E6E9', paddingVertical: 13 }]}>{guest}</Text>
+                    </TouchableOpacity>
+                  ))}
+                </ScrollView>
+              </View>
+            </View>
+          </Modal>
+        </View>
+
+        {/* Dropdown for Preferred Time */}
+        <TouchableOpacity
+          style={styles.dropdownContainer}
+          onPress={showPreferredTimePickerModal}
+        >
           <Image
-            source={require('../../assets/gyest2.png')}
+            source={require('../../assets/selecttime.png')}
             style={styles.image}
           />
-          <TextInput
-            style={styles.dropdownText}
-            value={guests}
-            placeholder="Guest"
-            placeholderTextColor="#F6BED6"
-            onChangeText={text => {
-              const numericValue = text.replace(/[^0-9]/g, '');
-              setGuests(numericValue);
-            }}
-            keyboardType="numeric"
-          />
-
+          <Text style={styles.dropdownText}>
+            {selectedPreferredTime.toLocaleTimeString()}
+          </Text>
           <Image
-            source={require('../../assets/time-left2.png')}
+            source={require('../../assets/selectdp.png')}
             style={styles.dropdownIcon}
           />
         </TouchableOpacity>
-      </View>
 
-      {/* Dropdown for Preferred Time */}
-      <TouchableOpacity
-        style={styles.dropdownContainer}
-        onPress={showPreferredTimePickerModal}>
-        <Image
-          source={require('../../assets/clock2.png')}
-          style={styles.image}
-        />
-        <Text style={styles.dropdownText}>
-          {selectedPreferredTime.toLocaleTimeString()}
-        </Text>
-        <Image
-          source={require('../../assets/dpicon.png')}
-          style={styles.dropdownIcon}
-        />
-      </TouchableOpacity>
+        {showPreferredTimePicker && (
+          <Modal
+            transparent={true}
+            visible={showPreferredTimePicker}
+            animationType="slide"
+            onRequestClose={() => setShowPreferredTimePicker(false)}
+          >
+            <View style={styles.modalpref}>
+              <View style={styles.modalprefcont}>
+                <ScrollView>
+                  {[...Array(Math.ceil(preferredTimes.length / 3)).keys()].map((rowIndex) => (
+                    <View key={rowIndex} style={styles.modalRow}>
+                      {preferredTimes.slice(rowIndex * 3, (rowIndex + 1) * 3).map((time, index) => (
+                        <TouchableOpacity
+                          key={index}
+                          onPress={() => {
+                            const newDate = new Date();
+                            newDate.setHours(time.hour);
+                            newDate.setMinutes(time.minute);
+                            setSelectedPreferredTime(newDate);
+                            setShowPreferredTimePicker(false);
+                          }}
+                        >
+                          <Text style={styles.modalItem}>
+                            {`${time.hour}:${time.minute === 0 ? '00' : '30'}`}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  ))}
+                </ScrollView>
+              </View>
+            </View>
+          </Modal>
+        )}
 
-      {showPreferredTimePicker && (
-        <DateTimePicker
-          testID="preferredTimePicker"
-          value={selectedPreferredTime}
-          mode="time"
-          is24Hour={true}
-          display="default"
-          onChange={handlePreferredTimeChange}
-        />
-      )}
 
-      <TouchableOpacity
-        style={styles.dropdownContainer}
-        onPress={showBackupTimePickerModal}>
-        <Image
-          source={require('../../assets/time-left2.png')}
-          style={styles.image}
-        />
-        <Text style={styles.dropdownText}>
-          {selectedBackupTime.toLocaleTimeString()}
-        </Text>
-        <Image
-          source={require('../../assets/dpicon.png')}
-          style={styles.dropdownIcon}
-        />
-      </TouchableOpacity>
 
-      {showBackupTimePicker && (
-        <DateTimePicker
-          testID="backupTimePicker"
-          value={selectedBackupTime}
-          mode="time"
-          is24Hour={true}
-          display="default"
-          onChange={handleBackupTimeChange}
-        />
-      )}
+        <TouchableOpacity
+          style={styles.dropdownContainer}
+          onPress={showBackupTimePickerModal}>
+          <Image
+            source={require('../../assets/clock-plus.png')}
+            style={styles.image}
+          />
+          <Text style={styles.dropdownText}>
+            {selectedBackupTime.toLocaleTimeString()}
+          </Text>
+          <Image
+            source={require('../../assets/selectdp.png')}
+            style={styles.dropdownIcon}
+          />
+        </TouchableOpacity>
 
-      <View style={styles.totaltext}>
-        <Text style={styles.text}>Total</Text>
-        <Text style={styles.textp}>$ {totalPrice}</Text>
-      </View>
+        {showBackupTimePicker && (
+          <Modal
+            transparent={true}
+            visible={showBackupTimePicker}
+            animationType="slide"
+            onRequestClose={() => setShowBackupTimePicker(false)}
+          >
+            <View style={styles.modalpref}>
+              <View style={styles.modalprefcont}>
+                <ScrollView>
+                  {[...Array(Math.ceil(backupTimes.length / 3)).keys()].map((rowIndex) => (
+                    <View key={rowIndex} style={styles.modalRow}>
+                      {backupTimes.slice(rowIndex * 3, (rowIndex + 1) * 3).map((time, index) => (
+                        <TouchableOpacity
+                          key={index}
+                          onPress={() => {
+                            const newDate = new Date();
+                            newDate.setHours(time.hour);
+                            newDate.setMinutes(time.minute);
+                            setSelectedBackupTime(newDate);
+                            setShowBackupTimePicker(false);
+                          }}
+                        >
+                          <Text style={styles.modalItem}>
+                            {`${time.hour}:${time.minute === 0 ? '00' : '30'}`}
+                          </Text>
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+                  ))}
+                </ScrollView>
+              </View>
+            </View>
+          </Modal>
+        )}
 
-      {/* Modal */}
+        <View style={styles.totaltext}>
+          <Text style={styles.text}>Total price:</Text>
+          <Text style={styles.textp}>$ {totalPrice}</Text>
+        </View>
 
-      <TouchableOpacity style={styles.button} onPress={handleReservation}>
-        <LinearGradient
-          colors={['#E6548D', '#F1C365']}
-          style={styles.gradient}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
-          <Text style={styles.buttonText}>Request Reservation</Text>
-        </LinearGradient>
-      </TouchableOpacity>
-    </ScrollView>
+        {/* Modal */}
+
+        <View style={{ flex: 1, alignSelf: "center", justifyContent: "flex-end", marginBottom: 40 }}>
+          <TouchableOpacity style={styles.button} onPress={handleReservation}>
+
+            <Text style={styles.buttonText}>Request Reservation</Text>
+
+          </TouchableOpacity>
+        </View>
+
+
+      </ScrollView>
+      {/* <ReservationFooter  />  */}
+    </View>
+
   );
 };
 
 const styles = StyleSheet.create({
+
+  modalRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+
+  },
+  modalpref: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: "center",
+    position: "relative",
+    bottom: 20,
+
+  },
+  modalprefcont: {
+    backgroundColor: '#242424',
+    borderRadius: 10,
+    color: "white",
+    padding: 20,
+    width: 350,
+    maxHeight: 300,
+
+  },
+  modalItem: {
+    fontSize: 18,
+    paddingVertical: 10,
+    paddingHorizontal: 25,
+    color: "#fff",
+    backgroundColor: "#353535",
+    borderRadius: 5,
+
+  },
+  mainContainer: {
+    flex: 1,
+    position: 'relative'
+  },
   container: {
     flex: 1,
-    paddingHorizontal: 40,
-    paddingVertical: 40,
-    backgroundColor: '#470D25',
+    paddingHorizontal: 10,
+    paddingVertical: 30,
+    backgroundColor: '#000000',
     fontSize: 16,
     fontFamily: 'IbarraRealNova-Regular',
   },
+
   dropdownContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-    marginBottom: 15,
+    borderBottomColor: "#fff",
     height: 40,
+    marginVertical: 15
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    marginVertical: 10
   },
   halfWidth: {
     width: '45%',
   },
   dropdownText: {
     fontSize: 16,
-    color: '#F6BED6',
+    color: '#E6E6E9',
     marginRight: 'auto',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'Poppins',
+
   },
 
   dropdownIcon: {
-    width: 12,
-    height: 12,
-    tintColor: '#AA617F',
+    width: 20,
+    height: 20,
+
   },
   maincontent: {
     fontSize: 16,
-    color: '#fff',
+    color: '#E6E6E9',
     textAlign: 'center',
     padding: 20,
     fontFamily: 'IbarraRealNova-Regular',
   },
-  button: {
-    width: '100%',
-    marginTop: 30,
-  },
+
   buttonDone: {
     width: '70%',
     marginTop: 10,
   },
-  gradient: {
-    padding: 15,
+
+  button: {
+    backgroundColor: '#E6E6E9',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 100,
     alignItems: 'center',
-    width: '100%',
+    justifyContent: 'center',
+    width: 230
   },
+  scrollView: {
+    maxHeight: 200,
+    color: "#fff"
+  },
+
   buttonText: {
-    color: '#270614',
+    color: 'black',
     fontSize: 16,
     fontWeight: '600',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
   },
   logo: {
-    width: 140,
-    height: 140,
+    width: 155,
+    height: 50,
     alignSelf: 'center',
+    marginVertical: -40
   },
   image: {
     width: 20,
@@ -480,30 +607,34 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    position: "relative",
+    top: 75,
+    left: 75
+
   },
   modalContent: {
-    backgroundColor: '#2D0717',
-    padding: 20,
-    width: '80%',
-    color: 'white',
+    backgroundColor: '#242424',
+    padding: 10,
+    width: 130,
+    height: 250,
+    color: "#fff"
   },
   input: {
     flex: 1,
     height: 40,
     backgroundColor: 'transparent',
-    color: '#F6BED6',
+    color: '#fff',
     fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'Poppins',
+
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-    marginBottom: 15,
+
   },
   icon: {
-    marginRight: 12,
+    marginRight: 10,
     width: 26,
     height: 24,
   },
@@ -511,45 +642,42 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: 8,
+    marginTop: 10,
   },
   text: {
-    color: '#F6BED6',
-    fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
+    color: '#fff',
+    fontSize: 14,
+    fontFamily: 'Poppins',
   },
   textp: {
     color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-    fontFamily: 'IbarraRealNova-SemiBold',
+    fontSize: 24,
+    fontWeight: '500',
+    fontFamily: 'Poppins',
   },
   subtitle: {
     fontSize: 16,
-    color: '#fff',
+    color: '#E6E6E9',
     textAlign: 'center',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
   },
   title: {
-    fontSize: 30,
-    color: '#E581AB',
+    fontSize: 28,
+    color: '#fff',
+    fontWeight: "600",
     fontFamily: 'IbarraRealNova-Regular',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 10,
+    marginTop: 45
   },
   headerContainer: {
-    marginLeft:"auto",
-    marginRight:'auto'
-    // flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // marginHorizontal: -20,
+    marginLeft: "auto",
+    marginRight: 'auto'
+
   },
   headercon: {
-    marginRight:"auto",
-    // marginRight:'auto'
-    // flexDirection: 'row',
-    // justifyContent: 'space-between',
-    // marginHorizontal: -20,
+    marginRight: "auto",
+
   },
   headerButton: {
     marginTop: 10,
@@ -561,25 +689,28 @@ const styles = StyleSheet.create({
   headerprof: {
     width: 30,
     height: 30,
+
   },
   centeredview: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
+
   },
 
   modalview: {
     color: 'white',
-    width: 271,
-    height: 300,
+    width: 380,
+    height: 350,
     backgroundColor: '#2D0717',
     alignItems: 'center',
-    position: 'relative',
-    top: 105,
-    right: 30,
+
   },
-  datePicker: {},
+  datePicker: {
+    backgroundColor: "#242424",
+
+
+  },
 });
 
 export default Reservation;

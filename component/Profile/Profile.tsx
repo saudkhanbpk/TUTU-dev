@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -9,10 +9,9 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import ProfileDropdown from '../ProfileDpdown/ProfileDropdown';
 
-const Profile = ({navigation}: any) => {
+const Profile = ({ navigation }: any) => {
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const handleUpdateProfile = () => {
@@ -34,141 +33,194 @@ const Profile = ({navigation}: any) => {
     setIsDropdownVisible(false);
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../../assets/arrow.png')}
-            style={styles.headerIcon}
-          />
-        </TouchableOpacity>
+    <View style={styles.mainContainer}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.headercon}>
+          <TouchableOpacity
+            onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
+            <Image
+              source={require('../../assets/menutwo.png')}
+              style={styles.headerprof}
+            />
+            <ProfileDropdown
 
-        <TouchableOpacity>
-          <Text style={styles.headtxt}>Profile</Text>
-        </TouchableOpacity>
-
-        {/* <TouchableOpacity
-          onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
-          <Image
-            source={require('../../assets/Subtract.png')}
-            style={styles.headerprof}
-          />
-          <ProfileDropdown
-            isVisible={isDropdownVisible}
-            onLogout={handleLogout}
-            onAccountSettings={handleAccountSettings}
-            onClose={handleClose}
-          />
-        </TouchableOpacity> */}
-      </View>
-
-      <View style={styles.maincontent}>
-        <View style={styles.inputContainer}>
-          <Image
-            source={require('../../assets/Vector2.png')}
-            style={styles.icon}
-          />
-          <Text style={styles.input}>Eric Survillan</Text>
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Image source={require('../../assets/g267.png')} style={styles.icon} />
-          <Text style={styles.input}>sample@gmail.com</Text>
-        </View>
-
-        <View style={styles.inputContainer}>
-          <Image source={require('../../assets/phonee.png')} style={styles.icon} />
-          <Text style={styles.input}>824-8585-628</Text>
-        </View>
-
-        <View style={{alignItems: 'center'}}>
-          <TouchableOpacity style={styles.button} onPress={handleUpdateProfile}>
-            <LinearGradient
-              colors={['#E6548D', '#F1C365']}
-              style={styles.gradient}
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}>
-              <Text style={styles.buttonText}>Update Changes</Text>
-            </LinearGradient>
+              isVisible={isDropdownVisible}
+              onLogout={handleLogout}
+              onAccountSettings={handleAccountSettings}
+              onClose={handleClose}
+            />
           </TouchableOpacity>
         </View>
-      </View>
+        <View style={styles.headerContainer}>
+
+
+          <TouchableOpacity>
+            <Image
+              source={require('../../assets/confirmed_logo.png')}
+              style={styles.logo}
+            />
+          </TouchableOpacity>
+
+        </View>
+
+        <Text style={styles.title}>MY PROFILE</Text>
+        <Text style={styles.subtitle}>Track your personal information here</Text>
+        <View style={styles.mainbox}>
+          <View style={styles.box1}>
+            <View style={styles.maincontent}>
+              <View style={styles.inputContainer}>
+                <Text style={styles.input}>Eric Survillan</Text>
+              </View>
+              <View style={styles.inputContainer}>
+                <Text style={styles.input}>sample@gmail.com</Text>
+              </View>
+              <View style={styles.inputContainer}>
+                <Text style={styles.input}>824-8585-628</Text>
+              </View>
+            </View>
+          </View>
+          <View style={styles.box2}>
+            <View style={{ flex: 1, alignSelf: "center", justifyContent: "flex-end" }}>
+              <TouchableOpacity style={styles.button} onPress={handleUpdateProfile}>
+
+                <Text style={styles.buttonText}>Request Reservation</Text>
+
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+
+
+      </ScrollView>
+
     </View>
+
   );
 };
 
 const styles = StyleSheet.create({
+
+  mainContainer: {
+    flex: 1,
+    position: 'relative',
+
+  },
   container: {
     flexGrow: 1,
-    paddingHorizontal: 30,
-    paddingVertical: 20,
-    paddingTop: 80,
-    backgroundColor: '#470D25',
+    paddingHorizontal: 15,
+    paddingVertical: 30,
+    backgroundColor: '#000000',
     fontSize: 16,
     fontFamily: 'IbarraRealNova-Regular',
+
   },
 
-  input: {
-    height: 25,
-    backgroundColor: 'transparent',
-    color: '#F6BED6',
-    fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
-    marginTop:2
+  logo: {
+    width: 155,
+    height: 50,
+    alignSelf: 'center',
+    marginVertical: -40
   },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-    marginBottom: 30,
-    paddingBottom:20
-  },
+
   icon: {
     marginRight: 10,
     width: 26,
     height: 24,
   },
-  button: {
-    width: '80%',
-    marginTop: 20,
+
+  text: {
+    color: '#fff',
+    fontSize: 14,
+    fontFamily: 'Poppins',
   },
-  gradient: {
-    padding: 15,
-    alignItems: 'center',
-    width: '100%',
+  textp: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: '500',
+    fontFamily: 'Poppins',
   },
-  buttonText: {
-    fontFamily: 'IbarraRealNova-Regular',
-    color: '#270614',
+  subtitle: {
     fontSize: 16,
-    fontWeight: '600',
+    color: '#E6E6E9',
+    textAlign: 'center',
+    fontFamily: 'poppins',
   },
-
+  title: {
+    fontSize: 28,
+    color: '#fff',
+    fontWeight: "600",
+    fontFamily: 'IbarraRealNova-Regular',
+    textAlign: 'center',
+    marginBottom: 10,
+    marginTop: 45
+  },
   headerContainer: {
-    flexDirection: 'row',
-    // justifyContent: 'space-between',
-    gap:100,
-    marginBottom:20
-  },
+    marginLeft: "auto",
+    marginRight: 'auto'
 
+  },
+  headercon: {
+    marginRight: "auto",
+
+  },
+  headerButton: {
+    marginTop: 10,
+  },
   headerIcon: {
-    width: 20,
-    height: 20,
+    width: 24,
+    height: 24,
   },
   headerprof: {
-    width: 35,
-    height: 35,
+    width: 30,
+    height: 30,
+
   },
-  headtxt: {
-    fontFamily: 'IbarraRealNova-Regular',
-    color: '#E581AB',
-    fontSize: 20,
-    alignSelf: 'center',
+
+  input: {
+    height: 25,
+    backgroundColor: 'transparent',
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'Poppins',
+    marginTop: 2
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E6E6E9',
+    marginBottom: 30,
+    paddingBottom: 20
   },
   maincontent: {
-    marginTop: 20,
+    marginTop: 40,
   },
+  button: {
+    backgroundColor: '#E6E6E9',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 230
+  },
+
+  buttonText: {
+    color: 'black',
+    fontSize: 16,
+    fontWeight: '600',
+    fontFamily: 'poppins',
+  },
+  mainbox: {
+    flexGrow: 1,
+    justifyContent: "space-between",
+    marginBottom: 40
+
+  },
+  box1: {},
+  box2: {},
+
+
 });
 
 export default Profile;

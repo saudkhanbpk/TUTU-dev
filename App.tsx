@@ -15,8 +15,14 @@ import Reservations from './component/ReservationsHistory/ReservationsHistory';
 import PaymentMehtod from './component/paymentMethod/PaymentMehtod';
 import ManagePayment from './component/ManagePayment/ManagePayment';
 import ReservationRequest from './component/ReservationRequest/ReservationRequest';
+// import ReservationFooter from './component/Footer/ReservationFooter';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { View, Text } from 'react-native';
+
 
 enableScreens();
+
+const Tab=createBottomTabNavigator();
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +43,8 @@ const App = () => {
     <Stack.Screen name="reservationrequests" component={ReservationRequest} />
     <Stack.Screen name="paymentmethod" component={PaymentMehtod} />    
     <Stack.Screen name="managepayment" component={ManagePayment} />    
+    {/* <Stack.Screen name="footer" component={ReservationFooter} />    */}
+ 
   </Stack.Navigator>
 </NavigationContainer>
     </>

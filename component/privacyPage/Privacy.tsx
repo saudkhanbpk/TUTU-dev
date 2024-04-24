@@ -103,11 +103,12 @@ const Privacy = ({navigation}: any) => {
           onPress={() => navigation.goBack()}
           style={styles.headerButton}>
           <Image
-            source={require('../../assets/arrow.png')}
+            source={require('../../assets/wback.png')}
             style={styles.headerIcon}
           />
         </TouchableOpacity>
-        <Text style={styles.title}>Terms & Privacy Policy</Text>
+        <Text style={styles.title}>Terms & </Text>
+        <Text style={styles.title}>Privacy Policy</Text>
       </View>
 
       <View style={styles.terms}>
@@ -134,30 +135,28 @@ const Privacy = ({navigation}: any) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#470D25',
+    backgroundColor: '#000',
     padding: 20,
   },
   headerContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    width: '100%', // Ensure the container takes full width
-    marginTop: 30, // Add top margin for spacing from the top of the screen
-    marginBottom: 20, // Space before the title content starts
+    width: '100%',  
+    marginBottom: 20, 
   },
   headerButton: {
-    // No marginLeft needed anymore if button is at the start of the row
+    
   },
   headerIcon: {
-    width: 24,
-    height: 24,
-    marginRight: 16, // Add some space between icon and title
-    tintColor: '#E581AB', // Adjust color as needed
+    width: 30,
+    height: 30,
+    marginBottom:20
+    
   },
   title: {
-    fontSize: 20,
-    color: '#E581AB',
+    fontSize: 30,
+    color: '#fff',
     fontFamily: 'IbarraRealNova-Regular',
-    marginLeft: 40,
+    textAlign:"center",
+    
   },
 
   sectionContainer: {
@@ -167,25 +166,26 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 13,
+    fontWeight:"700",
     marginBottom: 5,
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'Poppins',
   },
   text: {
-    color: '#F6BED6',
+    color: '#E6E6E9',
     marginLeft: 20,
-    fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
+    fontSize: 13,
+    fontFamily: 'Poppins',
   },
   term: {
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'Poppins',
     color: '#fff',
-    fontSize: 17,
+    fontSize: 16,
   },
   termcontent: {
-    fontFamily: 'IbarraRealNova-Regular',
-    color: '#F6BED6',
-    fontSize: 15,
+    fontFamily: 'Poppinss',
+    color: '#E6E6E9',
+    fontSize: 13,
     marginTop: 15,
   },
   terms: {

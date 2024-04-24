@@ -7,11 +7,11 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useState} from 'react';
-import LinearGradient from 'react-native-linear-gradient';
+import CountryPicker from 'react-native-country-picker-modal';
 
 const PaymentMehtod = ({navigation}: any) => {
   const [fullName, setFullName] = useState('');
-  const [country, setCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState(null);
   const [zipCode, setZipCode] = useState('');
   const [exp, setExp] = useState('');
   const [cvv, setCVV] = useState('');
@@ -20,34 +20,46 @@ const PaymentMehtod = ({navigation}: any) => {
     const numericValue = text.replace(/[^0-9]/g, '');
     setCardNumber(numericValue);
   };
+
+  
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
+
+  const handleSelectCountry = (country) => {
+    setSelectedCountry(country);
+    setIsDropdownOpen(false);
+  };
   return (
     <View style={styles.container}>
       <TouchableOpacity
         onPress={() => navigation.goBack()}
         style={styles.headerButton}>
         <Image
-          source={require('../../assets/arrow.png')}
+          source={require('../../assets/wback.png')}
           style={styles.headerIcon}
         />
       </TouchableOpacity>
       <TouchableOpacity>
         <Image
-          source={require('../../assets/pngImage.png')}
+          source={require('../../assets/tutu_white.png')}
           style={styles.logo}
         />
       </TouchableOpacity>
-      <Text style={styles.title}>Payment Information</Text>
+      <Text style={styles.title}>PAYMENT INFORMATION</Text>
 
       <Text style={styles.maincontent}>
-        Lets add a payment method for reservations.
+        Lets add a payment method.
       </Text>
 
       <View style={styles.inputContainer}>
-        <Image source={require('../../assets/Card.png')} style={styles.icon} />
+        <Image source={require('../../assets/wcard.png')} style={styles.icon} />
         <TextInput
           style={styles.input}
           placeholder="Card Number"
-          placeholderTextColor="#F6BED6"
+          placeholderTextColor="#fff"
           value={cardNumber}
           onChangeText={handleCardNumberChange}
           keyboardType="numeric"
@@ -58,13 +70,13 @@ const PaymentMehtod = ({navigation}: any) => {
       <View style={styles.row}>
         <View style={[styles.halfWidth, styles.dropdownContainer]}>
           <Image
-            source={require('../../assets/tomorrow.png')}
+            source={require('../../assets/wcalendar.png')}
             style={styles.image}
           />
           <TextInput
             style={styles.input}
             placeholder="Exp: MM/YY"
-            placeholderTextColor="#F6BED6"
+            placeholderTextColor="#fff"
             value={exp}
             onChangeText={setExp}
           />
@@ -72,13 +84,13 @@ const PaymentMehtod = ({navigation}: any) => {
 
         <View style={[styles.halfWidth, styles.dropdownContainer]}>
           <Image
-            source={require('../../assets/asteris.png')}
+            source={require('../../assets/wcvv.png')}
             style={styles.image}
           />
           <TextInput
             style={styles.input}
             placeholder="CVV"
-            placeholderTextColor="#F6BED6"
+            placeholderTextColor="#fff"
             keyboardType="numeric"
             maxLength={3}
             value={cvv}
@@ -91,63 +103,81 @@ const PaymentMehtod = ({navigation}: any) => {
         </View>
       </View>
       <View style={[styles.fullWidth, styles.dropdownContainer]}>
+      <TouchableOpacity onPress={toggleDropdown}>
         <Image
-          source={require('../../assets/plane.png')}
+          source={require('../../assets/wcountry.png')}
           style={styles.image}
         />
-        <TextInput
-          style={styles.input}
-          placeholder="Country or Region"
-          placeholderTextColor="#F6BED6"
-          keyboardType="numeric"
-          maxLength={3}
-          value={country}
-          onChangeText={setCountry}
+      </TouchableOpacity>
+
+      {isDropdownOpen && (
+        <View >
+          <CountryPicker
+            withFlag
+            withCountryNameButton
+            withAlphaFilter
+            withCallingCode
+            onSelect={handleSelectCountry}
+            placeholder="Select Country"
+            countryCode={selectedCountry?.cca2}
+            placeholderTextColor="#fff"
+          />
+           
+        </View>
+      )}
+        <TouchableOpacity  onPress={toggleDropdown}>
+        <Image
+          source={require('../../assets/selectdp.png')}
+          style={styles.dropdownIcon}
         />
-      </View>
+      </TouchableOpacity>
+    </View>
       <View style={[styles.fullWidth, styles.dropdownContainer]}>
-        <Image source={require('../../assets/mapa.png')} style={styles.image} />
+        <Image source={require('../../assets/wzip.png')} style={styles.image} />
         <TextInput
           style={styles.input}
           placeholder="Zip Code"
-          placeholderTextColor="#F6BED6"
+          placeholderTextColor="#fff"
           keyboardType="numeric"
           maxLength={3}
           value={zipCode}
           onChangeText={setZipCode}
         />
+        
       </View>
 
-      <TouchableOpacity style={styles.button}>
-        <LinearGradient
-          colors={['#E6548D', '#F1C365']}
-          style={styles.gradient}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
-          <Text style={styles.buttonText}>Save Card & Continue</Text>
-        </LinearGradient>
-      </TouchableOpacity>
+      <View style={{ flex: 1, alignSelf: "center", justifyContent: "flex-end", marginBottom: 40 }}>
+          <TouchableOpacity style={styles.button} onPress={PaymentMehtod}>
+
+            <Text style={styles.buttonText}>Save card & continue</Text>
+
+          </TouchableOpacity>
+        </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  countryPickerContainer: {
+    
+    color:"#fff"
+  },
   container: {
-    flex: 1,
-    paddingHorizontal: 40,
-    paddingVertical: 40,
-    backgroundColor: '#470D25',
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    backgroundColor: '#000',
     fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
+    
   },
   dropdownContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
+    borderBottomColor: '#E6E6E9',
     marginBottom: 15,
-    height: 40,
+    height: 50,
   },
   row: {
     flexDirection: 'row',
@@ -161,27 +191,22 @@ const styles = StyleSheet.create({
   },
   dropdownText: {
     fontSize: 16,
-    color: '#F6BED6',
+    color: '#fff',
     marginRight: 'auto',
     fontFamily: 'IbarraRealNova-Regular',
   },
 
   dropdownIcon: {
-    width: 12,
-    height: 12,
-    tintColor: '#AA617F',
+    width: 20,
+    height: 20,
   },
   maincontent: {
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
-    fontFamily: 'IbarraRealNova-Regular',
-    paddingHorizontal: 60,
+    fontFamily: 'Poppins',
   },
-  button: {
-    width: '100%',
-    marginTop: 30,
-  },
+ 
   buttonDone: {
     width: '70%',
     marginTop: 10,
@@ -191,16 +216,29 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
   },
+  
+  button: {
+    backgroundColor: '#E6E6E9',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 100,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 230
+  },
+
+
   buttonText: {
-    color: '#270614',
+    color: 'black',
     fontSize: 16,
     fontWeight: '600',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
   },
   logo: {
     width: 140,
     height: 140,
     alignSelf: 'center',
+    marginBottom:30
   },
   image: {
     width: 20,
@@ -220,18 +258,18 @@ const styles = StyleSheet.create({
   },
   input: {
     flex: 1,
-    height: 40,
+    height: 50,
     backgroundColor: 'transparent',
-    color: '#F6BED6',
+    color: '#fff',
     fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'Poppins',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-    marginBottom: 15,
+    borderBottomColor: '#E6E6E9',
+    marginVertical:20,
   },
   icon: {
     marginRight: 12,
@@ -245,9 +283,9 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   text: {
-    color: '#F6BED6',
+    color: '#fff',
     fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'Poppins',
   },
   textp: {
     color: '#fff',
@@ -259,14 +297,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#fff',
     textAlign: 'center',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'Poppins',
   },
   title: {
-    fontSize: 30,
-    color: '#E581AB',
+    fontSize: 25,
+    color: '#fff',
     fontFamily: 'IbarraRealNova-Regular',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom:10
+   
   },
   headerContainer: {
     flexDirection: 'row',
@@ -277,8 +316,8 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   headerIcon: {
-    width: 24,
-    height: 24,
+    width: 30,
+    height: 30,
   },
   headerprof: {
     width: 35,

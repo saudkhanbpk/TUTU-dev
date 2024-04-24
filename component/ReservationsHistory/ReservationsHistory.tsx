@@ -1,51 +1,47 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
+import React, { useState } from 'react';
+import {
+  StyleSheet,
+  View,
+  TextInput,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Image,
+  ScrollView,
+} from 'react-native';
 import ProfileDropdown from '../ProfileDpdown/ProfileDropdown';
 
 const Reservations = ({navigation}: any) => {
-  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
   const data = [
-    {
-      label1: 'Date',
-      value1: '12/04/2024',
-      label2: 'Restaurant',
-      value2: 'Liberty Grille',
-      label3: 'Total',
-      value3: '$50.00',
-      label4: 'Guests',
-      value4: '2',
-    },
-    {
-      label1: 'Date',
-      value1: '12/04/2024',
-      label2: 'Restaurant',
-      value2: 'Liberty Grille',
-      label3: 'Total',
-      value3: '$50.00',
-      label4: 'Guests',
-      value4: '2',
-    },
-    {
-      label1: 'Date',
-      value1: '12/04/2024',
-      label2: 'Restaurant',
-      value2: 'Liberty Grille',
-      label3: 'Total',
-      value3: '$50.00',
-      label4: 'Guests',
-      value4: '2',
-    },
-    {
-      label1: 'Date',
-      value1: '12/04/2024',
-      label2: 'Restaurant',
-      value2: 'Liberty Grille',
-      label3: 'Total',
-      value3: '$50.00',
-      label4: 'Guests',
-      value4: '2',
-    },
-  ];
+  {
+    restaurant: "Tony's Pizza Napoletana",
+    date: "12 Feb, 2024 6:30 PM",
+    total: "50.00",
+    guests: 2,
+  },
+  {
+    restaurant: "Tony's Pizza Napoletana",
+    date: "12 Feb, 2024 6:30 PM",
+    total: "50.00",
+    guests: 2,
+  },
+  {
+    restaurant: "Tony's Pizza Napoletana",
+    date: "12 Feb, 2024 6:30 PM",
+    total: "50.00",
+    guests: 2,
+  },
+  {
+    restaurant: "Tony's Pizza Napoletana",
+    date: "12 Feb, 2024 6:30 PM",
+    total: "50.00",
+    guests: 2,
+  },
+  
+];
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  
 
   
   function handleLogout(): void {
@@ -58,146 +54,178 @@ const Reservations = ({navigation}: any) => {
   function handleClose(): void {
     setIsDropdownVisible(false);
   }
-  return (
-    <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Image
-            source={require('../../assets/arrow.png')}
-            style={styles.headerIcon}
-          />
-        </TouchableOpacity>
 
-        <TouchableOpacity>
-          <Text style={styles.headtxt}>Reservations History</Text>
-        </TouchableOpacity>
-
-      </View>
-        {/* <TouchableOpacity
+return (
+  <View style={styles.mainContainer}>
+    <ScrollView contentContainerStyle={styles.container}>
+      <View style={styles.headercon}>
+        <TouchableOpacity
           onPress={() => setIsDropdownVisible(!isDropdownVisible)}>
           <Image
-            source={require('../../assets/Subtract.png')}
+            source={require('../../assets/menutwo.png')}
             style={styles.headerprof}
           />
           <ProfileDropdown
-            // onMyaccount={handleMyaccount}
-            // onReservation={handlemyReservation}
-            // onPayment={handlePayment}
+
             isVisible={isDropdownVisible}
             onLogout={handleLogout}
             onAccountSettings={handleAccountSettings}
             onClose={handleClose}
           />
-        </TouchableOpacity> */}
+        </TouchableOpacity>
+      </View>
+      <View style={styles.headerContainer}>
 
+
+        <TouchableOpacity>
+          <Image
+            source={require('../../assets/confirmed_logo.png')}
+            style={styles.logo}
+          />
+        </TouchableOpacity>
+      </View>
+      <View>
+        <Text style={styles.title}>RESERVATION HISTORY</Text>
+        </View>
+
+       
       {data.map((item, index) => (
-        <View key={index} style={styles.mainbox}>
+        <View style={styles.mainbox} key={index}>
           <View style={styles.box1}>
-            <Text
-              style={[
-                {
-                  fontSize: 14,
-                  fontFamily: 'IbarraRealNova-Regular',
-                  color: '#BF879F',
-                  fontWeight: '600',
-                },
-              ]}>
-              {item.label1}: {item.value1}
-            </Text>
+            <Text style={{ fontSize: 13, color: "#E6E6E9" }}>Restaurent</Text>
+            <Text style={{ fontSize: 18, color: "#fff" }}>{item.restaurant}</Text>
+          </View>
           <View style={styles.box2}>
-            <Text
-              style={[
-                {
-                  fontSize: 18,
-                  fontFamily: 'IbarraRealNova-Regular',
-                  color: '#F6BED6',
-                  fontWeight: '600',
-                },
-              ]}>
-              {item.label2}: {item.value2}
-            </Text>
-          <Text style={styles.texts}>
-              {item.label4}: {item.value4}
-            </Text>
+            <View style={styles.b1}>
+              <Text style={{ fontSize: 13, color: "#E6E6E9" }}>Date</Text>
+              <Text style={{ fontSize: 14, color: "#fff" }}>{item.date}</Text>
+            </View>
+            <View style={styles.b2}>
+              <Text style={{ fontSize: 13, color: "#E6E6E9" }}>Total</Text>
+              <Text style={{ fontSize: 14, color: "#fff" }}>{item.total}</Text>
+            </View>
+            <View style={styles.b3}>
+              <Text style={{ fontSize: 13, color: "#E6E6E9" }}>Guests</Text>
+              <Text style={{ fontSize: 14, color: "#fff" }}>{item.guests}</Text>
+            </View>
           </View>
-            <Text style={styles.text}>
-              {item.label3}: {item.value3}
-            </Text>
-          </View>
-
         </View>
       ))}
-    </View>
-  );
+    
+
+    </ScrollView>
+
+  </View>
+
+);
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    paddingHorizontal: 40,
-    paddingTop: 60,
-    paddingBottom: 20,
-    backgroundColor: '#470D25',
-    fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
-  },
 
-  headerContainer: {
-    flexDirection: 'row',
-    gap:80,
-    marginBottom:20
+  mainbox:{
+  
+    backgroundColor:"#1B1B1B",
+    color:"#fff",
+    height:160,
+    padding:15,
+    borderRadius:5,
+    
   },
+  box1:{
+    flex:1,
+    flexDirection:"column",
+    height:"50%",
 
-  headerIcon: {
-    marginTop: 10,
-    width: 24,
-    height: 24,
   },
-  headerprof: {
-    width: 50,
-    height: 50,
+  box2:{
+    flex:1,
+    flexDirection:"row",
+    justifyContent:"space-between",
+    borderTopWidth:1,
+    borderTopColor:"#E6E6E9",
+    alignItems:"center"
+    
   },
-  headtxt: {
-    marginTop: 10,
-    fontFamily: 'IbarraRealNova-Regular',
-    color: '#E581AB',
-    fontSize: 20,
-    alignSelf: 'center',
-  },
-  mainbox: {
-    marginTop: 20,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-  },
-  box1: {
-    flexDirection: 'column',
-    width: '60%',
-    height: 100,
-    gap: 10,
-  },
-  box2: {
-    // width: '40%',
-    flexDirection: 'row',
-  //  justifyContent: 'space-between',
-  gap:60
-    // alignItems: 'flex-end',
-    // justifyContent: 'center',
-    // height: 100,
-  },
-  texts: {
-    fontSize: 18,
-    fontFamily: 'IbarraRealNova-Regular',
-    color: '#F6BED6',
-    fontWeight: '600',
-  },
-  text: {
-    fontSize: 18,
-    fontFamily: 'IbarraRealNova-Regular',
-    color: '#fff',
-    fontWeight: '600',
-  },
+  b1:{},
+  b2:{},
+  b3:{},
+
+mainContainer: {
+  flex: 1,
+  position: 'relative',
+
+
+},
+container: {
+  flexGrow: 1,
+  paddingHorizontal: 15,
+  paddingVertical: 30,
+  backgroundColor: '#000000',
+  fontSize: 16,
+  fontFamily: 'IbarraRealNova-Regular',
+  gap:10
+},
+
+logo: {
+  width: 155,
+  height: 50,
+  alignSelf: 'center',
+  marginVertical: -40
+},
+
+icon: {
+  marginRight: 10,
+  width: 26,
+  height: 24,
+},
+
+text: {
+  color: '#fff',
+  fontSize: 14,
+  fontFamily: 'Poppins',
+},
+textp: {
+  color: '#fff',
+  fontSize: 24,
+  fontWeight: '500',
+  fontFamily: 'Poppins',
+},
+
+title: {
+  fontSize: 28,
+  color: '#fff',
+  fontWeight: "600",
+  fontFamily: 'IbarraRealNova-Regular',
+  textAlign: 'center',
+  marginBottom: 20,
+  marginTop: 45
+},
+headerContainer: {
+  marginLeft: "auto",
+  marginRight: 'auto'
+
+},
+headercon: {
+  marginRight: "auto",
+
+},
+headerButton: {
+  marginTop: 10,
+},
+headerIcon: {
+  width: 24,
+  height: 24,
+},
+headerprof: {
+  width: 30,
+  height: 30,
+
+},
+
+
+
+
+
 });
 
 export default Reservations;

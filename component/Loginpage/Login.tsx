@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   StyleSheet,
   View,
@@ -12,7 +12,7 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 
-const SignIn = ({navigation}: any) => {
+const SignIn = ({ navigation }: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -65,80 +65,80 @@ const SignIn = ({navigation}: any) => {
         : 'Something went wrong.';
       Alert.alert('Error', errorMessage);
     } finally {
-      setIsSigningIn(false); // Reset signing in state
+      setIsSigningIn(false); 
     }
   };
 
   return (
     <View style={styles.container}>
+      <View>
       <Image
-        source={require('../../assets/pngImage.png')}
+        source={require('../../assets/tutu_white.png')}
         style={styles.logo}
       />
 
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../../assets/Vector2.png')}
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#F6BED6"
-          value={email}
-          onChangeText={setEmail}
-          keyboardType="email-address"
-        />
+      <View style={styles.maincontainer}>
+        <Text style={{ fontSize: 32, fontWeight: "600", color: "white", fontFamily: 'IbarraRealNova-Regular' }}>LOGIN</Text>
+        <View style={{ flexDirection: "row", marginTop: 10 }}>
+          <Text style={styles.legalTexted}>Don't have an account? </Text>
+          <Text
+            style={styles.legalLinked}
+            onPress={() => navigation.navigate('Signup')}>
+            Sign up
+          </Text>
+        </View>
       </View>
 
-      <View style={styles.inputContainer}>
-        <Image
-          source={require('../../assets/closed1.png')}
-          style={styles.icon}
-        />
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="#F6BED6"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry={!showPassword}
-        />
-        <TouchableOpacity onPress={togglePasswordVisibility}>
-          <Image
-            source={require('../../assets/hidden.png')}
-            style={styles.icon}
+      <View style={{ marginTop: 10}}>
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            placeholderTextColor="#fff"
+            value={email}
+            onChangeText={setEmail}
+            keyboardType="email-address"
           />
+        </View>
+
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            placeholderTextColor="#fff"
+            value={password}
+            onChangeText={setPassword}
+            secureTextEntry={!showPassword}
+          />
+          <TouchableOpacity onPress={togglePasswordVisibility}>
+            <Image
+              source={require('../../assets/hiddenpass.png')}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        </View>
+      </View>
+
+      <View >
+        <TouchableOpacity onPress={() => navigation.navigate('forget')}>
+          <Text style={styles.linkText}>Forgot Password?</Text>
+        </TouchableOpacity>
+      </View>
+      </View>
+
+<View>
+      <View style={{ alignItems: "center",}}>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={handleSignIn}
+          disabled={isSigningIn}>
+          <Text style={styles.buttonText}>
+            {isSigningIn ? 'Login...' : 'Login'}
+          </Text>
         </TouchableOpacity>
       </View>
 
-      <TouchableOpacity onPress={() => navigation.navigate('forget')}>
-        <Text style={styles.linkText}>Forgot Password</Text>
-      </TouchableOpacity>
 
-      <TouchableOpacity
-        style={styles.button}
-        onPress={handleSignIn}
-        disabled={isSigningIn}>
-        <LinearGradient
-          colors={['#E6548D', '#F1C365']}
-          style={styles.gradient}
-          start={{x: 0, y: 0}}
-          end={{x: 1, y: 0}}>
-          <Text style={styles.buttonText}>
-            {isSigningIn ? 'Signing In...' : 'Sign In'}
-          </Text>
-        </LinearGradient>
-      </TouchableOpacity>
-
-      <View style={styles.ascontainer}>
-        <Text style={styles.legalTexted}>Don't have an account? </Text>
-        <Text
-          style={styles.legalLinked}
-          onPress={() => navigation.navigate('Signup')}>
-          Sign up
-        </Text>
-      </View>
 
       <View style={styles.legalLinks}>
         <Text style={styles.legalText}>By signing in, I accept the </Text>
@@ -157,16 +157,16 @@ const SignIn = ({navigation}: any) => {
           Privacy Policy
         </Text>
       </View>
+      </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 40,
-    backgroundColor: '#470D25',
+    padding: 20,
+    backgroundColor: '#000000',
+    justifyContent:"space-between"
   },
 
   txt: {
@@ -179,16 +179,16 @@ const styles = StyleSheet.create({
     flex: 1,
     height: 40,
     backgroundColor: 'transparent',
-    color: '#fff',
+    color: 'white',
     fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
   },
   inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
-    marginBottom: 30,
+    borderBottomColor: '#fff',
+    marginVertical: 20,
   },
   icon: {
     marginRight: 10,
@@ -196,71 +196,75 @@ const styles = StyleSheet.create({
     height: 20,
   },
   button: {
-    width: '100%',
-    marginTop: 10,
-  },
-  gradient: {
-    padding: 15,
+    backgroundColor: '#E6E6E9',
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    borderRadius: 100,
     alignItems: 'center',
-    width: '100%',
+    justifyContent: 'center',
+    width: 160
   },
+  
   buttonText: {
-    color: '#270614',
+    color: 'black',
     fontSize: 16,
     fontWeight: '600',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
   },
   linkText: {
-    marginBottom: 10,
-    textAlign: 'center',
-    color: '#F6BED6',
+    color: '#fff',
     fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
+    textDecorationLine: "underline",
   },
   logo: {
-    width: 170,
-    height: 170,
+    width: 126,
+    height: 122,
     alignSelf: 'center',
     marginBottom: 20,
   },
 
-  ascontainer: {
-    flexDirection: 'row',
+  maincontainer: {
+    flexDirection: 'column',
     alignItems: 'center',
-    marginTop: 20,
+    marginTop: 30,
   },
 
   legalLinks: {
-    width: 360,
+    marginTop:20,
+    width: 350,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginTop: 30,
     justifyContent: 'center',
     alignItems: 'center',
+    fontFamily:"poppins"
   },
   legalText: {
-    color: '#F6BED6',
-    fontSize: 14,
+    color: '#F4F4F6',
+    fontSize: 11,
+    fontWeight:"300",
     textAlign: 'center',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
   },
   legalLink: {
-    fontSize: 14,
-    color: 'white',
+    fontSize: 11,
+    fontWeight:"300",
+    color: '#F4F4F6',
     textAlign: 'center',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
   },
 
   legalTexted: {
-    color: '#F6BED6',
+    color: 'white',
     fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
+    fontWeight:"300",
+    fontFamily: 'poppins',
   },
   legalLinked: {
     fontSize: 16,
-    color: '#F6BED6',
+    color: 'white',
     textDecorationLine: 'underline',
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'poppins',
   },
 });
 

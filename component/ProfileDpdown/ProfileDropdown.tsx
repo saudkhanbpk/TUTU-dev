@@ -53,7 +53,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
           </View>
           <View style={styles.account}>
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate('profile')} style={styles.dropdownItem}>
+              <TouchableOpacity onPress={() => (navigation as any).navigate('profile')} style={styles.dropdownItem}>
                 <View style={styles.itemContent}>
                   <Image source={require('../../assets/puser.png')} style={styles.icon} />
                   <Text style={styles.dropdownText}>My Account</Text>
@@ -61,7 +61,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate('reservationhistory')} style={styles.dropdownItem}>
+              <TouchableOpacity onPress={() => (navigation as any).navigate('reservationhistory')} style={styles.dropdownItem}>
                 <View style={styles.itemContent}>
                   <Image source={require('../../assets/Mask.png')} style={styles.icon} />
                   <Text style={styles.dropdownText}>Reservations</Text>
@@ -69,15 +69,15 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate('reservationrequests')} style={styles.dropdownItem}>
+              <TouchableOpacity onPress={() => (navigation as any).navigate('reservationrequests')} style={styles.dropdownItem}>
                 <View style={styles.itemContent}>
                   <Image source={require('../../assets/Mask.png')} style={styles.icon} />
-                  <Text style={styles.dropdownText}>Reservations</Text>
+                  <Text style={styles.dropdownText}>Admin Approval</Text>
                 </View>
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate('paymentmethod')} style={styles.dropdownItem}>
+              <TouchableOpacity onPress={() => (navigation as any).navigate('paymentmethod')} style={styles.dropdownItem}>
                 <View style={styles.itemContent}>
                   <Image source={require('../../assets/pay.png')} style={styles.icon} />
                   <Text style={styles.dropdownText}>Payment</Text>
@@ -85,7 +85,7 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
               </TouchableOpacity>
             </View>
             <View>
-              <TouchableOpacity onPress={() => navigation.navigate('managepayment')} style={styles.dropdownItem}>
+              <TouchableOpacity onPress={() => (navigation as any).navigate('managepayment')} style={styles.dropdownItem}>
                 <View style={styles.itemContent}>
                   <Image source={require('../../assets/pay.png')} style={styles.icon} />
                   <Text style={styles.dropdownText}>Manage Payment</Text>
@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
   dropdown: {
     width: "90%",
     height: "100%",
-    backgroundColor: '#BF879F',
+    backgroundColor: '#3E3E3E',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -140,12 +140,12 @@ const styles = StyleSheet.create({
   dropdownItem: {
     paddingVertical: 15,
     borderBottomWidth: 1,
-    borderBottomColor: 'rgba(71, 13, 37, 0.3)',
+    borderBottomColor: '#E6E6E9',
   },
   dropdownText: {
-    color: '#470D25',
+    color: '#fff',
     fontSize: 16,
-    fontFamily: 'IbarraRealNova-Regular',
+    fontFamily: 'Poppins',
     fontWeight: "700",
   },
   main: {
@@ -174,6 +174,8 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginRight: 10,
+
+
   },
   footer: {
     flex: 1,
