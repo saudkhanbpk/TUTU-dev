@@ -41,13 +41,16 @@ const ProfileDropdown: React.FC<ProfileDropdownProps> = ({
           <View style={styles.main}>
             <View style={styles.header}>
               <TouchableOpacity>
-                <Image source={require('../../assets/Subtract.png')} />
+                <Image source={require('../../assets/Subtract.png')} 
+                  />
+                
               </TouchableOpacity>
               <Text style={styles.headname}>Eric Sullivan</Text>
             </View>
             <View>
               <TouchableOpacity onPress={onClose}>
-                <Image source={require('../../assets/close.png')} />
+                <Image source={require('../../assets/close.png')}
+                style={{ tintColor: '#fff' }} />
               </TouchableOpacity>
             </View>
           </View>
@@ -174,6 +177,7 @@ const styles = StyleSheet.create({
     width: 24,
     height: 24,
     marginRight: 10,
+    tintColor:"#fff"
 
 
   },

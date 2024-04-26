@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 const ManagePayment = ({navigation}: any) => {
   
@@ -17,8 +17,18 @@ const ManagePayment = ({navigation}: any) => {
   const deletePaymentMethod = (id) => {
     setPaymentMethods(prevMethods => prevMethods.filter(method => method.id !== id));
   };
+
+  const addPaymentMethod = () => {
+    const newMethod = {
+      id: String(paymentMethods.length + 1),  // Simple id generation
+      cardType: 'Visa ****1234',
+      holderName: 'New User',
+      addedDate: 'Today'  // Example date, you can set this dynamically
+    };
+    setPaymentMethods([...paymentMethods, newMethod]);
+  };
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View >
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Image
@@ -49,16 +59,15 @@ const ManagePayment = ({navigation}: any) => {
         </View>
       ))}
 
-        <View style={styles.main}>
-        <Image source={require("../../assets/addnew.png")}
-              />
-              <Text  style={{fontSize:13,color:"#fff"}}>Add New</Text>
-        </View>
+<TouchableOpacity style={styles.addNew} onPress={addPaymentMethod}>
+        <Image source={require("../../assets/addnew.png")} />
+        <Text style={styles.addNewText}>Add New</Text>
+      </TouchableOpacity>
 
   
       </View>
       
-    </View>
+    </ScrollView>
   );
 };
 
@@ -110,8 +119,19 @@ const styles = StyleSheet.create({
     flexDirection:"row",
     padding:20,
     gap:10
-  }
-  
+  },
+  addNew: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 10,
+    marginTop: 10,
+    marginBottom:20
+  },
+  addNewText: {
+    fontSize: 13,
+    color: "#fff",
+    marginLeft: 10,
+  },
 });
 
 export default ManagePayment;

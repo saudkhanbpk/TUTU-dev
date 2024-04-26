@@ -270,7 +270,9 @@ const Reservation = ({ navigation }: any) => {
         <Text style={styles.title}>RESERVATION REQUEST</Text>
         <Text style={styles.subtitle}>Make your first reservations</Text>
 
-        <DropdownComponent onValueChange={setSelectedOption} />
+        <View>
+          <DropdownComponent onValueChange={setSelectedOption} />
+        </View>
 
         <View style={styles.row}>
           <TouchableOpacity
@@ -324,6 +326,7 @@ const Reservation = ({ navigation }: any) => {
               style={styles.image}
             />
             <Text style={styles.dropdownText}>{guests ? `${guests}` : 'Select Guests'}</Text>
+
             <Image
               source={require('../../assets/selectdp.png')}
               style={styles.dropdownIcon}
@@ -393,7 +396,8 @@ const Reservation = ({ navigation }: any) => {
                           }}
                         >
                           <Text style={styles.modalItem}>
-                            {`${time.hour}:${time.minute === 0 ? '00' : '30'}`}
+                            {time.hour > 12 ? time.hour - 12 : time.hour}:{time.minute === 0 ? '00' : '30'}{' '}
+                            <Text style={{ color: "#fff" }}>{time.hour >= 12 ? 'AM' : 'PM'}</Text>
                           </Text>
                         </TouchableOpacity>
                       ))}
@@ -447,7 +451,8 @@ const Reservation = ({ navigation }: any) => {
                           }}
                         >
                           <Text style={styles.modalItem}>
-                            {`${time.hour}:${time.minute === 0 ? '00' : '30'}`}
+                            {time.hour > 12 ? time.hour - 12 : time.hour}:{time.minute === 0 ? '00' : '30'}{' '}
+                            <Text style={{ color: "#fff" }}>{time.hour >= 12 ? 'AM' : 'PM'}</Text>
                           </Text>
                         </TouchableOpacity>
                       ))}
@@ -466,7 +471,7 @@ const Reservation = ({ navigation }: any) => {
 
         {/* Modal */}
 
-        <View style={{ flex: 1, alignSelf: "center", justifyContent: "flex-end", marginBottom: 40 }}>
+        <View style={{ flex: 1, alignSelf: "center", justifyContent: "center" }}>
           <TouchableOpacity style={styles.button} onPress={handleReservation}>
 
             <Text style={styles.buttonText}>Request Reservation</Text>
@@ -489,6 +494,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     padding: 10,
 
+
   },
   modalpref: {
     flex: 1,
@@ -502,18 +508,21 @@ const styles = StyleSheet.create({
     backgroundColor: '#242424',
     borderRadius: 10,
     color: "white",
-    padding: 20,
-    width: 350,
+    padding: 10,
+    width: 370,
     maxHeight: 300,
+
 
   },
   modalItem: {
+    textAlign: "center",
     fontSize: 18,
     paddingVertical: 10,
-    paddingHorizontal: 25,
     color: "#fff",
     backgroundColor: "#353535",
     borderRadius: 5,
+    width: 100,
+    height: 45
 
   },
   mainContainer: {
@@ -602,6 +611,8 @@ const styles = StyleSheet.create({
     width: 20,
     height: 20,
     marginRight: 12,
+
+
   },
   modalContainer: {
     flex: 1,
@@ -614,9 +625,9 @@ const styles = StyleSheet.create({
   },
   modalContent: {
     backgroundColor: '#242424',
-    padding: 10,
-    width: 130,
-    height: 250,
+    padding: 5,
+    width: 100,
+    height: 240,
     color: "#fff"
   },
   input: {

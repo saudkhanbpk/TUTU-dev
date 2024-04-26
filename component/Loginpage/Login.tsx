@@ -117,7 +117,7 @@ const SignIn = ({ navigation }: any) => {
             />
           </TouchableOpacity>
         </View>
-      </View>
+      
 
       <View >
         <TouchableOpacity onPress={() => navigation.navigate('forget')}>
@@ -125,9 +125,10 @@ const SignIn = ({ navigation }: any) => {
         </TouchableOpacity>
       </View>
       </View>
+      </View>
 
 <View>
-      <View style={{ alignItems: "center",}}>
+      <View style={{ alignItems: "center"}}>
         <TouchableOpacity
           style={styles.button}
           onPress={handleSignIn}
@@ -166,7 +167,7 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     backgroundColor: '#000000',
-    justifyContent:"space-between"
+   
   },
 
   txt: {
